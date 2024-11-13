@@ -1,24 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AdminHomeView from '../views/AdminHomeView.vue'
 import CrewScheduleView from '../views/CrewScheduleView.vue'
 import GameScheduleView from '../views/GameScheduleView.vue'
+import FindCrewSchedule from '../components/CrewSchedule/FindCrewSchedule.vue'
+import AddCrewSchedule from '../components/CrewSchedule/AddCrewSchedule.vue'
+import UpdateCrewSchedule from '../components/CrewSchedule/UpdateCrewSchedule.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: AdminHomeView
-    },
-    {
       path: '/schedule',
-      name: 'schedule',
       children: [
         {
           path: 'crew',
           name: 'crewSchedule',
-          component: CrewScheduleView
+          component: FindCrewSchedule
+        },
+        {
+          path: 'crew/add/:sportId',
+          name: 'addCrewSchedule',
+          component: AddCrewSchedule,
+          props: true
+        },
+        {
+          path: 'crew/:scheduleId',
+          name: 'viewSchedule',
+          component: UpdateCrewSchedule,
+          props: true
         },
         {
           path: 'games',
