@@ -5,6 +5,10 @@
         <h1>Crew List</h1>
         <button @click="router.back()" class="back-btn">Back to Games</button>
       </div>
+      <div class="action-buttons">
+        <button @click="finalizeList" class="finalize-btn">Finalize</button>
+        <button @click="submitChanges" class="submit-btn">Submit Changes</button>
+      </div>
     </div>
 
     <div class="table-container">
@@ -20,7 +24,19 @@
         <tbody>
           <tr v-for="position in crewPositions" :key="position.title">
             <td>{{ position.title }}</td>
-            <td>{{ position.name }}</td>
+            <td>
+              <select 
+                v-model="position.name"
+                class="crew-select"
+              >
+                <option value="">Select Crew Member</option>
+                <option v-for="member in availableCrewMembers" 
+                        :key="member" 
+                        :value="member">
+                  {{ member }}
+                </option>
+              </select>
+            </td>
             <td>{{ position.reportTime }}</td>
             <td>{{ position.location }}</td>
           </tr>
@@ -35,6 +51,23 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+// Available crew members for dropdown
+const availableCrewMembers = [
+  'MIKE MARTIN',
+  'ERICA JOHNSON',
+  'LILY BALL',
+  'SCOTT SNYDER',
+  'KOLBY LEEPER',
+  'TIM DALY',
+  'GENE ELIZONDO',
+  'STEVEN BOCANEGRA',
+  'EUGENE WAIRIUKO',
+  'TIM SMITH',
+  'MARISOL SELA',
+  'COREY TOWNSEND',
+  'n/r'
+]
 
 const crewPositions = ref([
   { title: 'PRODUCER', name: 'MIKE MARTIN', reportTime: '5:30PM', location: 'CONTROL ROOM' },
@@ -65,10 +98,48 @@ const crewPositions = ref([
   { title: 'OBSERVER', name: '', reportTime: '1HR', location: 'CONTROL ROOM' },
   { title: 'OBSERVER', name: '', reportTime: '1HR', location: 'CONTROL ROOM' }
 ])
+
+const finalizeList = () => {
+  // Here you would implement finalization logic
+  console.log('Finalizing crew list:', crewPositions.value)
+  alert('Crew list finalized!')
+}
+
+const submitChanges = () => {
+  // Here you would implement submission logic
+  console.log('Submitting changes:', crewPositions.value)
+  alert('Changes submitted successfully!')
+}
 </script>
 
 <style scoped>
-/* Copy all styles from FindCrewList.vue and add: */
+.find-crew-list {
+  padding: 20px;
+  color: black;
+}
+
+.header-container {
+  margin-bottom: 30px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.action-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.table-container {
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
 .crew-table {
   width: 100%;
   border-collapse: collapse;
@@ -88,5 +159,77 @@ const crewPositions = ref([
   background-color: white;
   font-weight: bold;
   color: black;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.finalize-btn {
+  padding: 8px 16px;
+  background-color: #1976D2; /* Blue color for finalize */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.finalize-btn:hover {
+  background-color: #1565C0;
+}
+
+.submit-btn {
+  padding: 8px 16px;
+  background-color: #4CAF50; /* Green color for submit */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+.crew-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
+}
+
+.crew-select option {
+  color: black;
+  background-color: white;
+  padding: 8px;
+}
+
+/* Add hover effect for dropdown */
+.crew-select:hover {
+  border-color: #999;
+}
+
+/* Style for focused dropdown */
+.crew-select:focus {
+  outline: none;
+  border-color: #4d1979;
+  box-shadow: 0 0 3px rgba(77, 25, 121, 0.3);
+}
+
+.back-btn {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #45a049;
 }
 </style> 
