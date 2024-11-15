@@ -217,7 +217,7 @@ const createSchedule = () => {
   ]
   
   console.log('Full Schedule:', { gameId: props.sportId, crew: fullSchedule })
-  // Here you would typically send this to your backend
+  //
 }
 </script>
 
