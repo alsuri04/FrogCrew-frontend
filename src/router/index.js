@@ -1,9 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import CrewScheduleView from '../views/CrewScheduleView.vue'
-import GameScheduleView from '../views/GameScheduleView.vue'
-import FindCrewSchedule from '../components/CrewSchedule/FindCrewSchedule.vue'
-import AddCrewSchedule from '../components/CrewSchedule/AddCrewSchedule.vue'
-import UpdateCrewSchedule from '../components/CrewSchedule/UpdateCrewSchedule.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import CrewScheduleView from '../views/CrewScheduleView.vue';
+import GameScheduleView from '../views/GameScheduleView.vue';
+import FindCrewSchedule from '../components/CrewSchedule/FindCrewSchedule.vue';
+import AddCrewSchedule from '../components/CrewSchedule/AddCrewSchedule.vue';
+import UpdateCrewSchedule from '../components/CrewSchedule/UpdateCrewSchedule.vue';
+import UserLogin from '../components/Auth/UserLogin.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,8 +35,13 @@ const router = createRouter({
           component: GameScheduleView
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: UserLogin
     }
   ]
-})
+});
 
-export default router
+export default router;
