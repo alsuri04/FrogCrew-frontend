@@ -7,6 +7,9 @@ import UpdateCrewSchedule from '../components/CrewSchedule/UpdateCrewSchedule.vu
 import FindCrewList from '../components/CrewList/FindCrewList.vue'
 import GamesList from '@/components/CrewList/GamesList.vue'
 import CrewList from '@/components/CrewList/CrewList.vue'
+import AddCrewMember from '@/components/CrewMember/AddCrewMember.vue'
+import FindCrewMember from '../components/CrewMember/FindCrewMember.vue'
+import ManageCrewMembers from '@/components/CrewMember/ManageCrewMembers.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,6 +64,20 @@ const router = createRouter({
               name: 'crewList',
               component: CrewList,
               props: true
+            },
+            {
+              path: '/crew-members',
+              component: FindCrewMember,
+              children: [
+                {
+                  path: 'manage',
+                  component: ManageCrewMembers,
+                },
+                {
+                  path: 'invite',
+                  component: AddCrewMember,
+                }
+              ]
             }
           ]
         }

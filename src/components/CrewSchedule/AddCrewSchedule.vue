@@ -160,7 +160,7 @@
       <button type="button" @click="addPosition(cameraTeam)" class="add-btn">Add Position</button>
     </div>
 
-    <button type="submit" class="create-btn">Create Schedule</button>
+    <button type="submit" class="create-btn" @click="createSchedule">Create Schedule</button>
   </div>
 </template>
 
@@ -204,7 +204,9 @@ const addPosition = (team) => {
 }
 
 const removePosition = (team, index) => {
-  team.value.splice(index, 1)
+  if (team.value.length > 1) {
+    team.value.splice(index, 1)
+  }
 }
 
 const createSchedule = () => {
