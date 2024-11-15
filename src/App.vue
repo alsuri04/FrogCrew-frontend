@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import NavBar from './components/Navigation/NavBar.vue';
 
-const isSidebarCollapsed = ref(false)
-const isScheduleOpen = ref(false)
+const route = useRoute();
+const isLoginPage = computed(() => route.name === 'login');
 </script>
 
 <template>
@@ -23,43 +24,7 @@ const isScheduleOpen = ref(false)
 
     <div class="main-container">
       <!-- Sidebar -->
-      <nav class="sidebar" :class="{ collapsed: isSidebarCollapsed }">
-        <div class="nav-item">
-          <RouterLink to="/" class="nav-link">
-            <span class="nav-icon">◫</span>
-            <span class="nav-text">Homepage</span>
-          </RouterLink>
-        </div>
-        <div class="nav-item">
-          <div class="nav-link" @click="isScheduleOpen = !isScheduleOpen">
-            <span class="nav-icon">◫</span>
-            <span class="nav-text">Schedule</span>
-            <span class="dropdown-arrow" :class="{ 'rotated': isScheduleOpen }">▼</span>
-          </div>
-          <div class="submenu" v-show="isScheduleOpen">
-            <RouterLink to="/schedule/crew" class="nav-link submenu-link">
-              <span class="nav-icon">◫</span>
-              <span class="nav-text">Crew Schedules</span>
-            </RouterLink>
-            <RouterLink to="/schedule/games" class="nav-link submenu-link">
-              <span class="nav-icon">◫</span>
-              <span class="nav-text">Game Schedules</span>
-            </RouterLink>
-          </div>
-        </div>
-        <div class="nav-item">
-          <RouterLink to="/crew-members" class="nav-link">
-            <span class="nav-icon">◫</span>
-            <span class="nav-text">Crew Members</span>
-          </RouterLink>
-        </div>
-        <div class="nav-item">
-          <RouterLink to="/reports" class="nav-link">
-            <span class="nav-icon">◫</span>
-            <span class="nav-text">Reports</span>
-          </RouterLink>
-        </div>
-      </nav>
+      <NavBar v-if="!isLoginPage" />
 
       <!-- Main Content -->
       <main class="main-content">
