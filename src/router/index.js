@@ -10,6 +10,7 @@ import CrewList from '@/components/CrewList/CrewList.vue'
 import AddCrewMember from '@/components/CrewMember/AddCrewMember.vue'
 import FindCrewMember from '../components/CrewMember/FindCrewMember.vue'
 import ManageCrewMembers from '@/components/CrewMember/ManageCrewMembers.vue'
+import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,8 +30,8 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'crew/:scheduleId',
-          name: 'viewSchedule',
+          path: 'crew/update/:gameId',
+          name: 'updateCrewSchedule',
           component: UpdateCrewSchedule,
           props: true
         },
@@ -82,6 +83,11 @@ const router = createRouter({
           ]
         }
       ]
+    },
+    {
+      path: '/availability',
+      name: 'addAvailability',
+      component: AddAvailability
     }
   ]
 })
