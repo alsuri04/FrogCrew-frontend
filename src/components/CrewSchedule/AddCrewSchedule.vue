@@ -74,7 +74,11 @@ const gameDate = ref('')
 
 // Simulate fetching games from the database
 const fetchGames = async () => {
-  // Insert API HERE for fetching games
+  // API GOES HERE for fetching games
+  // Example:
+  // const response = await fetch('/api/games');
+  // games.value = await response.json();
+
   // Simulated game data
   games.value = [
     { id: '1', name: 'TCU vs SMU', date: '11/16/2024' }
@@ -134,6 +138,18 @@ const createSchedule = () => {
     alert('Please select a game.')
     return
   }
+
+  // API GOES HERE for creating a schedule
+  // Example:
+  // await fetch('/api/schedules', {
+  //   method: 'POST',
+  //   body: JSON.stringify({
+  //     gameId: props.sportId,
+  //     gameName: gameName.value,
+  //     gameDate: gameDate.value,
+  //     crew: crew.value
+  //   })
+  // });
 
   console.log('Full Schedule:', {
     gameId: props.sportId,

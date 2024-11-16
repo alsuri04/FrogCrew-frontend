@@ -90,7 +90,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -101,37 +101,20 @@ const newSportName = ref('')
 const newSportCategory = ref("Men's")
 const selectedSport = ref(null)
 
-// Mock data structure
-const sportCategories = ref([
-  {
-    name: "Men's Sports",
-    sports: [
-      { id: 1, name: "Men's Football", gameCount: 5 },
-      { id: 2, name: "Men's Basketball", gameCount: 3 },
-      { id: 3, name: "Men's Baseball", gameCount: 4 }
-    ]
-  },
-  {
-    name: "Women's Sports",
-    sports: [
-      { id: 4, name: "Women's Basketball", gameCount: 4 },
-      { id: 5, name: "Women's Soccer", gameCount: 2 },
-      { id: 6, name: "Women's Volleyball", gameCount: 3 }
-    ]
-  }
-])
+const sportCategories = ref([])
+const games = ref([])
 
-// Mock games data
-const games = ref([
-  { 
-    id: 1, 
-    sportId: 1,
-    name: 'TCU vs Baylor',
-    date: '2024-03-15',
-    crewCount: 25
-  },
-  // Add more games...
-])
+onMounted(async () => {
+  // API GOES HERE for fetching sport categories
+  // Example:
+  // const categoriesResponse = await fetch('/api/sport-categories');
+  // sportCategories.value = await categoriesResponse.json();
+
+  // API GOES HERE for fetching games
+  // Example:
+  // const gamesResponse = await fetch('/api/games');
+  // games.value = await gamesResponse.json();
+})
 
 const filteredGames = computed(() => {
   if (!selectedSport.value) return []

@@ -1,12 +1,12 @@
 <template>
   <div class="availability-view">
     <h1>Availability</h1>
-    <!-- Add your content here -->
+    <AddAvailability />
   </div>
 </template>
 
 <script setup>
-// Add your script logic here
+import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
 </script>
 
 <style scoped>
