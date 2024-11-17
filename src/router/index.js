@@ -28,7 +28,6 @@ const router = createRouter({
     },
     {
       path: '/schedule',
-      component: NavBar,
       children: [
         {
           path: 'crew',

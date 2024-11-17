@@ -24,13 +24,13 @@
   .container {
     display: flex;
     align-items:center;  /* Horizontal center */
+    transform: translateX(-125px); 
+    align-items: center;      /* Vertically center */
+    height: 50vh;
+       
   }
   
   /* Additional styling for the login page itself */
-  .login-block {
-    vertical-align: middle;
-  }
-  
   /* Optional: Styling the Login component if necessary */
   .component {
     width: 200px;             /* Example width */

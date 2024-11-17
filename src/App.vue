@@ -12,13 +12,13 @@ const isLoginPage = computed(() => route.name === 'login');
     <!-- Header -->
     <header class="header">
       <button class="menu-toggle" @click="isSidebarCollapsed = !isSidebarCollapsed">
-        <span class="menu-icon">☰</span>
+        <span class="menu-icon" v-if="!$route.meta.hideNavbar">☰</span>
       </button>
       <h1 class="logo">FROGCREW</h1>
       <div class="header-icons">
-        <button class="icon-button" >🔔</button>
-        <button class="icon-button" >👤</button>
-        <button class="icon-button" >➜</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">🔔</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">👤</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">➜</button>
       </div>
     </header>
 
