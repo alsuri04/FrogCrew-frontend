@@ -28,10 +28,29 @@
       </div>
     </div>
     <div class="nav-item">
-      <RouterLink to="/crew-members" class="nav-link">
+      <div class="nav-link" @click="isCrewOpen = !isCrewOpen">
         <span class="nav-icon">◫</span>
         <span class="nav-text">Crew Members</span>
-      </RouterLink>
+        <span class="dropdown-arrow" :class="{ 'rotated': isCrewOpen }">▼</span>
+      </div>
+      <div class="submenu" v-show="isCrewOpen">
+        <RouterLink to="/crew-members/manage" class="nav-link submenu-link">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Manage Members</span>
+        </RouterLink>
+        <RouterLink to="/crew-members/invite" class="nav-link submenu-link">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Invite Members</span>
+        </RouterLink>
+        <RouterLink to="/availability" class="nav-link submenu-link">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Availability</span>
+        </RouterLink>
+        <RouterLink to="/crew-members/create-profile" class="nav-link submenu-link">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Create Profile</span>
+        </RouterLink>
+      </div>
     </div>
     <div class="nav-item">
       <RouterLink to="/reports" class="nav-link">
@@ -48,6 +67,7 @@ import { ref } from 'vue';
 const isSidebarCollapsed = ref(false);
 const isScheduleOpen = ref(false);
 
+const isCrewOpen = ref(false);
 </script>
 
 const isLoginPage = computed: {
