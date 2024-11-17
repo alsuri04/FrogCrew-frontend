@@ -12,19 +12,21 @@ const isLoginPage = computed(() => route.name === 'login');
     <!-- Header -->
     <header class="header">
       <button class="menu-toggle" @click="isSidebarCollapsed = !isSidebarCollapsed">
-        <span class="menu-icon">☰</span>
+        <span class="menu-icon" v-if="!$route.meta.hideNavbar">☰</span>
       </button>
       <h1 class="logo">FROGCREW</h1>
       <div class="header-icons">
-        <button class="icon-button">🔔</button>
-        <button class="icon-button">👤</button>
-        <button class="icon-button">➜</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">🔔</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">👤</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">➜</button>
       </div>
     </header>
 
     <div class="main-container">
       <!-- Sidebar -->
-      <NavBar v-if="!isLoginPage" />
+      <NavBar v-if="!$route.meta.hideNavbar">
+        <RouterView></RouterView>
+      </NavBar>
 
       <!-- Main Content -->
       <main class="main-content">
@@ -184,7 +186,7 @@ html, body, #app {
   top: 0;
   bottom: 0;
   overflow-y: auto;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   transition: left 0.3s;
 }
 

@@ -66,8 +66,16 @@ import { ref } from 'vue';
 
 const isSidebarCollapsed = ref(false);
 const isScheduleOpen = ref(false);
+
 const isCrewOpen = ref(false);
 </script>
+
+const isLoginPage = computed: {
+  hide () {
+    return this.$route.path === '/login'; 
+  }
+ }
+
 
 <style scoped>
 .sidebar {

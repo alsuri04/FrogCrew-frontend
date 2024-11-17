@@ -10,12 +10,22 @@ import CrewList from '@/components/CrewList/CrewList.vue'
 import AddCrewMember from '@/components/CrewMember/AddCrewMember.vue'
 import FindCrewMember from '../components/CrewMember/FindCrewMember.vue'
 import ManageCrewMembers from '@/components/CrewMember/ManageCrewMembers.vue'
+import LoginView from '../views/LoginView.vue'
+import NavBar from '@/components/Navigation/NavBar.vue'
 import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
 import CreateProfile from '../components/CrewMember/CreateProfile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/login',
+      name: 'loginView',
+      component: LoginView,
+      meta: {
+        hideNavbar: true
+      }
+    },
     {
       path: '/schedule',
       children: [
@@ -45,48 +55,43 @@ const router = createRouter({
           path: 'crew/:gameId',
           name: 'viewSchedule',
           component: FindCrewList,
-          props: true,
+          props: true
         },
         {
-          path: '/schedule/crewList',
+          path: 'crewList',
+          name: 'findCrewList',
+          component: FindCrewList
+        },
+        {
+          path: 'crewList/games/:sportId',
+          name: 'gamesList',
+          component: GamesList,
+          props: true
+        },
+        {
+          path: 'crewList/game/:gameId',
+          name: 'crewList',
+          component: CrewList,
+          props: true
+        },
+        {
+          path: 'crew-members',
+          component: FindCrewMember,
           children: [
             {
-              path: '',
-              name: 'findCrewList',
-              component: FindCrewList
+              path: 'manage',
+              component: ManageCrewMembers
             },
             {
-              path: 'games/:sportId',
-              name: 'gamesList',
-              component: GamesList,
-              props: true
-            },
-            {
-              path: 'game/:gameId',
-              name: 'crewList',
-              component: CrewList,
-              props: true
-            },
-            {
-              path: '/crew-members',
-              component: FindCrewMember,
-              children: [
-                {
-                  path: 'manage',
-                  component: ManageCrewMembers,
-                },
-                {
-                  path: 'invite',
-                  component: AddCrewMember,
-                }
-              ]
-            },
-            {
-              path: '/crew-members/create-profile',
-              name: 'CreateProfile',
-              component: CreateProfile
+              path: 'invite',
+              component: AddCrewMember
             }
           ]
+        },
+        {
+          path: 'crew-members/create-profile',
+          name: 'CreateProfile',
+          component: CreateProfile
         }
       ]
     },
