@@ -25,7 +25,7 @@
       <div class="invite-form">
         <label>Enter email(s) for crew members to invite:</label>
         <textarea 
-          v-model="emailInput" 
+          v-model="emailDTO.emails" 
           class="email-input" 
           placeholder="Enter email addresses..."
           rows="8"
@@ -103,8 +103,36 @@ const crewMembers = ref([
   }
 ])
 
-const sendInvites = () => {
-  console.log('Sending invites to:', emailInput.value)
+
+</script>
+
+<script>
+import axios from 'axios';
+export default {
+  data() {
+    return {
+      activeTab: 'invite',
+      emailInput: [],
+      url: 'http://localhost:5228/invite',
+      emailDTO: {
+        emails: []
+      }
+    }
+  },
+  methods: {
+    sendInvites() {
+      // Handle sending invites
+      console.log('invites to:', this.emailDTO)
+      // Add your invite logic here
+      axios.post(this.url, this.emailDTO)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.error('Error sending invites:', error)
+        })
+    }
+  }
 }
 </script>
 
