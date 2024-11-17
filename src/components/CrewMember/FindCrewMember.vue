@@ -85,7 +85,7 @@
 import { ref } from 'vue'
 
 const activeTab = ref('invite')
-const emailInput = ref('')
+
 const searchQuery = ref('')
 
 const crewMembers = ref([
@@ -103,8 +103,40 @@ const crewMembers = ref([
   }
 ])
 
-const sendInvites = () => {
-  console.log('Sending invites to:', emailInput.value)
+
+</script>
+
+<script>
+import axios from 'axios';
+export default {
+  data() {
+    return {
+      activeTab: 'invite',
+      emailInput: '',
+      url: 'http://localhost:5228/invite',
+      emailDTO: {
+        emails: []
+      }
+    }
+  },
+  methods: {
+    sendInvites() {
+      console.log(this.emailInput)
+
+      this.emailDTO.emails = this.emailInput.split('\n')
+
+      // Handle sending invites
+      console.log('invites to:', this.emailDTO)
+      // Add your invite logic here
+      axios.post(this.url, this.emailDTO )
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.error('Error sending invites:', error)
+        })
+    }
+  }
 }
 </script>
 
