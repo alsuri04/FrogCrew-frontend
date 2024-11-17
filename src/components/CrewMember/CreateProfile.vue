@@ -4,15 +4,15 @@
     <form @submit.prevent="submitProfile">
       <div class="form-group">
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" v-model="firstName" required />
+        <input type="text" id="firstName" v-model="userDTO.FirstName" required />
       </div>
       <div class="form-group">
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" v-model="lastName" required />
+        <input type="text" id="lastName" v-model="userDTO.LastName" required />
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required />
+        <input type="email" id="email" v-model="userDTO.Email" required />
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
@@ -29,11 +29,11 @@
       <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       <div class="form-group">
         <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" v-model="phone" required />
+        <input type="tel" id="phone" v-model="userDTO.PhoneNumber" required />
       </div>
       <div class="form-group">
         <label for="role">Role:</label>
-        <select id="role" v-model="role" required>
+        <select id="role" v-model="userDTO.Role" required>
           <option value="Freelancer">Freelancer</option>
           <option value="Student">Student</option>
           <option value="Faculty/Staff">Faculty/Staff</option>
@@ -42,7 +42,7 @@
       <div class="form-group">
         <label>Positions:</label>
         <div v-for="pos in positions" :key="pos" class="checkbox-group">
-          <input type="checkbox" :id="pos" :value="pos" v-model="selectedPositions" />
+          <input type="checkbox" :id="pos" :value="pos" v-model="userDTO.Position" />
           <label :for="pos">{{ pos }}</label>
         </div>
       </div>
@@ -51,56 +51,52 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script>
+import axios from 'axios';
+export default {
+  data() {
+    return {
+      password: '',
+      verifyPassword: '',
+      showPassword: false,
+      showVerifyPassword: false,
+      positions: [
+        'PRODUCER', 'ASST PROD', 'DIRECTOR', 'ASST DIRECTOR',
+        'TECHNICAL DIR', 'GRAPHICS', 'BUG OP', 'REPLAY EVS',
+        'VIDEO', 'EIC', '2ND ENG', 'AUDIO',
+        'CAMERA', 'UTILITY',
+        'INTERN', 'OBSERVER',
+      ],
+      userDTO: {
+        FirstName: '',
+        LastName: '',
+        Email: '',
+        PhoneNumber: '',
+        Role: '',
+        Position: []
+      }
+    }
+  },
+  methods: {
+    submitProfile() {
+      if (this.password !== this.verifyPassword) {
+        this.errorMessage = 'Passwords do not match!'
+        return
+      }
 
-const firstName = ref('')
-const lastName = ref('')
-const email = ref('')
-const phone = ref('')
-const role = ref('')
-const selectedPositions = ref([])
-const password = ref('')
-const verifyPassword = ref('')
-const showPassword = ref(false)
-const showVerifyPassword = ref(false)
-const errorMessage = ref('')
+      this.errorMessage = ''
 
-const positions = [
-  'PRODUCER', 'ASST PROD', 'DIRECTOR', 'ASST DIRECTOR',
-  'TECHNICAL DIR', 'GRAPHICS', 'BUG OP', 'REPLAY EVS',
-  'VIDEO', 'EIC', '2ND ENG', 'AUDIO',
-  'CAMERA', 'UTILITY',
-  'INTERN', 'OBSERVER',
-]
+      console.log('Creating profile:', this.userDTO)
 
-const submitProfile = () => {
-  if (password.value !== verifyPassword.value) {
-    errorMessage.value = 'Passwords do not match!'
-    return
+      axios.post('http://localhost:5228/crewMember', this.userDTO)
+      .then(response => {
+        console.log('Profile Created:', response.data)
+      })
+      .catch(error => {
+        console.error('Error creating profile:', error)
+      })
+    }
   }
-
-  errorMessage.value = ''
-
-  const profileData = {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    email: email.value,
-    phone: phone.value,
-    role: role.value,
-    positions: selectedPositions.value,
-    password: password.value
-  }
-  
-  // API GOES HERE to submit profile data
-  // Example:
-  // await fetch('/api/crew-members', {
-  //   method: 'POST',
-  //   body: JSON.stringify(profileData),
-  //   headers: { 'Content-Type': 'application/json' }
-  // });
-
-  console.log('Profile Created:', profileData)
 }
 </script>
 
