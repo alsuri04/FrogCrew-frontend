@@ -1,24 +1,24 @@
 <template>
   <div class="add-schedule">
     <h2>Add Crew Schedule</h2>
-    
-    <!-- Game Details Form -->
+    <button @click="goBack" class="back-btn">Back</button>
+    <!-- Game Selection -->
     <div class="game-details">
-      <h3>Game Information</h3>
+      <h3>Select Game</h3>
       <div class="form-group">
-        <label for="gameName">Game Name:</label>
-        <input v-model="gameName" type="text" id="gameName" required placeholder="e.g., TCU vs Baylor" />
+        <label for="gameSelect">Game:</label>
+        <select v-model="selectedGameId" @change="updateGameDetails" id="gameSelect" required>
+          <option value="" disabled>Select a game</option>
+          <option v-for="game in games" :key="game.id" :value="game.id">
+            {{ game.name }} - {{ game.date }}
+          </option>
+        </select>
       </div>
-      
-      <div class="form-group">
-        <label for="gameDate">Game Date:</label>
-        <input v-model="gameDate" type="date" id="gameDate" required />
-      </div>
     </div>
 
-    <!-- Production Team Table -->
+    <!-- Crew Table -->
     <div class="crew-section">
-      <h3>Production Team</h3>
+      <h3>Crew</h3>
       <table>
         <thead>
           <tr>
@@ -30,143 +30,35 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(member, index) in productionTeam" :key="index">
+          <tr v-for="(member, index) in crew" :key="index">
             <td>
               <select v-model="member.position">
-                <option value="PRODUCER">Producer</option>
-                <option value="ASST PROD">Assistant Producer</option>
-                <option value="DIRECTOR">Director</option>
-                <option value="ASST DIRECTOR">Assistant Director</option>
+                <option v-for="pos in positions" :key="pos" :value="pos">{{ pos }}</option>
               </select>
             </td>
             <td><input type="text" v-model="member.name"></td>
             <td><input type="time" v-model="member.reportTime"></td>
             <td><input type="text" v-model="member.location"></td>
             <td>
-              <button type="button" @click="removePosition(productionTeam, index)" class="remove-btn">Remove</button>
+              <button type="button" @click="removeMember(index)" class="remove-btn">Remove</button>
             </td>
           </tr>
         </tbody>
       </table>
-      <button type="button" @click="addPosition(productionTeam)" class="add-btn">Add Position</button>
+      <button type="button" @click="addMember" class="add-btn">Add Position</button>
     </div>
 
-    <!-- Technical Team Table -->
-    <div class="crew-section">
-      <h3>Technical Team</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Position</th>
-            <th>Name</th>
-            <th>Report Time</th>
-            <th>Report Location</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(member, index) in technicalTeam" :key="index">
-            <td>
-              <select v-model="member.position">
-                <option value="TECHNICAL DIR">Technical Director</option>
-                <option value="GRAPHICS">Graphics</option>
-                <option value="BUG OP">Bug Operator</option>
-                <option value="REPLAY EVS 1">Replay EVS 1</option>
-                <option value="REPLAY EVS 2">Replay EVS 2</option>
-                <option value="VIDEO">Video</option>
-                <option value="EIC">EIC</option>
-                <option value="2ND ENG">2nd Engineer</option>
-              </select>
-            </td>
-            <td><input type="text" v-model="member.name"></td>
-            <td><input type="time" v-model="member.reportTime"></td>
-            <td><input type="text" v-model="member.location"></td>
-            <td>
-              <button type="button" @click="removePosition(technicalTeam, index)" class="remove-btn">Remove</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" @click="addPosition(technicalTeam)" class="add-btn">Add Position</button>
-    </div>
-
-    <!-- Audio Team Table -->
-    <div class="crew-section">
-      <h3>Audio Team</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Position</th>
-            <th>Name</th>
-            <th>Report Time</th>
-            <th>Report Location</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(member, index) in audioTeam" :key="index">
-            <td>
-              <select v-model="member.position">
-                <option value="AUDIO 1">Audio 1</option>
-                <option value="AUDIO 2">Audio 2</option>
-              </select>
-            </td>
-            <td><input type="text" v-model="member.name"></td>
-            <td><input type="time" v-model="member.reportTime"></td>
-            <td><input type="text" v-model="member.location"></td>
-            <td>
-              <button type="button" @click="removePosition(audioTeam, index)" class="remove-btn">Remove</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" @click="addPosition(audioTeam)" class="add-btn">Add Position</button>
-    </div>
-
-    <!-- Camera Team Table -->
-    <div class="crew-section">
-      <h3>Camera Team</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Position</th>
-            <th>Name</th>
-            <th>Report Time</th>
-            <th>Report Location</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(member, index) in cameraTeam" :key="index">
-            <td>
-              <select v-model="member.position">
-                <option value="CAMERA 1">Camera 1</option>
-                <option value="CAMERA 2 HIGH EZ">Camera 2 High EZ</option>
-                <option value="CAMERA 3 LOW EZ">Camera 3 Low EZ</option>
-                <option value="CAMERA 4 N HH">Camera 4 N HH</option>
-                <option value="CAMERA 5 S HH">Camera 5 S HH</option>
-                <option value="CAMERA 6">Camera 6</option>
-              </select>
-            </td>
-            <td><input type="text" v-model="member.name"></td>
-            <td><input type="time" v-model="member.reportTime"></td>
-            <td><input type="text" v-model="member.location"></td>
-            <td>
-              <button type="button" @click="removePosition(cameraTeam, index)" class="remove-btn">Remove</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" @click="addPosition(cameraTeam)" class="add-btn">Add Position</button>
-    </div>
-
-    <button type="submit" class="create-btn">Create Schedule</button>
+    <button type="submit" class="create-btn" @click="createSchedule">Create Schedule</button>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+
+// Define props
 const props = defineProps({
   sportId: {
     type: String,
@@ -174,55 +66,94 @@ const props = defineProps({
   }
 })
 
+// Define reactive variables
+const games = ref([])
+const selectedGameId = ref('')
 const gameName = ref('')
 const gameDate = ref('')
 
-// Initialize team arrays with default positions
-const productionTeam = ref([
-  { position: 'PRODUCER', name: '', reportTime: '', location: '' },
-  { position: 'DIRECTOR', name: '', reportTime: '', location: '' }
-])
+// Simulate fetching games from the database
+const fetchGames = async () => {
+  // API GOES HERE for fetching games
+  // Example:
+  // const response = await fetch('/api/games');
+  // games.value = await response.json();
 
-const technicalTeam = ref([
-  { position: 'TECHNICAL DIR', name: '', reportTime: '', location: '' },
-  { position: 'GRAPHICS', name: '', reportTime: '', location: '' }
-])
-
-const audioTeam = ref([
-  { position: 'AUDIO 1', name: '', reportTime: '', location: '' },
-  { position: 'AUDIO 2', name: '', reportTime: '', location: '' }
-])
-
-const cameraTeam = ref([
-  { position: 'CAMERA 1', name: '', reportTime: '', location: '' },
-  { position: 'CAMERA 2 HIGH EZ', name: '', reportTime: '', location: '' }
-])
-
-// Functions to manage positions
-const addPosition = (team) => {
-  team.value.push({ position: '', name: '', reportTime: '', location: '' })
-}
-
-const removePosition = (team, index) => {
-  team.value.splice(index, 1)
-}
-
-const createSchedule = () => {
-  // Combine all teams into one schedule
-  const fullSchedule = [
-    ...productionTeam.value,
-    ...technicalTeam.value,
-    ...audioTeam.value,
-    ...cameraTeam.value
+  // Simulated game data
+  games.value = [
+    { id: '1', name: 'TCU vs SMU', date: '11/16/2024' }
   ]
-  
-  console.log('Full Schedule:', { gameId: props.sportId, crew: fullSchedule })
-  // Here you would typically send this to your backend
+}
+
+// Update game details based on selection
+const updateGameDetails = () => {
+  const selectedGame = games.value.find(game => game.id === selectedGameId.value)
+  if (selectedGame) {
+    gameName.value = selectedGame.name
+    gameDate.value = selectedGame.date
+  }
+}
+
+// Initialize data on component mount
+onMounted(() => {
+  fetchGames()
+})
+
+// Define all positions
+const positions = [
+  'PRODUCER', 'ASST PROD', 'DIRECTOR', 'ASST DIRECTOR',
+  'TECHNICAL DIR', 'GRAPHICS', 'BUG OP', 'REPLAY EVS 1', 'REPLAY EVS 2',
+  'VIDEO', 'EIC', '2ND ENG', 'AUDIO 1', 'AUDIO 2',
+  'CAMERA 1', 'CAMERA 2 HIGH EZ', 'CAMERA 3 LOW EZ', 'CAMERA 4 N HH',
+  'CAMERA 5 S HH', 'CAMERA 6', 'UTILITY', 'UTILITY', 'UTILITY',
+  'INTERN', 'OBSERVER', 'OBSERVER'
+]
+
+// Initialize crew array with default positions
+const crew = ref(positions.map(pos => ({ position: pos, name: '', reportTime: '', location: '' })))
+
+// Function to add a new member
+const addMember = () => {
+  const newMember = { position: '', name: '', reportTime: '', location: '' }
+  crew.value.push(newMember)
+  sortCrew()
+}
+
+// Function to remove a member
+const removeMember = (index) => {
+  if (crew.value.length > 1) {
+    crew.value.splice(index, 1)
+    sortCrew()
+  }
+}
+
+// Function to sort the crew array
+const sortCrew = () => {
+  crew.value.sort((a, b) => a.position.localeCompare(b.position))
+}
+
+// Function to create a schedule
+const createSchedule = () => {
+  if (!selectedGameId.value) {
+    alert('Please select a game.')
+    return
+  }
+
+  console.log('Full Schedule:', {
+    gameId: props.sportId,
+    gameName: gameName.value,
+    gameDate: gameDate.value,
+    crew: crew.value
+  })
+}
+
+// Function to go back to the previous page
+const goBack = () => {
+  router.back()
 }
 </script>
 
 <style scoped>
-/* Add your existing styles and these new ones */
 .crew-section {
   margin-bottom: 2rem;
   padding: 1rem;
@@ -246,7 +177,7 @@ th {
   background-color: #f5f5f5;
 }
 
-.add-btn, .remove-btn {
+.add-btn, .remove-btn, .back-btn {
   padding: 5px 10px;
   margin: 5px;
   border: none;
@@ -274,6 +205,11 @@ th {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.back-btn {
+  background-color: #6c757d;
+  color: white;
 }
 
 input[type="text"],

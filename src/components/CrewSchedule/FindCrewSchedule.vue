@@ -16,7 +16,7 @@
     </div>
 
     <!-- Sport Categories -->
-    <div class="sport-categories">
+    <div class="sport-categories" v-if="!selectedSport">
       <div v-for="category in sportCategories" :key="category.name" class="sport-category">
         <h2>{{ category.name }}</h2>
         <div class="sport-list">
@@ -184,7 +184,10 @@ const addNewSport = () => {
 }
 
 const viewSchedule = (game) => {
-  router.push(`/schedule/crew/${game.id}`)
+  router.push({
+    name: 'updateCrewSchedule',
+    params: { gameId: game.id }
+  })
 }
 </script>
 
