@@ -74,7 +74,7 @@ export default {
       setTimeout(() => {
         if (this.username === 'admin' && this.password === 'password') {
           alert('Login Successful');
-          this.$router.push('/dashboard'); // Redirect to dashboard
+          this.$router.push('/schedule'); // Redirect to dashboard
         } else {
           this.formError = 'Invalid username or password';
         }

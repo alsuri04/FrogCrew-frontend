@@ -9,7 +9,7 @@
   
   <script>
   // Import the Login component
-  import Login from '@/components/Login.vue';
+  import Login from '../components/Auth/UserLogin.vue';
   import { RouterLink } from 'vue-router'
   export default {
     components: {
@@ -23,10 +23,7 @@
   /* Styling the container to center the content using Flexbox */
   .container {
     display: flex;
-    justify-content: center;  /* Horizontal center */
-    align-items: center;      /* Vertical center */
-    height: 100vh;            /* Full viewport height */
-    text-align: center;       /* Center the text within the page */
+    align-items:center;  /* Horizontal center */
   }
   
   /* Additional styling for the login page itself */

@@ -10,12 +10,15 @@ import CrewList from '@/components/CrewList/CrewList.vue'
 import AddCrewMember from '@/components/CrewMember/AddCrewMember.vue'
 import FindCrewMember from '../components/CrewMember/FindCrewMember.vue'
 import ManageCrewMembers from '@/components/CrewMember/ManageCrewMembers.vue'
+import LoginView from '../views/LoginView.vue'
+import NavBar from '@/components/Navigation/NavBar.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/schedule',
+      component: NavBar,
       children: [
         {
           path: 'crew',
@@ -64,17 +67,33 @@ const router = createRouter({
               name: 'crewList',
               component: CrewList,
               props: true
+            },
+            {
+              path: '/crew-members',
+              component: FindCrewMember,
+              children: [
+                {
+                  path: 'manage',
+                  component: ManageCrewMembers,
+                },
+                {
+                  path: 'invite',
+                  component: AddCrewMember,
+                }
+              ]
             }
           ]
         }
-      ]
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: UserLogin
+      ],
+      path:'/login',
+      name:'loginView',
+      component: LoginView,
+      meta: {
+        hideNavbar: true,
+       }
+
     }
   ]
-});
+})
 
-export default router;
+export default router
