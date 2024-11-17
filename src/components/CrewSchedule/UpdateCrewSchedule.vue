@@ -62,15 +62,9 @@ const positions = [
 
 // Fetch the existing schedule
 const fetchSchedule = () => {
-  const gameId = route.params.gameId
-
-  // API GOES HERE for fetching schedule
-  // Example:
-  // const response = await fetch(`/api/schedules/${gameId}`);
-  // schedule.value = await response.json();
-
+  // Simulate fetching schedule data
   schedule.value = {
-    gameName: `Game ID: ${gameId}`,
+    gameName: 'TCU vs SMU',
     gameDate: '11/16/2024',
     crew: positions.map(pos => ({ position: pos, name: '', reportTime: '', location: '' }))
   }
@@ -91,14 +85,8 @@ const removeMember = (index) => {
 
 // Function to update the schedule
 const updateSchedule = () => {
-  // API GOES HERE for updating schedule
-  // Example:
-  // await fetch(`/api/schedules/${route.params.gameId}`, {
-  //   method: 'PUT',
-  //   body: JSON.stringify(schedule.value)
-  // });
-
   console.log('Updated Schedule:', schedule.value)
+  // Here you would typically send this data to a backend or further process it
 }
 
 // Initialize data on component mount

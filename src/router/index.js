@@ -11,6 +11,7 @@ import AddCrewMember from '@/components/CrewMember/AddCrewMember.vue'
 import FindCrewMember from '../components/CrewMember/FindCrewMember.vue'
 import ManageCrewMembers from '@/components/CrewMember/ManageCrewMembers.vue'
 import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
+import CreateProfile from '../components/CrewMember/CreateProfile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -79,6 +80,11 @@ const router = createRouter({
                   component: AddCrewMember,
                 }
               ]
+            },
+            {
+              path: '/crew-members/create-profile',
+              name: 'CreateProfile',
+              component: CreateProfile
             }
           ]
         }

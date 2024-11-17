@@ -139,18 +139,6 @@ const createSchedule = () => {
     return
   }
 
-  // API GOES HERE for creating a schedule
-  // Example:
-  // await fetch('/api/schedules', {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     gameId: props.sportId,
-  //     gameName: gameName.value,
-  //     gameDate: gameDate.value,
-  //     crew: crew.value
-  //   })
-  // });
-
   console.log('Full Schedule:', {
     gameId: props.sportId,
     gameName: gameName.value,

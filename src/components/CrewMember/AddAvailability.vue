@@ -21,24 +21,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
-const sports = ref([])
-const availableDates = ref([])
-
-onMounted(async () => {
-  // API GOES HERE for fetching sports
-  // Example:
-  // const sportsResponse = await fetch('/api/sports');
-  // sports.value = await sportsResponse.json();
-
-  // API GOES HERE for fetching available dates
-  // Example:
-  // const datesResponse = await fetch('/api/available-dates');
-  // availableDates.value = await datesResponse.json();
-})
+const sports = ref([
+  { id: 1, name: "Women's Soccer" },
+  { id: 2, name: "Men's Basketball" }
+])
 
 const selectedSport = ref(sports.value[0].name)
+const availableDates = ref(['2024-10-15', '2024-10-28', '2024-11-21'])
 const availability = ref({})
 
 const toggleAvailability = (date, isAvailable) => {
