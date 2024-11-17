@@ -73,7 +73,6 @@ export default {
       // Simulate API call (you can replace this with actual login logic)
       setTimeout(() => {
         if (this.username === 'admin' && this.password === 'password') {
-          alert('Login Successful');
           this.$router.push('/schedule'); // Redirect to dashboard
         } else {
           this.formError = 'Invalid username or password';
