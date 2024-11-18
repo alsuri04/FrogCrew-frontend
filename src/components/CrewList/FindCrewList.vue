@@ -17,32 +17,30 @@
 
     <!-- Sport Categories -->
     <div class="sport-categories">
-      <div v-for="category in sportCategories" :key="category.name" class="sport-category">
-        <h2>{{ category.name }}</h2>
-        <div class="table-container">
-          <table class="sport-table">
-            <thead>
-              <tr>
-                <th>Sport</th>
-                <th>Game Count</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr 
-                v-for="sport in filterSports(category.sports)" 
-                :key="sport.id"
-              >
-                <td>{{ sport.name }}</td>
-                <td>{{ sport.gameCount }} games</td>
-                <td>
-                  <button @click="navigateToGames(sport.id)" class="view-btn">View Games</button>
-                  <button @click="confirmDeleteSport(sport)" class="delete-btn"hidden>Delete Sport</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="table-container">
+        
+        <table class="sport-table">
+          <thead>
+            <tr>
+              <th>Sport</th>
+              <th hidden >Game Count</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr 
+              v-for="gameSchedule in gameSchedules" 
+              :key="gameSchedule.id"
+            >
+              <td>{{ gameSchedule.sport }}</td>
+              <td hidden >0 games</td>
+              <td>
+                <RouterLink :to="`/schedule/crewList/games/${gameSchedule.id}`" class="view-btn">View Games</RouterLink>
+                <button @click="deleteGameSchedule(gameSchedule.id)" class="delete-btn"hidden>Delete Sport</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -61,33 +59,6 @@ import AddGameSchedule from '../GameSchedule/AddGameSchedule.vue'
 
 const router = useRouter()
 const searchQuery = ref('')
-
-// Mock data structure
-const sportCategories = ref([
-  {
-    name: "Men's Sports",
-    sports: [
-      { id: 1, name: "Men's Football", gameCount: 5 },
-      { id: 2, name: "Men's Basketball", gameCount: 3 },
-      { id: 3, name: "Men's Baseball", gameCount: 4 }
-    ]
-  },
-  {
-    name: "Women's Sports",
-    sports: [
-      { id: 4, name: "Women's Basketball", gameCount: 4 },
-      { id: 5, name: "Women's Soccer", gameCount: 2 },
-      { id: 6, name: "Women's Volleyball", gameCount: 3 }
-    ]
-  }
-])
-
-const filterSports = (sports) => {
-  if (!searchQuery.value) return sports
-  return sports.filter(sport => 
-    sport.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-}
 
 const navigateToGames = (sportId) => {
   router.push(`/schedule/crewList/games/${sportId}`)
@@ -120,6 +91,55 @@ const confirmDeleteSport = (sport) => {
     }
   }
 }
+</script>
+
+
+<script>
+import axios from 'axios';
+import { useRouter } from 'vue-router'
+export default {
+  data() {
+    return {
+      gameSchedules: []
+    }
+  },
+  created() {
+    this.getGameSchedules()
+  },
+  methods: {
+    getGameSchedules() {
+      axios.get('http://localhost:5228/gameSchedule/season/2024')
+        .then(response => {
+          this.gameSchedules = response.data.data
+          console.log('Game Schedules:', response.data.data)
+        })
+        .catch(error => {
+          console.error('There was an error!', error)
+        })
+
+    },
+    getFiscalYearRange() {
+      const today = new Date(); // Get the current date
+      const currentYear = today.getFullYear(); // Extract the current year
+      const julyFirst = new Date(currentYear, 6, 1); // Create a Date object for July 1st (month is 0-based)
+
+      if (today < julyFirst) {
+          // Before July 1st: Previous year - Current year
+          return `${currentYear - 1} - ${currentYear}`;
+      } else {
+          // On or after July 1st: Current year - Next year
+          return `${currentYear} - ${currentYear + 1}`;
+      }
+    },
+    viewGames(scheduleId){
+    },
+    deleteGameSchedule(scheduleId){
+
+    }
+
+  }
+}
+
 </script>
 
 <style scoped>
