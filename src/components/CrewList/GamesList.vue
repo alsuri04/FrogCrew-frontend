@@ -31,18 +31,33 @@
             <td>{{ formatDate(game.date) }}</td>
             <td>{{ game.location }}</td>
             <td>
-              <button @click="navigateToCrewList(game.id)" class="view-btn">View Crew List</button>
+              <div class="button-group">
+                <button @click="navigateToCrewList(game.id)" class="view-btn">View Crew List</button>
+                <button @click="navigateToEditCrew(game.id)" class="view-btn">Edit Crew</button>
+                <button @click="confirmDeleteGame(game)" class="delete-btn" hidden>Delete Game</button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <div class="bottom-button-container">
+      <button @click="showAddGameModal = true" class="add-btn">Add New Game</button>
+    </div>
+
+    <AddGamesToSchedule
+      :showModal="showAddGameModal"
+      @close="showAddGameModal = false"
+      @submit="handleAddGame"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import AddGamesToSchedule from '../GameSchedule/AddGamesToSchedule.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -84,6 +99,30 @@ const formatDate = (date) => {
 
 const navigateToCrewList = (gameId) => {
   router.push(`/schedule/crewList/game/${gameId}`)
+}
+
+const navigateToEditCrew = (gameId) => {
+  router.push(`/schedule/crew/update/${gameId}`)
+}
+
+const showAddGameModal = ref(false)
+
+const handleAddGame = (newGame) => {
+  // Generate a new ID for the game
+  const newId = Math.max(...games.value.map(g => g.id)) + 1
+  
+  // Add the new game to the games array
+  games.value.push({
+    id: newId,
+    ...newGame
+  })
+}
+
+const confirmDeleteGame = (game) => {
+  if (window.confirm(`Are you sure you want to delete ${game.name}?`)) {
+    // Remove the game from the games array
+    games.value = games.value.filter(g => g.id !== game.id)
+  }
 }
 </script>
 
@@ -146,6 +185,12 @@ const navigateToCrewList = (gameId) => {
   background-color: #f9f9f9;
 }
 
+.button-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .view-btn, .back-btn {
   padding: 8px 16px;
   background-color: #4CAF50;
@@ -157,5 +202,39 @@ const navigateToCrewList = (gameId) => {
 
 .view-btn:hover, .back-btn:hover {
   background-color: #45a049;
+}
+
+.bottom-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.add-btn {
+  padding: 10px 20px;
+  background-color: #4d1979; /* TCU purple */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background-color: #3b1259;
+}
+
+.delete-btn {
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
 }
 </style> 
