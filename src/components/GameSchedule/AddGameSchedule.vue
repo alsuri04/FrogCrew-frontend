@@ -8,21 +8,30 @@
       
       <div class="modal-body">
         <div class="form-group">
-          <label for="sportCategory">Sport Category:</label>
-          <select id="sportCategory" v-model="newSport.category" class="form-input">
-            <option value="Men's Sports">Men's Sports</option>
-            <option value="Women's Sports">Women's Sports</option>
+          <label for="sportName">Sport Name:</label>
+          <select id="sportName" v-model="newSport.name" class="form-input">
+            <option v-for="sport in sportsList" :key="sport" :value="sport">{{ sport }}</option>
+            <option value="addNew">Add New Sport</option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label for="sportName">Sport Name:</label>
+        <div v-if="newSport.name === 'addNew'" class="form-group">
+          <label for="newSportName">New Sport Name:</label>
           <input 
             type="text" 
-            id="sportName" 
-            v-model="newSport.name" 
+            id="newSportName" 
+            v-model="newSport.newName" 
             class="form-input"
-            placeholder="Enter sport name"
+            placeholder="Enter new sport name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="sportYear">Season:</label>
+          <input
+            v-model="newSport.season" 
+            class="form-input"
+            placeholder="Example: 2024-2025"
           />
         </div>
       </div>
@@ -47,9 +56,12 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'submit'])
 
+const sportsList = ref(['Basketball', 'Soccer', 'Baseball'])
+
 const newSport = ref({
-  category: "Men's Sports",
   name: '',
+  newName: '',
+  season: '',
   gameCount: 0
 })
 
@@ -58,10 +70,14 @@ const closeModal = () => {
 }
 
 const handleSubmit = () => {
+  if (newSport.value.name === 'addNew') {
+    newSport.value.name = newSport.value.newName
+  }
   emit('submit', newSport.value)
   newSport.value = {
-    category: "Men's Sports",
     name: '',
+    newName: '',
+    season: '',
     gameCount: 0
   }
   closeModal()
