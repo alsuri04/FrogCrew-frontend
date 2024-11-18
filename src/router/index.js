@@ -13,7 +13,7 @@ import ManageCrewMembers from '@/components/CrewMember/ManageCrewMembers.vue'
 import LoginView from '../views/LoginView.vue'
 import NavBar from '@/components/Navigation/NavBar.vue'
 import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
-import CreateProfile from '../components/CrewMember/CreateProfile.vue'
+import CreateProfile from '@/components/CrewMember/CreateProfile.vue'
 import AdminHomeView from '@/views/AdminHomeView.vue'
 
 const router = createRouter({
@@ -79,27 +79,29 @@ const router = createRouter({
           name: 'crewList',
           component: CrewList,
           props: true
-        },
-        {
-          path: 'crew-members',
-          component: FindCrewMember,
-          children: [
-            {
-              path: 'manage',
-              component: ManageCrewMembers
-            },
-            {
-              path: 'invite',
-              component: AddCrewMember
-            }
-          ]
-        },
-        {
-          path: 'crew-members/create-profile',
-          name: 'CreateProfile',
-          component: CreateProfile
         }
       ]
+    },
+    {
+      path: '/crew-members',
+      component: FindCrewMember,
+      children: [
+        {
+          path: 'manage',
+          name: 'manageCrewMembers',
+          component: ManageCrewMembers
+        },
+        {
+          path: 'invite',
+          name: 'addCrewMember',
+          component: AddCrewMember
+        }
+      ]
+    },
+    {
+      path: '/create-profile',
+      name: 'createProfile',
+      component: CreateProfile
     },
     {
       path: '/availability',

@@ -28,23 +28,23 @@ export default {
         headers: { 'Authorization': authHeader }
       })
         .then(response => {
-          //console.log(response.data.data);
+          console.log(response.data.data);
+          console.log('Token', response.data.data.token);
+          console.log('UserId', response.data.data.userId);
+          console.log('Role', response.data.data.role);
 
           const token = response.data.data.token; // Assuming the token is returned in response data
           localStorage.setItem('authToken', token); // Storing token in local storage
+          localStorage.setItem('UserId', response.data.data.userId);
 
-          // const userInfo = response.data.data.userInfo;
-          // localStorage.setItem('userInfo', JSON.stringify(userInfo));
+          if(response.data.data.role === 'admin') {
+            this.$store.commit('setIsAdmin', true);
+            console.log("Is Admin")
+          } else {
+            console.log("Is Not Admin")
+          }
 
-
-          // const role = response.data.data.userInfo.roles;
-          // if(role === 'student') {
-          //   this.$store.commit('setIsStudent', true);
-          // } else if(role === 'instructor') {
-          //   this.$store.commit('setIsInstructor', true);
-          // } else if(role === 'admin') {
-          //   this.$store.commit('setIsAdmin', true);
-          // }
+          console.log()
           
 
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Setting default header
