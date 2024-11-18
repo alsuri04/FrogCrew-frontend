@@ -1,153 +1,444 @@
 <template>
-  <div>
-    <h2>Update Crew Schedule</h2>
-    <div v-if="schedule">
-      <h3>Game: {{ schedule.gameName }} - {{ schedule.gameDate }}</h3>
-      <div class="crew-section">
-        <h3>Crew</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Position</th>
-              <th>Name</th>
-              <th>Report Time</th>
-              <th>Report Location</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(member, index) in schedule.crew" :key="index">
-              <td>
-                <select v-model="member.position">
-                  <option v-for="pos in positions" :key="pos" :value="pos">{{ pos }}</option>
-                </select>
-              </td>
-              <td><input type="text" v-model="member.name"></td>
-              <td><input type="time" v-model="member.reportTime"></td>
-              <td><input type="text" v-model="member.location"></td>
-              <td>
-                <button type="button" @click="removeMember(index)" class="remove-btn">Remove</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button type="button" @click="addMember" class="add-btn">Add Position</button>
+  <div class="find-crew-list">
+    <div class="header-container">
+      <div class="header-top">
+        <h1>Crew Schedule</h1>
+        <button @click="router.back()" class="back-btn">Back to Games</button>
       </div>
-      <button type="submit" class="update-btn" @click="updateSchedule">Update Schedule</button>
+      <div class="action-buttons">
+        <button @click="finalizeList" class="finalize-btn">Finalize</button>
+        <button @click="submitChanges" class="submit-btn">Save Changes</button>
+      </div>
     </div>
-    <div v-else>
-      <p>Loading schedule...</p>
+
+    <div class="table-container">
+      <table class="crew-table">
+        <thead>
+          <tr>
+            <th>POSITION</th>
+            <th>NAME</th>
+            <th>REPORT TIME</th>
+            <th>REPORT LOCATION</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(position, index) in crewPositions" :key="index">
+            <td>
+              <select v-model="position.title" class="position-select">
+                <option value="">Select Position</option>
+                <option v-for="pos in availablePositions" 
+                        :key="pos" 
+                        :value="pos">
+                  {{ pos }}
+                </option>
+              </select>
+              <span class="position-display" v-if="position.title">
+                {{ getDisplayTitle(position, index) }}
+              </span>
+            </td>
+            <td>
+              <select v-model="position.name" class="crew-select">
+                <option value="">Select Crew Member</option>
+                <option v-for="member in availableCrewMembers" 
+                        :key="member" 
+                        :value="member">
+                  {{ member }}
+                </option>
+              </select>
+            </td>
+            <td>
+              <input 
+                type="text" 
+                v-model="position.reportTime"
+                class="time-input"
+                placeholder="Enter time"
+              />
+            </td>
+            <td>
+              <select v-model="position.location" class="location-select">
+                <option value="CONTROL ROOM">CONTROL ROOM</option>
+                <option value="STADIUM">STADIUM</option>
+              </select>
+            </td>
+            <td>
+              <button @click="deletePosition(index)" class="delete-btn">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bottom-button-container">
+      <button @click="addNewPosition" class="add-btn">Add New Position</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const route = useRoute()
+const router = useRouter()
 
-// Simulated schedule data
-const schedule = ref(null)
-
-// Define all positions
-const positions = [
-  'PRODUCER', 'ASST PROD', 'DIRECTOR', 'ASST DIRECTOR',
-  'TECHNICAL DIR', 'GRAPHICS', 'BUG OP', 'REPLAY EVS 1', 'REPLAY EVS 2',
-  'VIDEO', 'EIC', '2ND ENG', 'AUDIO 1', 'AUDIO 2',
-  'CAMERA 1', 'CAMERA 2 HIGH EZ', 'CAMERA 3 LOW EZ', 'CAMERA 4 N HH',
-  'CAMERA 5 S HH', 'CAMERA 6', 'UTILITY', 'UTILITY', 'UTILITY',
-  'INTERN', 'OBSERVER', 'OBSERVER'
+// Available crew members for dropdown
+const availableCrewMembers = [
+  'MIKE MARTIN',
+  'ERICA JOHNSON',
+  'LILY BALL',
+  'SCOTT SNYDER',
+  'KOLBY LEEPER',
+  'TIM DALY',
+  'GENE ELIZONDO',
+  'STEVEN BOCANEGRA',
+  'EUGENE WAIRIUKO',
+  'TIM SMITH',
+  'MARISOL SELA',
+  'COREY TOWNSEND',
+  'n/r'
 ]
 
-// Fetch the existing schedule
-const fetchSchedule = () => {
-  // Simulate fetching schedule data
-  schedule.value = {
-    gameName: 'TCU vs SMU',
-    gameDate: '11/16/2024',
-    crew: positions.map(pos => ({ position: pos, name: '', reportTime: '', location: '' }))
+// Simplify the availablePositions array to base positions
+const availablePositions = [
+  'PRODUCER',
+  'ASST PROD',
+  'DIRECTOR',
+  'ASST DIRECTOR',
+  'TECHNICAL DIR',
+  'GRAPHICS',
+  'BUG OP',
+  'REPLAY EVS',  // Remove numbers from base positions
+  'EIC',
+  'VIDEO',
+  '2ND ENG',
+  'AUDIO',      // Base position without number
+  'CAMERA',     // Base position without number
+  'UTILITY',
+  'TECH MANAGER',
+  'TOC',
+  'OBSERVER'
+]
+
+const crewPositions = ref([
+  { title: 'PRODUCER', name: 'MIKE MARTIN', reportTime: '5:30PM', location: 'CONTROL ROOM' },
+  { title: 'ASST PROD', name: '', reportTime: '', location: 'CONTROL ROOM' },
+  { title: 'DIRECTOR', name: 'ERICA JOHNSON', reportTime: '5:30PM', location: 'CONTROL ROOM' },
+  { title: 'ASST DIRECTOR', name: '', reportTime: '', location: 'CONTROL ROOM' },
+  { title: 'TECHNICAL DIR', name: 'LILY BALL', reportTime: '5:30PM', location: 'CONTROL ROOM' },
+  { title: 'GRAPHICS', name: '', reportTime: '', location: 'CONTROL ROOM' },
+  { title: 'BUG OP', name: '', reportTime: '', location: 'CONTROL ROOM' },
+  { title: 'REPLAY EVS', name: 'SCOTT SNYDER', reportTime: '5:30PM', location: 'CONTROL ROOM' },
+  { title: 'REPLAY EVS', name: '', reportTime: '7:30PM', location: 'CONTROL ROOM' },
+  { title: 'REPLAY EVS', name: '', reportTime: '', location: 'CONTROL ROOM' },
+  { title: 'EIC', name: 'KOLBY LEEPER', reportTime: '5:30PM', location: 'CONTROL ROOM' },
+  { title: 'VIDEO', name: 'TIM DALY', reportTime: '5:30PM', location: 'CONTROL ROOM' },
+  { title: '2ND ENG', name: '', reportTime: '', location: 'STADIUM' },
+  { title: 'AUDIO', name: '', reportTime: '', location: 'STADIUM' },
+  { title: 'AUDIO', name: '', reportTime: '', location: 'STADIUM' },
+  { title: 'CAMERA', name: 'GENE ELIZONDO', reportTime: '5:30PM', location: 'STADIUM' },
+  { title: 'CAMERA', name: 'STEVEN BOCANEGRA', reportTime: '5:30PM', location: 'STADIUM' },
+  { title: 'CAMERA', name: '', reportTime: '', location: 'STADIUM' },
+  { title: 'CAMERA', name: 'EUGENE WAIRIUKO', reportTime: '5:30PM', location: 'STADIUM' },
+  { title: 'CAMERA', name: 'TIM SMITH', reportTime: '5:30PM', location: 'STADIUM' },
+  { title: 'CAMERA', name: '', reportTime: '5:30PM', location: 'STADIUM' },
+  { title: 'UTILITY', name: 'MARISOL SELA', reportTime: '5:30PM', location: 'STADIUM' },
+  { title: 'UTILITY', name: 'COREY TOWNSEND', reportTime: '5:30PM', location: 'STADIUM' },
+  { title: 'TECH MANAGER', name: 'n/r', reportTime: '', location: 'STADIUM' },
+  { title: 'TOC', name: 'n/r', reportTime: '', location: 'STADIUM' },
+  { title: 'OBSERVER', name: '', reportTime: '1HR', location: 'CONTROL ROOM' },
+  { title: 'OBSERVER', name: '', reportTime: '1HR', location: 'CONTROL ROOM' }
+])
+
+const finalizeList = () => {
+  // Here you would implement finalization logic
+  console.log('Finalizing crew list:', crewPositions.value)
+  alert('Crew list finalized!')
+}
+
+const submitChanges = () => {
+  // Here you would implement submission logic
+  console.log('Submitting changes:', crewPositions.value)
+  alert('Changes submitted successfully!')
+}
+
+const editPosition = (index) => {
+  crewPositions.value[index].isEditing = true
+}
+
+const deletePosition = (index) => {
+  if (window.confirm('Are you sure you want to delete this position?')) {
+    crewPositions.value.splice(index, 1)
   }
 }
 
-// Function to add a new member
-const addMember = () => {
-  const newMember = { position: '', name: '', reportTime: '', location: '' }
-  schedule.value.crew.push(newMember)
-}
-
-// Function to remove a member
-const removeMember = (index) => {
-  if (schedule.value.crew.length > 1) {
-    schedule.value.crew.splice(index, 1)
+// Update the getDisplayTitle function to handle numbering
+const getDisplayTitle = (position, index) => {
+  if (!position.title) return ''
+  
+  // Get all positions of this type
+  const samePositions = crewPositions.value
+    .filter(p => p.title.startsWith(position.title))
+  
+  // If there's only one, return the original title
+  if (samePositions.length === 1) {
+    return position.title
   }
+  
+  // Count positions of this type before current index
+  const previousPositions = crewPositions.value
+    .slice(0, index)
+    .filter(p => p.title.startsWith(position.title))
+  
+  // Add number to positions that have duplicates
+  return `${position.title} ${previousPositions.length + 1}`
 }
 
-// Function to update the schedule
-const updateSchedule = () => {
-  console.log('Updated Schedule:', schedule.value)
-  // Here you would typically send this data to a backend or further process it
+// Modify addNewPosition to handle numbering
+const addNewPosition = () => {
+  crewPositions.value.push({
+    title: '',
+    name: '',
+    reportTime: '',
+    location: 'CONTROL ROOM'
+  })
 }
-
-// Initialize data on component mount
-onMounted(() => {
-  fetchSchedule()
-})
 </script>
 
 <style scoped>
-.crew-section {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.find-crew-list {
+  padding: 20px;
+  color: black;
 }
 
-table {
+.header-container {
+  margin-bottom: 30px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.action-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.table-container {
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+.crew-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1rem;
+  background-color: white;
+  color: black;
 }
 
-th, td {
-  padding: 8px;
-  border: 1px solid #ddd;
+.crew-table th,
+.crew-table td {
+  padding: 12px;
   text-align: left;
+  border: 1px solid black;
+  color: black;
 }
 
-th {
-  background-color: #f5f5f5;
+.crew-table th {
+  background-color: white;
+  font-weight: bold;
+  color: black;
 }
 
-.add-btn, .remove-btn, .update-btn {
-  padding: 5px 10px;
-  margin: 5px;
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.finalize-btn {
+  padding: 8px 16px;
+  background-color: #1976D2; /* Blue color for finalize */
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.add-btn {
-  background-color: #28a745;
-  color: white;
+.finalize-btn:hover {
+  background-color: #1565C0;
 }
 
-.remove-btn {
-  background-color: #dc3545;
+.submit-btn {
+  padding: 8px 16px;
+  background-color: #4CAF50;
   color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.update-btn {
-  background-color: #007bff;
-  color: white;
+.submit-btn:hover {
+  background-color: #45a049;
 }
 
-input[type="text"],
-input[type="time"],
-select {
+.crew-select {
   width: 100%;
-  padding: 5px;
+  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
 }
-</style>
+
+.crew-select option {
+  color: black;
+  background-color: white;
+  padding: 8px;
+}
+
+/* Add hover effect for dropdown */
+.crew-select:hover {
+  border-color: #999;
+}
+
+/* Style for focused dropdown */
+.crew-select:focus {
+  outline: none;
+  border-color: #4d1979;
+  box-shadow: 0 0 3px rgba(77, 25, 121, 0.3);
+}
+
+.back-btn {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #45a049;
+}
+
+.time-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
+}
+
+.location-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
+}
+
+.location-select option {
+  color: black;
+  background-color: white;
+  padding: 8px;
+}
+
+/* Add hover effect for dropdown */
+.location-select:hover {
+  border-color: #999;
+}
+
+/* Style for focused dropdown */
+.location-select:focus {
+  outline: none;
+  border-color: #4d1979;
+  box-shadow: 0 0 3px rgba(77, 25, 121, 0.3);
+}
+
+.position-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
+}
+
+.position-select option {
+  color: black;
+  background-color: white;
+  padding: 8px;
+}
+
+/* Add hover effect for dropdown */
+.position-select:hover {
+  border-color: #999;
+}
+
+/* Style for focused dropdown */
+.position-select:focus {
+  outline: none;
+  border-color: #4d1979;
+  box-shadow: 0 0 3px rgba(77, 25, 121, 0.3);
+}
+
+.delete-btn {
+  padding: 8px 16px;
+  background-color: #d32f2f; /* Red color for delete */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #c62828;
+}
+
+.bottom-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.add-btn {
+  padding: 10px 20px;
+  background-color: #4d1979; /* TCU purple */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background-color: #3b1259;
+}
+
+/* Make sure table cells align properly */
+.crew-table td {
+  vertical-align: middle;
+}
+
+/* Add some spacing in the action column */
+.crew-table td:last-child {
+  text-align: center;
+  min-width: 100px;
+}
+
+.position-display {
+  margin-left: 5px;
+  color: #666;
+  font-size: 0.9em;
+}
+</style> 

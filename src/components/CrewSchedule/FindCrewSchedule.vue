@@ -2,8 +2,8 @@
   <div class="find-crew-schedule">
     <div class="header-container">
       <div class="header-top">
-        <h1>Crew Schedules</h1>
-        <button @click="showAddScheduleModal = true" class="add-btn">Add Crew Schedule</button>
+        <h1>Crew <Link:manifest></Link:manifest>ist</h1>
+        <button @click="showAddScheduleModal = true" class="add-btn">Add Crew List</button>
       </div>
       <div class="search-container">
         <input 

@@ -2,8 +2,8 @@
   <div class="find-crew-list">
     <div class="header-container">
       <div class="header-top">
-        <h1>Crew Lists</h1>
-        <button @click="showAddCrewListModal = true" class="add-btn">Add Crew List</button>
+        <h1>Game Schedules</h1>
+        <button @click="showAddCrewListModal = true" class="add-btn">Add Sport</button>
       </div>
       <div class="search-container">
         <input 
@@ -37,6 +37,7 @@
                 <td>{{ sport.gameCount }} games</td>
                 <td>
                   <button @click="navigateToGames(sport.id)" class="view-btn">View Games</button>
+                  <button @click="confirmDeleteSport(sport)" class="delete-btn"hidden>Delete Sport</button>
                 </td>
               </tr>
             </tbody>
@@ -44,12 +45,19 @@
         </div>
       </div>
     </div>
+
+    <AddGameSchedule 
+      :showModal="showAddCrewListModal"
+      @close="showAddCrewListModal = false"
+      @submit="handleAddSport"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AddGameSchedule from '../GameSchedule/AddGameSchedule.vue'
 
 const router = useRouter()
 const searchQuery = ref('')
@@ -83,6 +91,34 @@ const filterSports = (sports) => {
 
 const navigateToGames = (sportId) => {
   router.push(`/schedule/crewList/games/${sportId}`)
+}
+
+const showAddCrewListModal = ref(false)
+
+const handleAddSport = (newSport) => {
+  // Find the correct category
+  const category = sportCategories.value.find(cat => cat.name === newSport.category)
+  if (category) {
+    // Add the new sport to the category
+    category.sports.push({
+      id: Math.max(...category.sports.map(s => s.id)) + 1, // Generate new ID
+      name: newSport.name,
+      gameCount: 0
+    })
+  }
+}
+
+const confirmDeleteSport = (sport) => {
+  if (window.confirm(`Are you sure you want to delete ${sport.name}?`)) {
+    // Find the category containing this sport
+    const category = sportCategories.value.find(cat => 
+      cat.sports.some(s => s.id === sport.id)
+    )
+    if (category) {
+      // Remove the sport from the category
+      category.sports = category.sports.filter(s => s.id !== sport.id)
+    }
+  }
 }
 </script>
 
@@ -246,6 +282,20 @@ h1, h2, h3, h4, p {
 .crew-select option {
   color: black;
   background-color: white;
+}
+
+.delete-btn {
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
 }
 </style>
   
