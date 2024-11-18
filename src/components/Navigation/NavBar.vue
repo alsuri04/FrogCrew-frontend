@@ -46,7 +46,7 @@
           <span class="nav-icon">◫</span>
           <span class="nav-text">Availability</span>
         </RouterLink>
-        <RouterLink to="/crew-members/create-profile" class="nav-link submenu-link">
+        <RouterLink to="/create-profile" class="nav-link submenu-link">
           <span class="nav-icon">◫</span>
           <span class="nav-text">Create Profile</span>
         </RouterLink>
