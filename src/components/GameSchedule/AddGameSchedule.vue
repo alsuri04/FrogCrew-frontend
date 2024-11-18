@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-if="showModal">
+  <div class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <h2>Add New Sport</h2>
@@ -9,18 +9,18 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="sportName">Sport Name:</label>
-          <select id="sportName" v-model="newSport.name" class="form-input">
+          <select id="sportName" v-model="GameScheduleDTO.Sport" class="form-input">
             <option v-for="sport in sportsList" :key="sport" :value="sport">{{ sport }}</option>
             <option value="addNew">Add New Sport</option>
           </select>
         </div>
 
-        <div v-if="newSport.name === 'addNew'" class="form-group">
+        <div v-if="GameScheduleDTO.Sport === 'addNew'" class="form-group">
           <label for="newSportName">New Sport Name:</label>
           <input 
             type="text" 
             id="newSportName" 
-            v-model="newSport.newName" 
+            v-model="GameScheduleDTO.Sport" 
             class="form-input"
             placeholder="Enter new sport name"
           />
@@ -29,7 +29,7 @@
         <div class="form-group">
           <label for="sportYear">Season:</label>
           <input
-            v-model="newSport.season" 
+            v-model="GameScheduleDTO.Season" 
             class="form-input"
             placeholder="Example: 2024-2025"
           />
@@ -44,43 +44,33 @@
   </div>
 </template>
 
-<script setup>
-import { ref, defineProps, defineEmits } from 'vue'
-
-const props = defineProps({
-  showModal: {
-    type: Boolean,
-    required: true
+<script>
+import axios from 'axios';
+export default {
+  data() {
+    return {
+      sportsList: ['Basketball', 'Soccer', 'Baseball'],
+      GameScheduleDTO: {
+        Sport: '',
+        Season: '',
+      }
+    }
+  },
+  methods: {
+    handleSubmit() {
+      axios.post('https://localhost:8080/gameSchedule', this.GameScheduleDTO)
+        .then(response => { 
+          console.log('Sport added:', response.data)
+        })
+        .catch(error => {
+          console.error('Error adding sport:', error)
+        })
+      this.closeModal()
+    },
+    closeModal() {
+      this.$emit('close')
+    }
   }
-})
-
-const emit = defineEmits(['close', 'submit'])
-
-const sportsList = ref(['Basketball', 'Soccer', 'Baseball'])
-
-const newSport = ref({
-  name: '',
-  newName: '',
-  season: '',
-  gameCount: 0
-})
-
-const closeModal = () => {
-  emit('close')
-}
-
-const handleSubmit = () => {
-  if (newSport.value.name === 'addNew') {
-    newSport.value.name = newSport.value.newName
-  }
-  emit('submit', newSport.value)
-  newSport.value = {
-    name: '',
-    newName: '',
-    season: '',
-    gameCount: 0
-  }
-  closeModal()
 }
 </script>
 

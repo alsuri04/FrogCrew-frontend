@@ -36,7 +36,7 @@
                    class="nav-link submenu-link"
                    :class="{ 'active': $route.path === '/crew-members/manage' }">
           <span class="nav-icon">◫</span>
-          <span class="nav-text">Manage Members</span>
+          <span class="nav-text">Invite / Manage Members</span>
         </RouterLink>
         <RouterLink to="/crew-members/invite" 
                    class="nav-link submenu-link"
