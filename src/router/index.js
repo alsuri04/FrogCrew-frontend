@@ -14,6 +14,7 @@ import LoginView from '../views/LoginView.vue'
 import NavBar from '@/components/Navigation/NavBar.vue'
 import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
 import CreateProfile from '../components/CrewMember/CreateProfile.vue'
+import AdminHomeView from '@/views/AdminHomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,11 @@ const router = createRouter({
       meta: {
         hideNavbar: true
       }
+    },
+    {
+      path: '/admin',
+      name: 'adminHome',
+      component: AdminHomeView
     },
     {
       path: '/schedule',

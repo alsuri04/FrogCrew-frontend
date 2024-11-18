@@ -2,13 +2,16 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import NavBar from './components/Navigation/NavBar.vue';
+import LoginView from './views/LoginView.vue';
+
+const showLogin = true;
 
 const route = useRoute();
 const isLoginPage = computed(() => route.name === 'login');
 </script>
 
 <template>
-  <div class="app-container">
+  <div v-if="$store.state.isAuthenticated" class="app-container">
     <!-- Header -->
     <header class="header">
       <button class="menu-toggle" @click="isSidebarCollapsed = !isSidebarCollapsed">
@@ -33,6 +36,9 @@ const isLoginPage = computed(() => route.name === 'login');
         <RouterView />
       </main>
     </div>
+  </div>
+  <div v-else class="login">
+    <LoginView></LoginView>
   </div>
 </template>
 
@@ -206,6 +212,13 @@ html, body, #app {
 .submenu-link {
   padding-left: 2rem;
   font-size: 0.85rem;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
 }
 </style>
 
