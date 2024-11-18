@@ -13,17 +13,9 @@
         <span class="dropdown-arrow" :class="{ 'rotated': isScheduleOpen }">▼</span>
       </div>
       <div class="submenu" v-show="isScheduleOpen">
-        <RouterLink to="/schedule/crew" class="nav-link submenu-link">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Crew List</span>
-        </RouterLink>
         <RouterLink to="/schedule/crewList" class="nav-link submenu-link">
           <span class="nav-icon">◫</span>
-          <span class="nav-text">Crew Schedule</span>
-        </RouterLink>
-        <RouterLink to="/schedule/games" class="nav-link submenu-link">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Game Schedules</span>
+          <span class="nav-text">Game Schedule</span>
         </RouterLink>
       </div>
     </div>
