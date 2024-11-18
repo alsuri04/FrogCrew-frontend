@@ -69,7 +69,7 @@ const router = createRouter({
           component: FindCrewList
         },
         {
-          path: 'crewList/games/:sportId',
+          path: 'crewList/games/:scheduleId',
           name: 'gamesList',
           component: GamesList,
           props: true
