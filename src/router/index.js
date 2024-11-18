@@ -28,6 +28,11 @@ const router = createRouter({
       }
     },
     {
+      path: '/home',
+      name: 'homepage',
+      component: AdminHomeView
+    },
+    {
       path: '/admin',
       name: 'adminHome',
       component: AdminHomeView
