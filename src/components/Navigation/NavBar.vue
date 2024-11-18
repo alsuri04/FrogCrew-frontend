@@ -28,11 +28,7 @@
       <div class="submenu" v-show="isCrewOpen">
         <RouterLink to="/crew-members/manage" class="nav-link submenu-link">
           <span class="nav-icon">◫</span>
-          <span class="nav-text">Manage Members</span>
-        </RouterLink>
-        <RouterLink to="/crew-members/invite" class="nav-link submenu-link">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Invite Members</span>
+          <span class="nav-text">Invite / Manage Members</span>
         </RouterLink>
         <RouterLink to="/availability" class="nav-link submenu-link">
           <span class="nav-icon">◫</span>
