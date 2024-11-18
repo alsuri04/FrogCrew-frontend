@@ -45,8 +45,8 @@
     </div>
 
     <AddGameSchedule 
-      :showModal="showAddCrewListModal"
-      @close="showAddCrewListModal = false"
+      v-if="showAddCrewListModal"
+      @close="showAddCrewListModal = false, reloadPage()"
       @submit="handleAddSport"
     />
   </div>
@@ -59,38 +59,6 @@ import AddGameSchedule from '../GameSchedule/AddGameSchedule.vue'
 
 const router = useRouter()
 const searchQuery = ref('')
-
-const navigateToGames = (sportId) => {
-  router.push(`/schedule/crewList/games/${sportId}`)
-}
-
-const showAddCrewListModal = ref(false)
-
-const handleAddSport = (newSport) => {
-  // Find the correct category
-  const category = sportCategories.value.find(cat => cat.name === newSport.category)
-  if (category) {
-    // Add the new sport to the category
-    category.sports.push({
-      id: Math.max(...category.sports.map(s => s.id)) + 1, // Generate new ID
-      name: newSport.name,
-      gameCount: 0
-    })
-  }
-}
-
-const confirmDeleteSport = (sport) => {
-  if (window.confirm(`Are you sure you want to delete ${sport.name}?`)) {
-    // Find the category containing this sport
-    const category = sportCategories.value.find(cat => 
-      cat.sports.some(s => s.id === sport.id)
-    )
-    if (category) {
-      // Remove the sport from the category
-      category.sports = category.sports.filter(s => s.id !== sport.id)
-    }
-  }
-}
 </script>
 
 
@@ -100,7 +68,12 @@ import { useRouter } from 'vue-router'
 export default {
   data() {
     return {
-      gameSchedules: []
+      gameSchedules: [],
+      showAddCrewListModal: false,
+      GameScheduleDTO: {
+        Sport: '',
+        Season: '',
+      }
     }
   },
   created() {
@@ -116,7 +89,6 @@ export default {
         .catch(error => {
           console.error('There was an error!', error)
         })
-
     },
     getFiscalYearRange() {
       const today = new Date(); // Get the current date
@@ -131,15 +103,14 @@ export default {
           return `${currentYear} - ${currentYear + 1}`;
       }
     },
-    viewGames(scheduleId){
-    },
     deleteGameSchedule(scheduleId){
 
+    },
+    reloadPage() {
     }
 
   }
 }
-
 </script>
 
 <style scoped>
