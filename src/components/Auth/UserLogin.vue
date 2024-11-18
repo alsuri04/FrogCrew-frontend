@@ -1,137 +1,161 @@
 <template>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form @submit.prevent="submitForm">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          v-model="username"
-          :class="{'input-error': usernameError}"
-          placeholder="Email or Phone"
-        />
-        <span v-if="usernameError" class="error-message">{{ usernameError }}</span>
-      </div>
-      
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          v-model="password"
-          :class="{'input-error': passwordError}"
-          placeholder="Password"
-        />
-        <span v-if="passwordError" class="error-message">{{ passwordError }}</span>
-      </div>
-
-      <button type="submit" :disabled="isSubmitting">Login</button>
-    </form>
-
-    <p v-if="formError" class="error-message">{{ formError }}</p>
+  <div class="login-page">
+    <div class="form">
+      <form class="login-form"  @submit.prevent="login">
+        <input v-model="username" type="text" placeholder="username"/>
+        <input v-model="password" type="password" placeholder="password"/>
+        <button type="submit">Login</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      username: '',
-      password: '',
-      usernameError: '',
-      passwordError: '',
-      formError: '',
-      isSubmitting: false,
+      username: 'kate.bednarz@tcu.edu',
+      password: 'swiftie4lyfe'
     };
   },
   methods: {
-    validateForm() {
-      this.usernameError = '';
-      this.passwordError = '';
-      this.formError = '';
+    login() {
+      const basicAuth = 'Basic ' + btoa(this.username + ":" + this.password);
+      const authHeader = `Basic ${btoa(`${this.username}:${this.password}`)}`;
+      axios.post('http://localhost:5228/auth/login', {}, { 
+        headers: { 'Authorization': authHeader }
+      })
+        .then(response => {
+          //console.log(response.data.data);
 
-      // Simple validation logic
-      if (!this.username) {
-        this.usernameError = 'Username is required';
-      }
+          const token = response.data.data.token; // Assuming the token is returned in response data
+          localStorage.setItem('authToken', token); // Storing token in local storage
 
-      if (!this.password) {
-        this.passwordError = 'Password is required';
-      }
+          // const userInfo = response.data.data.userInfo;
+          // localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
-      return !this.usernameError && !this.passwordError;
+
+          // const role = response.data.data.userInfo.roles;
+          // if(role === 'student') {
+          //   this.$store.commit('setIsStudent', true);
+          // } else if(role === 'instructor') {
+          //   this.$store.commit('setIsInstructor', true);
+          // } else if(role === 'admin') {
+          //   this.$store.commit('setIsAdmin', true);
+          // }
+          
+
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Setting default header
+          this.$store.commit('setAuthentication', true);
+          this.$router.push('/admin'); // Redirecting to the home route
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
     },
-    submitForm() {
-      if (!this.validateForm()) {
-        return;
-      }
-
-      // Start form submission
-      this.isSubmitting = true;
-
-      // Simulate API call (you can replace this with actual login logic)
-      setTimeout(() => {
-        if (this.username === 'admin' && this.password === 'password') {
-          this.$router.push('/schedule'); // Redirect to dashboard
-        } else {
-          this.formError = 'Invalid username or password';
-        }
-
-        this.isSubmitting = false;
-      }, 1000);
-    }
   }
 };
 </script>
 
 <style scoped>
-.login-container {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-h2 {
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
   text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-input {
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-top: 5px;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
-
-button {
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: hsl(273, 65%, 43%);
   width: 100%;
-  padding: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
   cursor: pointer;
 }
-
-button:disabled {
-  background-color: #ddd;
+.form button:hover,.form button:active,.form button:focus {
+  background: hsl(273, 73%, 32%);
 }
-
-.error-message {
-  color: red;
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
   font-size: 12px;
 }
-
-.input-error {
-  border-color: red;
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: rgb(141,194,111);
+  background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
 }
 </style>
