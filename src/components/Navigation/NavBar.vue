@@ -1,51 +1,67 @@
 <template>
   <nav class="sidebar" :class="{ collapsed: isSidebarCollapsed }">
     <div class="nav-item">
-      <RouterLink to="/" class="nav-link">
+      <RouterLink to="/home" class="nav-link" :class="{ 'active': $route.path === '/home' }">
         <span class="nav-icon">◫</span>
         <span class="nav-text">Homepage</span>
       </RouterLink>
     </div>
     <div class="nav-item">
-      <div class="nav-link" @click="isScheduleOpen = !isScheduleOpen">
+      <div class="nav-link" 
+           @click="isScheduleOpen = !isScheduleOpen"
+           :class="{ 'active': $route.path.includes('/schedule') }">
         <span class="nav-icon">◫</span>
         <span class="nav-text">Schedule</span>
         <span class="dropdown-arrow" :class="{ 'rotated': isScheduleOpen }">▼</span>
       </div>
       <div class="submenu" v-show="isScheduleOpen">
-        <RouterLink to="/schedule/crewList" class="nav-link submenu-link">
+        <RouterLink to="/schedule/crewList" 
+                   class="nav-link submenu-link"
+                   :class="{ 'active': $route.path === '/schedule/crewList' }">
           <span class="nav-icon">◫</span>
           <span class="nav-text">Game Schedule</span>
         </RouterLink>
       </div>
     </div>
     <div class="nav-item">
-      <div class="nav-link" @click="isCrewOpen = !isCrewOpen">
+      <div class="nav-link" 
+           @click="isCrewOpen = !isCrewOpen"
+           :class="{ 'active': $route.path.includes('/crew-members') || $route.path === '/availability' || $route.path === '/create-profile' }">
         <span class="nav-icon">◫</span>
         <span class="nav-text">Crew Members</span>
         <span class="dropdown-arrow" :class="{ 'rotated': isCrewOpen }">▼</span>
       </div>
       <div class="submenu" v-show="isCrewOpen">
-        <RouterLink to="/crew-members/manage" class="nav-link submenu-link">
+        <RouterLink to="/crew-members/manage" 
+                   class="nav-link submenu-link"
+                   :class="{ 'active': $route.path === '/crew-members/manage' }">
           <span class="nav-icon">◫</span>
           <span class="nav-text">Manage Members</span>
         </RouterLink>
-        <RouterLink to="/crew-members/invite" class="nav-link submenu-link">
+        <RouterLink to="/crew-members/invite" 
+                   class="nav-link submenu-link"
+                   :class="{ 'active': $route.path === '/crew-members/invite' }">
           <span class="nav-icon">◫</span>
           <span class="nav-text">Invite Members</span>
         </RouterLink>
-        <RouterLink to="/availability" class="nav-link submenu-link">
+        <RouterLink to="/availability" 
+                   class="nav-link submenu-link"
+                   :class="{ 'active': $route.path === '/availability' }">
           <span class="nav-icon">◫</span>
           <span class="nav-text">Availability</span>
         </RouterLink>
-        <RouterLink to="/create-profile" class="nav-link submenu-link">
+        <RouterLink to="/create-profile" 
+                   class="nav-link submenu-link"
+                   :class="{ 'active': $route.path === '/create-profile' }">
           <span class="nav-icon">◫</span>
           <span class="nav-text">Create Profile</span>
         </RouterLink>
       </div>
     </div>
     <div class="nav-item">
-      <RouterLink to="/reports" class="nav-link">
+      <RouterLink to="/reports" 
+                 class="nav-link"
+                 :class="{ 'active': $route.path === '/reports' }">
         <span class="nav-icon">◫</span>
         <span class="nav-text">Reports</span>
       </RouterLink>
@@ -54,20 +70,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const isSidebarCollapsed = ref(false);
 const isScheduleOpen = ref(false);
-
 const isCrewOpen = ref(false);
+
+const isLoginPage = computed(() => {
+  return route.path === '/login';
+});
 </script>
-
-const isLoginPage = computed: {
-  hide () {
-    return this.$route.path === '/login'; 
-  }
- }
-
 
 <style scoped>
 .sidebar {
@@ -95,13 +109,27 @@ const isLoginPage = computed: {
   align-items: center;
   padding: 12px 15px;
   text-decoration: none;
-  color: #666;
+  color: #666 !important;
   font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link:visited,
+.nav-link:active {
   background-color: #e8e8e8;
+  color: #666 !important;
+}
+
+.nav-link.active {
+  background-color: #e8e8e8;
+  color: #666 !important;
+}
+
+.nav-link.active .nav-icon,
+.nav-link.active .dropdown-arrow {
+  color: #666;
 }
 
 .nav-icon {
@@ -133,5 +161,10 @@ const isLoginPage = computed: {
 .submenu-link {
   padding-left: 2rem;
   font-size: 0.85rem;
+}
+
+.submenu-link.active {
+  background-color: #e0e0e0;
+  color: var(--tcu-purple);
 }
 </style>

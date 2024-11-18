@@ -1,52 +1,51 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-</script>
-
 <template>
-  <div class="home">
-    <h1>Homepage</h1>
-    <div class="tab-container">
-      <button 
-        class="tab-button active"
-      >
-        Task List
-      </button>
+  <div class="admin-home">
+    <div class="banner">
+      <h1>Homepage</h1>
     </div>
-    <div class="content">
-      <!-- Add your task list content here -->
-    </div>
+    <!-- Rest of your admin content -->
   </div>
 </template>
 
 <style scoped>
-.home {
-  background-color: white;
-  border-radius: 4px;
-  padding: 1rem;
-  height: 100%;
+.admin-home {
+  min-height: 100vh;
+}
+
+.banner {
+  position: relative;
+  height: 300px;
   width: 100%;
+  background-image: url('@/images/superfrogSmoke.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding-left: 50px;
+  margin-bottom: 30px;
 }
 
-.tab-container {
-  border-bottom: 2px solid #563d7c;
-  margin-bottom: 1rem;
+.banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(77, 25, 121, 0.9) 0%,  /* TCU purple */
+    rgba(77, 25, 121, 0.7) 50%,
+    rgba(77, 25, 121, 0.4) 100%
+  );
 }
 
-.tab-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.tab-button.active {
-  color: #563d7c;
-  border-bottom: 2px solid #563d7c;
-  margin-bottom: -2px;
-}
-
-.content {
-  min-height: 400px;
+.banner h1 {
+  color: white;
+  font-size: 4rem;
+  font-family: 'Playfair Display', serif;
+  position: relative;
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 </style>
