@@ -234,11 +234,6 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.85rem;
 }
 
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
-}
+
 </style>
 
