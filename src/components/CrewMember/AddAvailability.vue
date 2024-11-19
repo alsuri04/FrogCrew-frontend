@@ -1,88 +1,115 @@
 <template>
-  <div class="availability-container">
-    <h1>Set Your Availability</h1>
-    <div class="availability-form">
-      <label for="sportSelect">Select Sport:</label>
-      <select v-model="selectedSport" id="sportSelect">
-        <option v-for="sport in sports" :key="sport.id" :value="sport.name">
-          {{ sport.name }}
-        </option>
-      </select>
-
-      <div class="dates">
-        <div v-for="date in availableDates" :key="date" class="date-card">
-          <h3>{{ formatDate(date) }}</h3>
-          <button @click="toggleAvailability(date, true)" :class="{ active: isAvailable(date) }">Yes</button>
-          <button @click="toggleAvailability(date, false)" :class="{ active: !isAvailable(date) }">No</button>
-        </div>
-      </div>
-    </div>
+  <div class="games-list">
+    <table>
+      <thead>
+        <tr>
+          <th>Game</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="game in games" :key="game.id">
+          <td>{{ game.team }}</td>
+          <td>{{ game.date }}</td>
+          <td>{{ game.location }}</td>
+          <td class="actions">
+            <button class="view-btn" @click="navigateToCrewList(game.id)">View Crew List</button>
+            <button class="view-btn" @click="navigateToEditCrew(game.id)">Edit Crew</button>
+            <div class="availability-controls">
+              <input type="checkbox" :id="'availability-' + game.id">
+              <button class="comment-btn">Comment</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="add-game-btn">Add New Game</button>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const sports = ref([
-  { id: 1, name: "Women's Soccer" },
-  { id: 2, name: "Men's Basketball" }
+const router = useRouter()
+
+const games = ref([
+  { id: 1, team: 'Texas Tech', date: '2024-10-26', location: 'Carter' },
+  { id: 2, team: 'Baylor', date: '2024-11-09', location: 'Carter' },
+  { id: 3, team: 'Arizona', date: '2024-11-23', location: 'Carter' },
 ])
 
-const selectedSport = ref(sports.value[0].name)
-const availableDates = ref(['2024-10-15', '2024-10-28', '2024-11-21'])
-const availability = ref({})
-
-const toggleAvailability = (date, isAvailable) => {
-  availability.value[date] = isAvailable
+const navigateToCrewList = (gameId) => {
+  router.push(`/schedule/crewList/game/${gameId}`)
 }
 
-const isAvailable = (date) => {
-  return availability.value[date] === true
-}
-
-const formatDate = (date) => {
-  return new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+const navigateToEditCrew = (gameId) => {
+  router.push(`/schedule/crew/update/${gameId}`)
 }
 </script>
 
 <style scoped>
-.availability-container {
-  padding: 20px;
+.games-list {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
 }
 
-.availability-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
-.dates {
-  display: flex;
-  gap: 20px;
-}
-
-.date-card {
-  padding: 10px;
+th, td {
   border: 1px solid #ddd;
-  border-radius: 4px;
-  text-align: center;
+  padding: 12px;
+  text-align: left;
 }
 
-button {
-  margin-top: 10px;
-  padding: 5px 10px;
+th {
+  background-color: white;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.view-btn {
+  background-color: #4CAF50;
+  color: white;
   border: none;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
 }
 
-button.active {
-  background-color: #28a745;
-  color: white;
+.comment-btn {
+  background-color: white;
+  border: 1px solid #4CAF50;
+  color: black;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-button:not(.active) {
-  background-color: #dc3545;
+.availability-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-game-btn {
+  background-color: #4B0082;
   color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
 }
 </style>
