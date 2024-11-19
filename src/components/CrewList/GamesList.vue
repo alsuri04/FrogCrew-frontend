@@ -32,8 +32,10 @@
             <td>{{ game.venue }}</td>
             <td>
               <div class="button-group">
-                <button @click="navigateToCrewList(game.id)" class="view-btn">View Crew List</button>
-                <button @click="navigateToEditCrew(game.id)" class="view-btn">Edit Crew</button>
+                <RouterLink :to="`/schedule/crewList/game/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
+                <!-- <button @click="navigateToCrewList(game.id)" class="view-btn">View Crew List</button> -->
+                <RouterLink :to="`/schedule/crew/update/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
+                <!-- <button @click="navigateToEditCrew(game.id)" class="view-btn">Edit Crew</button> -->
                 <button @click="confirmDeleteGame(game)" class="delete-btn" hidden>Delete Game</button>
               </div>
             </td>

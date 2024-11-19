@@ -18,11 +18,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="position in crewPositions" :key="position.title">
-            <td>{{ position.title }}</td>
-            <td>{{ position.name || '-' }}</td>
-            <td>{{ position.reportTime || '-' }}</td>
-            <td>{{ position.location }}</td>
+          <tr v-for="crewMember in crewedMembers" :key="crewMember.userId">
+            <td>{{ crewMember.position }}</td>
+            <td>{{ crewMember.fullName || '-' }}</td>
+            <td>{{ crewMember.reportTime || '-' }}</td>
+            <td>{{ this.getPositionText(crewMember.position) }}</td>
           </tr>
         </tbody>
       </table>
@@ -30,41 +30,49 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+<script>
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+export default {
+  props: ['gameId'],
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
+  data() {
+    return {
+      crewedMembers: [],
+      ControlRoom: ['PRODUCER', 'ASST PROD', 'DIRECTOR', 'ASST DIRECTOR', 'TECHNICAL DIR', 'GRAPHICS', 'BUG OP', 'REPLAY EVS', 'REPLAY EVS 1', 'REPLAY EVS 2', 'REPLAY EVS 3', 'EIC', 'VIDEO', 'OBSERVER'],
+      Stadium: ['2ND ENG', 'AUDIO ', 'AUDIO 1', 'AUDIO 2', 'CAMERA', 'CAMERA 1', 'CAMERA 2', 'CAMERA 3', 'CAMERA 4', 'CAMERA 5', 'CAMERA 6', 'UTILITY', 'TECH MANAGER', 'TOC']
+    }
+  },
+  created() {
+    this.getCrewList();
+  },
+  methods: {
+    getCrewList() {
+      axios.get(`http://localhost:5228/crewList/${this.gameId}`)
+        .then(response => {
+          this.crewedMembers = response.data.data.crewedMembers;
+          console.log('Crew List:', this.crewedMembers);
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
 
-const router = useRouter()
+    },
+    getPositionText(position) {
+      if (this.ControlRoom.includes(position)) {
+        return 'Control Room'
+      } else if (this.Stadium.includes(position)) {
+        return 'Stadium'
+      } else {
+        return position
+      }
+    }
 
-const crewPositions = ref([
-  { title: 'PRODUCER', name: 'MIKE MARTIN', reportTime: '5:30PM', location: 'CONTROL ROOM' },
-  { title: 'ASST PROD', name: '', reportTime: '', location: 'CONTROL ROOM' },
-  { title: 'DIRECTOR', name: 'ERICA JOHNSON', reportTime: '5:30PM', location: 'CONTROL ROOM' },
-  { title: 'ASST DIRECTOR', name: '', reportTime: '', location: 'CONTROL ROOM' },
-  { title: 'TECHNICAL DIR', name: 'LILY BALL', reportTime: '5:30PM', location: 'CONTROL ROOM' },
-  { title: 'GRAPHICS', name: '', reportTime: '', location: 'CONTROL ROOM' },
-  { title: 'BUG OP', name: '', reportTime: '', location: 'CONTROL ROOM' },
-  { title: 'REPLAY EVS 1', name: 'SCOTT SNYDER', reportTime: '5:30PM', location: 'CONTROL ROOM' },
-  { title: 'REPLAY EVS 2', name: '', reportTime: '7:30PM', location: 'CONTROL ROOM' },
-  { title: 'REPLAY EVS 3', name: '', reportTime: '', location: 'CONTROL ROOM' },
-  { title: 'EIC', name: 'KOLBY LEEPER', reportTime: '5:30PM', location: 'CONTROL ROOM' },
-  { title: 'VIDEO', name: 'TIM DALY', reportTime: '5:30PM', location: 'CONTROL ROOM' },
-  { title: '2ND ENG', name: '', reportTime: '', location: 'STADIUM' },
-  { title: 'AUDIO 1', name: '', reportTime: '', location: 'STADIUM' },
-  { title: 'AUDIO 2', name: '', reportTime: '', location: 'STADIUM' },
-  { title: 'CAMERA 1', name: 'GENE ELIZONDO', reportTime: '5:30PM', location: 'STADIUM' },
-  { title: 'CAMERA 2', name: 'STEVEN BOCANEGRA', reportTime: '5:30PM', location: 'STADIUM' },
-  { title: 'CAMERA 3', name: '', reportTime: '', location: 'STADIUM' },
-  { title: 'CAMERA 4', name: 'EUGENE WAIRIUKO', reportTime: '5:30PM', location: 'STADIUM' },
-  { title: 'CAMERA 5', name: 'TIM SMITH', reportTime: '5:30PM', location: 'STADIUM' },
-  { title: 'CAMERA 6', name: '', reportTime: '5:30PM', location: 'STADIUM' },
-  { title: 'UTILITY', name: 'MARISOL SELA', reportTime: '5:30PM', location: 'STADIUM' },
-  { title: 'UTILITY', name: 'COREY TOWNSEND', reportTime: '5:30PM', location: 'STADIUM' },
-  { title: 'TECH MANAGER', name: 'n/r', reportTime: '', location: 'STADIUM' },
-  { title: 'TOC', name: 'n/r', reportTime: '', location: 'STADIUM' },
-  { title: 'OBSERVER', name: '', reportTime: '1HR', location: 'CONTROL ROOM' },
-  { title: 'OBSERVER', name: '', reportTime: '1HR', location: 'CONTROL ROOM' }
-])
+  }
+}
 </script>
 
 <style scoped>
