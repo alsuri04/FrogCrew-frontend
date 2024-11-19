@@ -26,14 +26,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="game in filteredGames" :key="game.id">
-            <td>{{ game.name }}</td>
-            <td>{{ formatDate(game.date) }}</td>
-            <td>{{ game.location }}</td>
+          <tr v-for="game in this.FoundGames" :key="game.id">
+            <td>{{ game.opponent }}</td>
+            <td>{{ game.gameDate }}</td>
+            <td>{{ game.venue }}</td>
             <td>
               <div class="button-group">
-                <button @click="navigateToCrewList(game.id)" class="view-btn">View Crew List</button>
-                <button @click="navigateToEditCrew(game.id)" class="view-btn">Edit Crew</button>
+                <RouterLink :to="`/schedule/crewList/game/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
+                <!-- <button @click="navigateToCrewList(game.id)" class="view-btn">View Crew List</button> -->
+                <RouterLink :to="`/schedule/crew/update/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
+                <!-- <button @click="navigateToEditCrew(game.id)" class="view-btn">Edit Crew</button> -->
                 <button @click="confirmDeleteGame(game)" class="delete-btn" hidden>Delete Game</button>
               </div>
             </td>
@@ -122,6 +124,35 @@ const confirmDeleteGame = (game) => {
   if (window.confirm(`Are you sure you want to delete ${game.name}?`)) {
     // Remove the game from the games array
     games.value = games.value.filter(g => g.id !== game.id)
+  }
+}
+</script>
+
+
+<script>
+import axios from 'axios';
+export default {
+  props:['scheduleId'],
+  data() {
+    return {
+      FoundGames: [],
+    }
+  },
+  created() {
+    this.getGames()
+  },
+  methods: {
+    getGames() {
+      console.log('Schedule ID:', this.scheduleId)
+      axios.get(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`)
+        .then(response => {
+          this.FoundGames = response.data.data
+          console.log('Games:', response.data.data)
+        })
+        .catch(error => {
+          console.error('There was an error!', error)
+        })
+    }
   }
 }
 </script>

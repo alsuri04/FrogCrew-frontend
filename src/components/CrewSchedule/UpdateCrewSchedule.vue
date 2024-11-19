@@ -204,6 +204,33 @@ const addNewPosition = () => {
 }
 </script>
 
+<script>
+import axios from 'axios';
+export default {
+  props: ['gameId'],
+  data() {
+    return {
+      crewedMembers: [],
+    }
+  },
+  created() {
+    this.getMembers();
+  },
+  methods: {
+    getMembers() {
+      axios.get(`http://localhost:5228/crewSchedule/${this.gameId}`)
+        .then(response => {
+          this.crewedMembers = response.data.data;
+          console.log(this.crewedMembers);
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
+    }
+  }
+}
+</script>
+
 <style scoped>
 .find-crew-list {
   padding: 20px;
