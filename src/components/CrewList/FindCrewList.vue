@@ -81,7 +81,9 @@ export default {
   },
   methods: {
     getGameSchedules() {
-      axios.get('http://localhost:5228/gameSchedule/season/2024')
+      const season = this.getSchoolYear()
+      console.log('Season:', season)
+      axios.get(`http://localhost:5228/gameSchedule/season/${season}`)
         .then(response => {
           this.gameSchedules = response.data.data
           console.log('Game Schedules:', response.data.data)
@@ -90,17 +92,17 @@ export default {
           console.error('There was an error!', error)
         })
     },
-    getFiscalYearRange() {
+    getSchoolYear() {
       const today = new Date(); // Get the current date
       const currentYear = today.getFullYear(); // Extract the current year
       const julyFirst = new Date(currentYear, 6, 1); // Create a Date object for July 1st (month is 0-based)
 
       if (today < julyFirst) {
           // Before July 1st: Previous year - Current year
-          return `${currentYear - 1} - ${currentYear}`;
+          return `${currentYear - 1}-${currentYear}`;
       } else {
           // On or after July 1st: Current year - Next year
-          return `${currentYear} - ${currentYear + 1}`;
+          return `${currentYear}-${currentYear + 1}`;
       }
     },
     deleteGameSchedule(scheduleId){
