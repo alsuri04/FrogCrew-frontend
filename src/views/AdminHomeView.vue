@@ -1,9 +1,17 @@
+<script setup>
+import Tips from '@/components/Misc/Tips.vue';
+
+</script>
+
 <template>
   <div class="admin-home">
     <div class="banner">
       <h1>Homepage</h1>
     </div>
+    
+    <Tips></Tips>
     <!-- Rest of your admin content -->
+    
   </div>
 </template>
 
