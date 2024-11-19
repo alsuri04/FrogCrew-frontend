@@ -48,6 +48,7 @@ const isLoginPage = computed(() => route.name === 'login');
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Playfair Display', serif;
 }
 
 html, body, #app {
@@ -70,6 +71,25 @@ html, body, #app {
   bottom: 0;
   overflow: hidden;
 }
+
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Playfair Display', serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+/* Keep any other global styles you have */
 </style>
 
 <style scoped>
