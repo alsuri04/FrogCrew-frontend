@@ -1,11 +1,33 @@
 <template>
-  <div class="login-page">
-    <div class="form">
-      <form class="login-form"  @submit.prevent="login">
-        <input v-model="username" type="text" placeholder="username"/>
-        <input v-model="password" type="password" placeholder="password"/>
-        <button type="submit">Login</button>
-      </form>
+  <div>
+    <!-- Simplified Top Bar -->
+    <div class="top-bar">
+      <span class="frogcrew-text">FROGCREW</span>
+    </div>
+
+    <div class="login-container">
+      <div class="login-box">
+        <h1>Login</h1>
+        <form @submit.prevent="login">
+          <input 
+            v-model="username" 
+            type="text" 
+            placeholder="Email or Phone"
+            class="form-input"
+          />
+          <input 
+            v-model="password" 
+            type="password" 
+            placeholder="Password"
+            class="form-input"
+          />
+          <a href="#" class="forgot-password">Forgot Password</a>
+          <button type="submit" class="sign-in-btn">Sign In</button>
+          <p class="account-request">Don't have an account?</p>
+          <a href="#" class="request-link">Request Here</a>
+          <p class="contact-info">Or contact <a href="mailto:xxxx@tcu.edu">xxxx@tcu.edu</a></p>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -54,102 +76,103 @@ export default {
 </script>
 
 <style scoped>
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+/* Updated top bar styles */
+.top-bar {
+  background-color: #4B2E83;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+}
 
-.login-page {
-  width: 360px;
-  padding: 8% 0 0;
-  margin: auto;
+.frogcrew-text {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
-.form {
-  position: relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 45px;
+
+/* Rest of your existing styles... */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 48px);  /* Adjusted for new top bar height */
+  background-color: #f5f5f5;
+}
+
+.login-box {
+  background: white;
+  width: 400px;           /* Reduced width */
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
   text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1rem;
 }
-.form input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
+
+.form-input {
   width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
+  padding: 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
 }
-.form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: hsl(273, 65%, 43%);
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
-}
-.form button:hover,.form button:active,.form button:focus {
-  background: hsl(273, 73%, 32%);
-}
-.form .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
-}
-.form .message a {
-  color: #4CAF50;
-  text-decoration: none;
-}
-.form .register-form {
-  display: none;
-}
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
-}
-.container:before, .container:after {
-  content: "";
+
+.forgot-password {
   display: block;
-  clear: both;
-}
-.container .info {
-  margin: 50px auto;
-  text-align: center;
-}
-.container .info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #1a1a1a;
-}
-.container .info span {
-  color: #4d4d4d;
-  font-size: 12px;
-}
-.container .info span a {
-  color: #000000;
+  text-align: right;
+  color: #4285f4;
   text-decoration: none;
+  font-size: 0.9rem;
+  margin: 0.25rem 0 1rem 0;
 }
-.container .info span .fa {
-  color: #EF3B3A;
+
+.sign-in-btn {
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #4B2E83;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin: 0.5rem 0 1.5rem 0;
 }
-body {
-  background: #76b852; /* fallback for old browsers */
-  background: rgb(141,194,111);
-  background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;      
+
+.account-request {
+  text-align: center;
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.request-link {
+  display: block;
+  text-align: center;
+  color: #4B2E83;
+  text-decoration: none;
+  margin: 0.25rem 0 1rem 0;
+  font-weight: 500;
+}
+
+.contact-info {
+  text-align: center;
+  color: #666;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.contact-info a {
+  color: #4285f4;
+  text-decoration: none;
 }
 </style>
