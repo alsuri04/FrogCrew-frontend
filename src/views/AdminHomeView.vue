@@ -5,15 +5,29 @@ import Tips from '@/components/Misc/Tips.vue';
 
 <template>
   <div class="admin-home">
-    <div class="banner">
-      <h1>Homepage</h1>
+    <div class="banner" @click="toggleTips">
+      <h1 >Homepage</h1>
     </div>
-    
-    <Tips></Tips>
+    <Tips v-if="showTips"></Tips>
     <!-- Rest of your admin content -->
     
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      showTips: false
+    }
+  },
+  methods: {
+    toggleTips() {
+      this.showTips = !this.showTips;
+    }
+  }
+}
+</script>
 
 <style scoped>
 .admin-home {
