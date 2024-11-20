@@ -5,7 +5,7 @@
         <h1>Games List</h1>
         <div class="button-column">
           <button @click="router.push('/schedule/crewList')" class="back-btn">Back to Sports</button>
-          <button @click="router.push('/availability')" class="availability-btn">Availability</button>
+          <button @click="router.push(`/availability/${scheduleId}`)" class="availability-btn">Availability</button>
         </div>
       </div>
       <div class="search-container">
