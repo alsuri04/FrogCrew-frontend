@@ -23,25 +23,23 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(position, index) in crewPositions" :key="index">
+          <!-- Show message if no crew members -->
+          <tr v-if="!crewedMembers || crewedMembers.length === 0">
+            <td colspan="5">Loading crew members... {{ position }}</td>
+          </tr>
+          
+          <!-- If we have crew members, show them -->
+          <tr v-for="pos in position" :key="pos">
             <td>
-              <select v-model="position.title" class="position-select">
-                <option value="">Select Position</option>
-                <option v-for="pos in availablePositions" 
-                        :key="pos" 
-                        :value="pos">
-                  {{ pos }}
-                </option>
-              </select>
-              <span class="position-display" v-if="position.title">
-                {{ getDisplayTitle(position, index) }}
+              <span class="position-display">
+                {{ pos }}
               </span>
             </td>
             <td>
-              <select v-model="position.name" class="crew-select">
+              <select v-model="crewedMembers[pos]" class="crew-select">
                 <option value="">Select Crew Member</option>
-                <option v-for="member in availableCrewMembers" 
-                        :key="member" 
+                <option v-for="member in QualifiedUserLists[pos]" 
+                        :key="member.fullName" 
                         :value="member">
                   {{ member }}
                 </option>
@@ -50,19 +48,18 @@
             <td>
               <input 
                 type="text" 
-                v-model="position.reportTime"
                 class="time-input"
                 placeholder="Enter time"
               />
             </td>
             <td>
-              <select v-model="position.location" class="location-select">
+              <select class="location-select">
                 <option value="CONTROL ROOM">CONTROL ROOM</option>
                 <option value="STADIUM">STADIUM</option>
               </select>
             </td>
             <td>
-              <button @click="deletePosition(index)" class="delete-btn">Delete</button>
+              <button class="delete-btn">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -211,21 +208,76 @@ export default {
   data() {
     return {
       crewedMembers: [],
+      position: [
+        'PRODUCER',
+        'ASSISTANT PRODUCER',
+        'DIRECTOR',
+        'ASSISTANT DIRECTOR',
+        'TECHNICAL DIRECTOR',
+        'GRAPHICS OPERATOR',
+        'BUG OPERATOR',
+        'EVS REPLAY-LEAD',
+        'VIDEO OPERATOR',
+        'EIC',
+        'ENG 2',
+        'AUDIO A1',
+        'AUDIO ASSISTANT A2',
+        'CAMERA-FIXED',
+        'CAMERA-HANDHELD',
+        'CAMERA-STEADICAM',
+        'UTILITY',
+        'TIME OUT COORDINATOR'
+      ],
+      QualifiedUserLists: {
+        'PRODUCER': [],
+        'ASSISTANT PRODUCER': [],
+        'DIRECTOR': [],
+        'ASSISTANT DIRECTOR': [],
+        'TECHNICAL DIRECTOR': [],
+        'GRAPHICS OPERATOR': [],
+        'BUG OPERATOR': [],
+        'EVS REPLAY-LEAD': [],
+        'VIDEO OPERATOR': [],
+        'EIC': [],
+        'ENG 2': [],
+        'AUDIO A1': [],
+        'AUDIO ASSISTANT A2': [],
+        'CAMERA-FIXED': [],
+        'CAMERA-HANDHELD': [],
+        'CAMERA-STEADICAM': [],
+        'UTILITY': [],
+        'TIME OUT COORDINATOR': []
+      }
     }
   },
   created() {
     this.getMembers();
+    this.getQualifiedUsers()
   },
   methods: {
     getMembers() {
+      console.log('Fetching members for game:', this.gameId); // Debug log
       axios.get(`http://localhost:5228/crewSchedule/${this.gameId}`)
         .then(response => {
           this.crewedMembers = response.data.data;
-          console.log(this.crewedMembers);
+          console.log('Loaded crew members:', this.crewedMembers); // Debug log
         })
         .catch(error => {
           console.error('There was an error!', error);
         });
+    },
+    getQualifiedUsers() {
+      this.position.forEach(pos => {
+        axios.get(`http://localhost:5228/crewMember/${this.gameId}/${pos}`)
+          .then(response => {
+            // Extract just the fullName from each user object
+            this.QualifiedUserLists[pos] = response.data.data.map(user => user.fullName);
+            console.log(`Qualified users for ${pos}:`, this.QualifiedUserLists[pos]);
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
+      });
     }
   }
 }
