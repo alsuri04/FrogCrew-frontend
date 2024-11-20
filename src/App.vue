@@ -1,13 +1,27 @@
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import NavBar from './components/Navigation/NavBar.vue';
 import LoginView from './views/LoginView.vue';
 
-const showLogin = true;
-
+const router = useRouter();
+const store = useStore();
 const route = useRoute();
-const isLoginPage = computed(() => route.name === 'login');
+const showLogoutConfirm = ref(false);
+
+const handleLogout = () => {
+  // Clear authentication
+  store.commit('setAuthentication', false);
+  store.commit('setIsAdmin', false);
+  // Clear local storage
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('UserId');
+  // Close the modal
+  showLogoutConfirm.value = false;
+  // Redirect to login page
+  router.push('/login');
+};
 </script>
 
 <template>
@@ -19,9 +33,15 @@ const isLoginPage = computed(() => route.name === 'login');
       </button>
       <h1 class="logo">FROGCREW</h1>
       <div class="header-icons">
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">🔔</button>
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">👤</button>
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">➜</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">
+          <span class="material-symbols-outlined">person</span>
+        </button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar" @click="showLogoutConfirm = true">
+          <span class="material-symbols-outlined">logout</span>
+        </button>
       </div>
     </header>
 
@@ -39,6 +59,17 @@ const isLoginPage = computed(() => route.name === 'login');
   </div>
   <div v-else class="login">
     <LoginView></LoginView>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div v-if="showLogoutConfirm" class="modal-overlay">
+    <div class="modal">
+      <h3>Are you sure you want to log out?</h3>
+      <div class="modal-buttons">
+        <button class="btn-logout" @click="handleLogout">Log out</button>
+        <button class="btn-cancel" @click="showLogoutConfirm = false">Cancel</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,6 +121,101 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Keep any other global styles you have */
+
+/* Add this Material Symbols styling */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Adjust icon button styling */
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+.icon-button:hover {
+  opacity: 0.8;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal h3 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-logout {
+  background-color: #563d7c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-cancel {
+  background-color: white;
+  color: #563d7c;
+  border: 1px solid #563d7c;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-logout:hover {
+  background-color: #472f6a;
+}
+
+.btn-cancel:hover {
+  background-color: #f5f5f5;
+}
 </style>
 
 <style scoped>
@@ -132,8 +258,8 @@ h1, h2, h3, h4, h5, h6 {
 .header-icons {
   margin-left: auto;
   display: flex;
-  gap: 15px;
-  padding-right: 15px;
+  gap: 8px;
+  padding-right: 8px;
 }
 
 .icon-button {
