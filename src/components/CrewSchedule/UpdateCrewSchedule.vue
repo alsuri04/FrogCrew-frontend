@@ -225,7 +225,7 @@ export default {
         'EIC',
         'ENG 2',
         'AUDIO A1',
-        'AUDIO_ASSISTANT A2',
+        'AUDIO ASSISTANT A2',
         'CAMERA-FIXED',
         'CAMERA-HANDHELD',
         'CAMERA-STEADICAM',
