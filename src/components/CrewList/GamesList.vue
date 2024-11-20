@@ -3,7 +3,10 @@
     <div class="header-container">
       <div class="header-top">
         <h1>Games List</h1>
-        <button @click="router.push('/schedule/crewList')" class="back-btn">Back to Sports</button>
+        <div class="button-column">
+          <button @click="router.push('/schedule/crewList')" class="back-btn">Back to Sports</button>
+          <button @click="router.push('/availability')" class="availability-btn">Availability</button>
+        </div>
       </div>
       <div class="search-container">
         <input 
@@ -33,9 +36,7 @@
             <td>
               <div class="button-group">
                 <RouterLink :to="`/schedule/crewList/game/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
-                <!-- <button @click="navigateToCrewList(game.id)" class="view-btn">View Crew List</button> -->
-                <RouterLink :to="`/schedule/crew/update/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
-                <!-- <button @click="navigateToEditCrew(game.id)" class="view-btn">Edit Crew</button> -->
+                <RouterLink :to="`/schedule/crew/update/${game.gameId}`" class="view-btn">Edit Crew</RouterLink>
                 <button @click="confirmDeleteGame(game)" class="delete-btn" hidden>Delete Game</button>
               </div>
             </td>
@@ -128,7 +129,6 @@ const confirmDeleteGame = (game) => {
 }
 </script>
 
-
 <script>
 import axios from 'axios';
 export default {
@@ -158,7 +158,6 @@ export default {
 </script>
 
 <style scoped>
-/* Copy all styles from FindCrewList.vue */
 .find-crew-list {
   padding: 20px;
   color: black;
@@ -173,6 +172,12 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.button-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .search-container {
@@ -222,7 +227,7 @@ export default {
   align-items: center;
 }
 
-.view-btn, .back-btn {
+.view-btn, .back-btn, .availability-btn {
   padding: 8px 16px;
   background-color: #4CAF50;
   color: white;
@@ -231,7 +236,7 @@ export default {
   cursor: pointer;
 }
 
-.view-btn:hover, .back-btn:hover {
+.view-btn:hover, .back-btn:hover, .availability-btn:hover {
   background-color: #45a049;
 }
 
