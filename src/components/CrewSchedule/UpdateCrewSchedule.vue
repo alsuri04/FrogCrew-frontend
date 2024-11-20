@@ -23,9 +23,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(position, index) in crewPositions" :key="index">
+          <tr v-for="crewMember in crewedMembers" :key="crewMember.id">
             <td>
-              <select v-model="position.title" class="position-select">
+              <select v-model="crewMember.position" class="position-select">
                 <option value="">Select Position</option>
                 <option v-for="pos in availablePositions" 
                         :key="pos" 
@@ -33,12 +33,12 @@
                   {{ pos }}
                 </option>
               </select>
-              <span class="position-display" v-if="position.title">
+              <span class="position-display" v-if="crewMember.position">
                 {{ getDisplayTitle(position, index) }}
               </span>
             </td>
             <td>
-              <select v-model="position.name" class="crew-select">
+              <select v-model="crewMember.fullName" class="crew-select">
                 <option value="">Select Crew Member</option>
                 <option v-for="member in availableCrewMembers" 
                         :key="member" 
