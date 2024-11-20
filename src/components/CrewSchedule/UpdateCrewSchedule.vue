@@ -39,7 +39,7 @@
               <select v-model="crewedMembers[pos]" class="crew-select">
                 <option value="">Select Crew Member</option>
                 <option v-for="member in QualifiedUserLists[pos]" 
-                        :key="member" 
+                        :key="member.fullName" 
                         :value="member">
                   {{ member }}
                 </option>
@@ -267,21 +267,17 @@ export default {
         });
     },
     getQualifiedUsers() {
-
-
       this.position.forEach(pos => {
         axios.get(`http://localhost:5228/crewMember/${this.gameId}/${pos}`)
-        .then(response => {
-          this.QualifiedUserLists[pos] = response.data.data;
-          console.log(this.QualifiedUserLists[pos]);
-        })
-        .catch(error => {
-          console.error('There was an error!', error);
-        });
+          .then(response => {
+            // Extract just the fullName from each user object
+            this.QualifiedUserLists[pos] = response.data.data.map(user => user.fullName);
+            console.log(`Qualified users for ${pos}:`, this.QualifiedUserLists[pos]);
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
       });
-
-
-      
     }
   }
 }
