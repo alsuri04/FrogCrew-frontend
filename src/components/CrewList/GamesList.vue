@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="game in this.FoundGames" :key="game.id">
+          <tr v-for="game in FoundGames" :key="game.id">
             <td>{{ game.opponent }}</td>
             <td>{{ game.gameDate }}</td>
             <td>{{ game.venue }}</td>
@@ -50,6 +50,7 @@
 
     <AddGamesToSchedule
       :showModal="showAddGameModal"
+      :scheduleId="scheduleId" 
       @close="showAddGameModal = false"
       @submit="handleAddGame"
     />

@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      axios.post('https://localhost:8080/gameSchedule', this.GameScheduleDTO)
+      axios.post('http://localhost:5228/gameSchedule', this.GameScheduleDTO)
         .then(response => { 
           console.log('Sport added:', response.data)
         })
@@ -66,6 +66,7 @@ export default {
           console.error('Error adding sport:', error)
         })
       this.closeModal()
+      // window.location.reload()
     },
     closeModal() {
       this.$emit('close')
