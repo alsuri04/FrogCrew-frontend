@@ -59,7 +59,7 @@ export default {
           localStorage.setItem('authToken', token); // Storing token in local storage
           localStorage.setItem('UserId', response.data.data.userId);
 
-          if(response.data.data.role === 'admin') {
+          if(response.data.data.role === 'ADMIN') {
             this.$store.commit('setIsAdmin', true);
           }
         
