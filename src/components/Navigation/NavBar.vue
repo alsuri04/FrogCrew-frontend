@@ -7,21 +7,12 @@
       </RouterLink>
     </div>
     <div class="nav-item">
-      <div class="nav-link" 
-           @click="isScheduleOpen = !isScheduleOpen"
-           :class="{ 'active': $route.path.includes('/schedule') }">
+      <RouterLink to="/schedule/crewList" 
+                 class="nav-link"
+                 :class="{ 'active': $route.path === '/schedule/crewList' }">
         <span class="nav-icon">◫</span>
         <span class="nav-text">Schedule</span>
-        <span class="dropdown-arrow" :class="{ 'rotated': isScheduleOpen }">▼</span>
-      </div>
-      <div class="submenu" v-show="isScheduleOpen">
-        <RouterLink to="/schedule/crewList" 
-                   class="nav-link submenu-link"
-                   :class="{ 'active': $route.path === '/schedule/crewList' }">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Game Schedule</span>
-        </RouterLink>
-      </div>
+      </RouterLink>
     </div>
     <div class="nav-item">
       <div class="nav-link" 
@@ -37,12 +28,6 @@
                    :class="{ 'active': $route.path === '/crew-members/manage' }">
           <span class="nav-icon">◫</span>
           <span class="nav-text">Invite / Manage Members</span>
-        </RouterLink>
-        <RouterLink to="/crew-members/invite" 
-                   class="nav-link submenu-link"
-                   :class="{ 'active': $route.path === '/crew-members/invite' }">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Invite Members</span>
         </RouterLink>
         <RouterLink to="/availability" 
                    class="nav-link submenu-link"
@@ -75,7 +60,6 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const isSidebarCollapsed = ref(false);
-const isScheduleOpen = ref(false);
 const isCrewOpen = ref(false);
 
 const isLoginPage = computed(() => {

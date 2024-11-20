@@ -5,17 +5,17 @@
       <div class="tab-container">
         <button 
           class="tab-button" 
-          :class="{ active: activeTab === 'invite' }"
-          @click="activeTab = 'invite'"
-        >
-          Invite
-        </button>
-        <button 
-          class="tab-button" 
           :class="{ active: activeTab === 'manage' }"
           @click="activeTab = 'manage'"
         >
           Manage
+        </button>
+        <button 
+          class="tab-button" 
+          :class="{ active: activeTab === 'invite' }"
+          @click="activeTab = 'invite'"
+        >
+          Invite
         </button>
       </div>
     </div>
@@ -84,7 +84,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const activeTab = ref('invite')
+const activeTab = ref('manage')
 
 const searchQuery = ref('')
 
@@ -111,7 +111,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      activeTab: 'invite',
+      activeTab: 'manage',
       emailInput: '',
       url: 'http://localhost:5228/invite',
       emailDTO: {

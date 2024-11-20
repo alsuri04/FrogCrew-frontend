@@ -15,105 +15,113 @@ import NavBar from '@/components/Navigation/NavBar.vue'
 import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
 import CreateProfile from '@/components/CrewMember/CreateProfile.vue'
 import AdminHomeView from '@/views/AdminHomeView.vue'
+import AvailabilityView from '@/views/AvailabilityView.vue'
+
+const routes = [
+  {
+    path: '/login',
+    name: 'loginView',
+    component: LoginView,
+    meta: {
+      hideNavbar: true
+    }
+  },
+  {
+    path: '/home',
+    name: 'homepage',
+    component: AdminHomeView
+  },
+  {
+    path: '/admin',
+    name: 'adminHome',
+    component: AdminHomeView
+  },
+  {
+    path: '/schedule',
+    children: [
+      {
+        path: 'crew',
+        name: 'crewSchedule',
+        component: FindCrewSchedule
+      },
+      {
+        path: 'crew/add/:sportId',
+        name: 'addCrewSchedule',
+        component: AddCrewSchedule,
+        props: true
+      },
+      {
+        path: 'crew/update/:gameId',
+        name: 'updateCrewSchedule',
+        component: UpdateCrewSchedule,
+        props: true
+      },
+      {
+        path: 'games',
+        name: 'gameSchedule',
+        component: GameScheduleView
+      },
+      {
+        path: 'crew/:gameId',
+        name: 'viewSchedule',
+        component: FindCrewList,
+        props: true
+      },
+      {
+        path: 'crewList',
+        name: 'findCrewList',
+        component: FindCrewList
+      },
+      {
+        path: 'crewList/games/:scheduleId',
+        name: 'gamesList',
+        component: GamesList,
+        props: true
+      },
+      {
+        path: 'crewList/game/:gameId',
+        name: 'crewList',
+        component: CrewList,
+        props: true
+      }
+    ]
+  },
+  {
+    path: '/crew-members',
+    component: FindCrewMember,
+    children: [
+      {
+        path: 'manage',
+        name: 'manageCrewMembers',
+        component: ManageCrewMembers
+      },
+      {
+        path: 'invite',
+        name: 'addCrewMember',
+        component: AddCrewMember
+      }
+    ]
+  },
+  {
+    path: '/create-profile',
+    name: 'createProfile',
+    component: CreateProfile
+  },
+  {
+    path: '/availability',
+    name: 'Availability',
+    component: AvailabilityView
+  },
+  {
+    path: '/games-list',
+    name: 'GamesList',
+    component: GamesList
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/login',
-      name: 'loginView',
-      component: LoginView,
-      meta: {
-        hideNavbar: true
-      }
-    },
-    {
-      path: '/home',
-      name: 'homepage',
-      component: AdminHomeView
-    },
-    {
-      path: '/admin',
-      name: 'adminHome',
-      component: AdminHomeView
-    },
-    {
-      path: '/schedule',
-      children: [
-        {
-          path: 'crew',
-          name: 'crewSchedule',
-          component: FindCrewSchedule
-        },
-        {
-          path: 'crew/add/:sportId',
-          name: 'addCrewSchedule',
-          component: AddCrewSchedule,
-          props: true
-        },
-        {
-          path: 'crew/update/:gameId',
-          name: 'updateCrewSchedule',
-          component: UpdateCrewSchedule,
-          props: true
-        },
-        {
-          path: 'games',
-          name: 'gameSchedule',
-          component: GameScheduleView
-        },
-        {
-          path: 'crew/:gameId',
-          name: 'viewSchedule',
-          component: FindCrewList,
-          props: true
-        },
-        {
-          path: 'crewList',
-          name: 'findCrewList',
-          component: FindCrewList
-        },
-        {
-          path: 'crewList/games/:scheduleId',
-          name: 'gamesList',
-          component: GamesList,
-          props: true
-        },
-        {
-          path: 'crewList/game/:gameId',
-          name: 'crewList',
-          component: CrewList,
-          props: true
-        }
-      ]
-    },
-    {
-      path: '/crew-members',
-      component: FindCrewMember,
-      children: [
-        {
-          path: 'manage',
-          name: 'manageCrewMembers',
-          component: ManageCrewMembers
-        },
-        {
-          path: 'invite',
-          name: 'addCrewMember',
-          component: AddCrewMember
-        }
-      ]
-    },
-    {
-      path: '/create-profile',
-      name: 'createProfile',
-      component: CreateProfile
-    },
-    {
-      path: '/availability',
-      name: 'addAvailability',
-      component: AddAvailability
-    }
-  ]
+  routes
 })
 
 export default router
