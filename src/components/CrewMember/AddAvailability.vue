@@ -1,5 +1,6 @@
 <template>
   <div class="games-list">
+    <button @click="emitToggleAvailability" class="availability-btn">Availability</button>
     <table>
       <thead>
         <tr>
@@ -19,7 +20,7 @@
             <button class="view-btn" @click="navigateToEditCrew(game.id)">Edit Crew</button>
             <div class="availability-controls">
               <input type="checkbox" :id="'availability-' + game.id">
-              <button class="comment-btn">Comment</button>
+              <input type="text" placeholder="Comment for availability" class="comment-input">
             </div>
           </td>
         </tr>
@@ -88,13 +89,11 @@ th {
   cursor: pointer;
 }
 
-.comment-btn {
-  background-color: white;
+.comment-input {
   border: 1px solid #4CAF50;
-  color: black;
-  padding: 8px 16px;
+  padding: 8px;
   border-radius: 4px;
-  cursor: pointer;
+  width: 150px;
 }
 
 .availability-controls {
