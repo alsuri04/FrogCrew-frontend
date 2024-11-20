@@ -23,24 +23,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="crewMember in crewedMembers" :key="crewMember.id">
+          <!-- Show message if no crew members -->
+          <tr v-if="!crewedMembers || crewedMembers.length === 0">
+            <td colspan="5">Loading crew members... {{ position }}</td>
+          </tr>
+          
+          <!-- If we have crew members, show them -->
+          <tr v-for="pos in position" :key="pos">
             <td>
-              <select v-model="crewMember.position" class="position-select">
-                <option value="">Select Position</option>
-                <option v-for="pos in availablePositions" 
-                        :key="pos" 
-                        :value="pos">
-                  {{ pos }}
-                </option>
-              </select>
-              <span class="position-display" v-if="crewMember.position">
-                {{ getDisplayTitle(position, index) }}
+              <span class="position-display">
+                {{ pos }}
               </span>
             </td>
             <td>
-              <select v-model="crewMember.fullName" class="crew-select">
+              <select v-model="crewedMembers[pos]" class="crew-select">
                 <option value="">Select Crew Member</option>
-                <option v-for="member in availableCrewMembers" 
+                <option v-for="member in QualifiedUserLists[pos]" 
                         :key="member" 
                         :value="member">
                   {{ member }}
@@ -50,19 +48,18 @@
             <td>
               <input 
                 type="text" 
-                v-model="position.reportTime"
                 class="time-input"
                 placeholder="Enter time"
               />
             </td>
             <td>
-              <select v-model="position.location" class="location-select">
+              <select class="location-select">
                 <option value="CONTROL ROOM">CONTROL ROOM</option>
                 <option value="STADIUM">STADIUM</option>
               </select>
             </td>
             <td>
-              <button @click="deletePosition(index)" class="delete-btn">Delete</button>
+              <button class="delete-btn">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -259,10 +256,11 @@ export default {
   },
   methods: {
     getMembers() {
+      console.log('Fetching members for game:', this.gameId); // Debug log
       axios.get(`http://localhost:5228/crewSchedule/${this.gameId}`)
         .then(response => {
           this.crewedMembers = response.data.data;
-          console.log(this.crewedMembers);
+          console.log('Loaded crew members:', this.crewedMembers); // Debug log
         })
         .catch(error => {
           console.error('There was an error!', error);
