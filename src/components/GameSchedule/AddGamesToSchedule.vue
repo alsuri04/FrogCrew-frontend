@@ -12,9 +12,8 @@
           <input 
             type="date"
             id="gameDate" 
-            v-model="GameDTO.gameDate" 
+            v-model="GameDTO[0].gameDate" 
             class="form-input"
-            placeholder="Enter game name (e.g., TCU vs Baylor)"
           />
         </div>
 
@@ -23,8 +22,9 @@
           <input 
             type="text" 
             id="venue" 
-            v-model="GameDTO.venue" 
+            v-model="GameDTO[0].venue" 
             class="form-input"
+            placeholder="Enter game venue"
           />
         </div>
 
@@ -33,7 +33,7 @@
           <input 
             type="text" 
             id="opponent" 
-            v-model="GameDTO.opponent" 
+            v-model="GameDTO[0].opponent" 
             class="form-input"
             placeholder="Enter game opponent"
           />
@@ -56,6 +56,10 @@ const props = defineProps({
   showModal: {
     type: Boolean,
     required: true
+  },
+  scheduleId: {
+    type: Number,
+    required: true
   }
 })
 
@@ -70,16 +74,19 @@ export default {
   props:['scheduleId'],
   data() {
     return {
-      GameDTO: {
-        gameDate: '',
-        venue: '',
-        opponent: ''
-      }
+      GameDTO: [
+        {
+          gameDate: '',
+          venue: '',
+          opponent: ''
+        }
+      ]
     }
   },
   methods: {
     handleSubmit() {
       console.log('Schedule Id: ', this.scheduleId)
+      console.log('Game DTO: ', this.GameDTO)
       axios.post(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`, this.GameDTO)
         .then(response => { 
           console.log('Game added:', response.data)
@@ -88,7 +95,6 @@ export default {
           console.error('Error adding game:', error)
         })
       this.closeModal()
-      // window.location.reload()
     },
     closeModal() {
       this.$emit('close')
