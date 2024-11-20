@@ -8,34 +8,34 @@
       
       <div class="modal-body">
         <div class="form-group">
-          <label for="gameName">Game Name:</label>
+          <label for="gameName">Game Date:</label>
           <input 
-            type="text" 
-            id="gameName" 
-            v-model="newGame.name" 
-            class="form-input"
-            placeholder="Enter game name (e.g., TCU vs Baylor)"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="gameDate">Date:</label>
-          <input 
-            type="date" 
+            type="date"
             id="gameDate" 
-            v-model="newGame.date" 
+            v-model="GameDTO[0].gameDate" 
             class="form-input"
           />
         </div>
 
         <div class="form-group">
-          <label for="gameLocation">Location:</label>
+          <label for="gameDate">Venue:</label>
           <input 
             type="text" 
-            id="gameLocation" 
-            v-model="newGame.location" 
+            id="venue" 
+            v-model="GameDTO[0].venue" 
             class="form-input"
-            placeholder="Enter game location"
+            placeholder="Enter game venue"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="gameLocation">Opponent:</label>
+          <input 
+            type="text" 
+            id="opponent" 
+            v-model="GameDTO[0].opponent" 
+            class="form-input"
+            placeholder="Enter game opponent"
           />
         </div>
       </div>
@@ -56,32 +56,65 @@ const props = defineProps({
   showModal: {
     type: Boolean,
     required: true
+  },
+  scheduleId: {
+    type: Number,
+    required: true
   }
 })
 
 const emit = defineEmits(['close', 'submit'])
 const route = useRoute()
 
-const newGame = ref({
-  name: '',
-  date: '',
-  location: '',
-  sportId: parseInt(route.params.sportId)
-})
+</script>
 
-const closeModal = () => {
-  emit('close')
-}
+<script>
+import axios from 'axios';
+export default {
+  props:['scheduleId'],
+  data() {
+    return {
+      GameDTO: [
+        {
+          gameDate: '',
+          venue: '',
+          opponent: ''
+        }
+      ]
+    }
+  },
+  methods: {
+    handleSubmit() {
+      console.log('Schedule Id: ', this.scheduleId)
+      console.log('Game DTO: ', this.GameDTO)
+      axios.post(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`, this.GameDTO)
+        .then(response => { 
+          console.log('Game added:', response.data)
+        })
+        .catch(error => {
+          console.error('Error adding game:', error)
+        })
+      this.closeModal()
+      this.getGames()
 
-const handleSubmit = () => {
-  emit('submit', newGame.value)
-  newGame.value = {
-    name: '',
-    date: '',
-    location: '',
-    sportId: parseInt(route.params.sportId)
+    },
+    closeModal() {
+      this.$emit('close')
+    },
+    getGames() {
+      setTimeout(() => {
+        console.log('Schedule ID:', this.scheduleId)
+        axios.get(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`)
+          .then(response => {
+            this.FoundGames = response.data.data
+            console.log('Games:', response.data.data)
+          })
+          .catch(error => {
+            console.error('There was an error!', error)
+          })
+      }, 100)
+    }
   }
-  closeModal()
 }
 </script>
 

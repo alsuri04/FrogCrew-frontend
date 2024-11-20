@@ -108,9 +108,10 @@ const routes = [
     component: CreateProfile
   },
   {
-    path: '/availability',
+    path: '/availability/:scheduleId',
     name: 'Availability',
-    component: AvailabilityView
+    component: AvailabilityView,
+    props: true
   },
   {
     path: '/games-list',

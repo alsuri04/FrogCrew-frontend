@@ -29,10 +29,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="game in filteredGames" :key="game.id">
-            <td>{{ game.name }}</td>
-            <td>{{ formatDate(game.date) }}</td>
-            <td>{{ game.location }}</td>
+          <tr v-for="game in FoundGames" :key="game.gameId">
+            <td>{{ game.opponent }}</td>
+            <td>{{ game.gameDate }}</td>
+            <td>{{ game.venue }}</td>
             <td>
               <div class="button-group">
                 <router-link :to="`/schedule/crewList/game/${game.id}`" class="view-btn">View Crew List</router-link>
@@ -89,6 +89,36 @@ const submitAvailability = () => {
   // Logic to handle the submission of availability
   alert('Availability submitted!');
 };
+</script>
+
+<script>
+import axios from 'axios';
+export default {
+  props:['scheduleId'],
+  data() {
+    return {
+      FoundGames: [],
+    }
+  },
+  created() {
+    this.getGames()
+  },
+  methods: {
+    getGames() {
+      setTimeout(() => {
+        console.log('Schedule ID:', this.scheduleId)
+        axios.get(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`)
+          .then(response => {
+            this.FoundGames = response.data.data
+            console.log('Games:', response.data.data)
+          })
+          .catch(error => {
+            console.error('There was an error!', error)
+          })
+      }, 100)
+    }
+  }
+}
 </script>
 
 <style scoped>

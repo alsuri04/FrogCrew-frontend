@@ -81,16 +81,18 @@ export default {
   },
   methods: {
     getGameSchedules() {
-      const season = this.getSchoolYear()
-      console.log('Season:', season)
-      axios.get(`http://localhost:5228/gameSchedule/season/${season}`)
-        .then(response => {
-          this.gameSchedules = response.data.data
-          console.log('Game Schedules:', response.data.data)
-        })
-        .catch(error => {
-          console.error('There was an error!', error)
-        })
+      setTimeout(() => {
+        const season = this.getSchoolYear()
+        console.log('Season:', season)
+        axios.get(`http://localhost:5228/gameSchedule/season/${season}`)
+          .then(response => {
+            this.gameSchedules = response.data.data
+            console.log('Game Schedules:', response.data.data)
+          })
+          .catch(error => {
+            console.error('There was an error!', error)
+          })
+      }, 100)
     },
     getSchoolYear() {
       const today = new Date(); // Get the current date

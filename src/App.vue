@@ -10,6 +10,17 @@
   <div v-else>
     <LoginView />
   </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div v-if="showLogoutConfirm" class="modal-overlay">
+    <div class="modal">
+      <h3>Are you sure you want to log out?</h3>
+      <div class="modal-buttons">
+        <button class="btn-logout" @click="handleLogout">Log out</button>
+        <button class="btn-cancel" @click="showLogoutConfirm = false">Cancel</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
