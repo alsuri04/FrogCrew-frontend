@@ -50,8 +50,8 @@
 
     <AddGamesToSchedule
       :showModal="showAddGameModal"
-      :scheduleId="scheduleId" 
-      @close="showAddGameModal = false"
+      :scheduleId="scheduleId"
+      @close="showAddGameModal = false, getGames()"
       @submit="handleAddGame"
     />
   </div>
@@ -144,15 +144,17 @@ export default {
   },
   methods: {
     getGames() {
-      console.log('Schedule ID:', this.scheduleId)
-      axios.get(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`)
-        .then(response => {
-          this.FoundGames = response.data.data
-          console.log('Games:', response.data.data)
-        })
-        .catch(error => {
-          console.error('There was an error!', error)
-        })
+      setTimeout(() => {
+        console.log('Schedule ID:', this.scheduleId)
+        axios.get(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`)
+          .then(response => {
+            this.FoundGames = response.data.data
+            console.log('Games:', response.data.data)
+          })
+          .catch(error => {
+            console.error('There was an error!', error)
+          })
+      }, 100)
     }
   }
 }

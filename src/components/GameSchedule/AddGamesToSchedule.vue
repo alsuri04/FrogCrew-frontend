@@ -95,9 +95,24 @@ export default {
           console.error('Error adding game:', error)
         })
       this.closeModal()
+      this.getGames()
+
     },
     closeModal() {
       this.$emit('close')
+    },
+    getGames() {
+      setTimeout(() => {
+        console.log('Schedule ID:', this.scheduleId)
+        axios.get(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`)
+          .then(response => {
+            this.FoundGames = response.data.data
+            console.log('Games:', response.data.data)
+          })
+          .catch(error => {
+            console.error('There was an error!', error)
+          })
+      }, 100)
     }
   }
 }
