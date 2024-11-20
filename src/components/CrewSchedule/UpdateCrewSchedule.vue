@@ -211,10 +211,53 @@ export default {
   data() {
     return {
       crewedMembers: [],
+      position: [
+        'PRODUCER',
+        'ASSISTANT_PRODUCER',
+        'DIRECTOR',
+        'ASSISTANT_DIRECTOR',
+        'TECHNICAL_DIRECTOR',
+        'GRAPHICS_OPERATOR',
+        'BUG_OPERATOR',
+        'EVS REPLAY-LEAD',
+        'EVS REPLAY-R/O',
+        'VIDEO_OPERATOR',
+        'EIC',
+        'ENG_2',
+        'AUDIO_A1',
+        'AUDIO_ASSISTANT_A2',
+        'CAMERA-FIXED',
+        'CAMERA-HANDHELD',
+        'CAMERA-STEADICAM',
+        'UTILITY',
+        'TIME_OUT_COORDINATOR'
+      ],
+      QualifiedUserLists: {
+        'PRODUCER': [],
+        'ASSISTANT_PRODUCER': [],
+        'DIRECTOR': [],
+        'ASSISTANT_DIRECTOR': [],
+        'TECHNICAL_DIRECTOR': [],
+        'GRAPHICS_OPERATOR': [],
+        'BUG_OPERATOR': [],
+        'EVS_REPLAY-LEAD': [],
+        'EVS_REPLAY-R/O': [],
+        'VIDEO_OPERATOR': [],
+        'EIC': [],
+        'ENG_2': [],
+        'AUDIO_A1': [],
+        'AUDIO_ASSISTANT_A2': [],
+        'CAMERA-FIXED': [],
+        'CAMERA-HANDHELD': [],
+        'CAMERA-STEADICAM': [],
+        'UTILITY': [],
+        'TIME_OUT_COORDINATOR': []
+      }
     }
   },
   created() {
     this.getMembers();
+    this.getQualifiedUsers()
   },
   methods: {
     getMembers() {
@@ -226,6 +269,23 @@ export default {
         .catch(error => {
           console.error('There was an error!', error);
         });
+    },
+    getQualifiedUsers() {
+
+
+      this.position.forEach(pos => {
+        axios.get(`http://localhost:5228/crewMember/${this.gameId}/${pos}`)
+        .then(response => {
+          this.QualifiedUserLists[pos] = response.data.data;
+          console.log(this.QualifiedUserLists[pos]);
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
+      });
+
+
+      
     }
   }
 }
