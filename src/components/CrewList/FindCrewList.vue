@@ -46,7 +46,7 @@
 
     <AddGameSchedule 
       v-if="showAddCrewListModal"
-      @close="showAddCrewListModal = false, reloadPage()"
+      @close="showAddCrewListModal = false, getGameSchedules()"
       @submit="handleAddSport"
     />
   </div>
@@ -109,6 +109,8 @@ export default {
 
     },
     reloadPage() {
+      console.log('Reloading page...')
+      this.$router.go(0)
     }
 
   }
