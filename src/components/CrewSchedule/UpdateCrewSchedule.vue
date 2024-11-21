@@ -61,7 +61,7 @@
               </select>
             </td>
             <td>
-              <button class="delete-btn">Delete</button>
+              <button class="delete-btn"hidden>Delete</button>
             </td>
           </tr>
         </tbody>
@@ -69,7 +69,7 @@
     </div>
 
     <div class="bottom-button-container">
-      <button @click="addNewPosition" class="add-btn">Add New Position</button>
+      <button @click="addNewPosition" class="add-btn"hidden>Add New Position</button>
     </div>
   </div>
 </template>
