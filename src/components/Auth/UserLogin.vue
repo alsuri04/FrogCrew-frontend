@@ -1,9 +1,11 @@
 <template>
   <div>
-    <!-- Simplified Top Bar -->
-    <div class="top-bar">
-      <span class="frogcrew-text">FROGCREW</span>
-    </div>
+    <header class="header">
+      <button class="menu-toggle" style="visibility: hidden;">
+        <span class="menu-icon">☰</span>
+      </button>
+      <h1 class="logo">FROGCREW</h1>
+    </header>
 
     <div class="login-container">
       <div class="login-box">
@@ -75,28 +77,52 @@ export default {
 </script>
 
 <style scoped>
-/* Updated top bar styles */
-.top-bar {
-  background-color: #4B2E83;
+.app-container {
+  position: fixed;
   width: 100%;
-  padding: 0.75rem 1.5rem;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.header {
+  background-color: #4B2E83;
+  padding: 0 15px;
   display: flex;
   align-items: center;
+  height: 50px;
+  border-bottom: none;
 }
 
-.frogcrew-text {
+.logo {
   color: white;
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: bold;
   letter-spacing: 0.5px;
+  margin: 0;
+  padding: 0;
+  border-bottom: none;
+  text-decoration: none;
 }
 
-/* Rest of your existing styles... */
+.menu-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 10px;
+}
+
+/* Update login container to account for new header height */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 48px);  /* Adjusted for new top bar height */
+  min-height: calc(100vh - 50px);  /* Updated to match header height */
   background-color: #f5f5f5;
 }
 

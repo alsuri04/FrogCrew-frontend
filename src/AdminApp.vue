@@ -4,7 +4,6 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import AdminNavBar from './components/Navigation/AdminNavBar.vue';
 import LogOutButton from './components/Auth/LogOutButton.vue';
-import LoginView from './views/LoginView.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -17,7 +16,7 @@ const isSidebarCollapsed = ref(false);
   <div v-if="store.state.isAuthenticated" class="app-container">
     <header class="header">
       <button class="menu-toggle" @click="isSidebarCollapsed = !isSidebarCollapsed">
-        <span class="menu-icon" v-if="!$route.meta.hideNavbar">☰</span>
+        <span class="material-symbols-outlined">menu</span>
       </button>
       <h1 class="logo">FROGCREW</h1>
       <div class="header-icons">
@@ -104,22 +103,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header {
-  background-color: #563d7c;
-  color: white;
-  padding: 0 15px;
   display: flex;
   align-items: center;
   height: 50px;
+  background-color: #4B2E83;
+  color: white;
 }
 
 .menu-toggle {
   background: none;
   border: none;
   color: white;
-  font-size: 1.2rem;
   cursor: pointer;
-  padding: 0;
-  margin-right: 10px;
+  height: 40px;
+  width: 40px;
 }
 
 .logo {
@@ -231,6 +228,45 @@ h1, h2, h3, h4, h5, h6 {
 .submenu-link {
   padding-left: 2rem;
   font-size: 0.85rem;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.material-symbols-outlined {
+  font-size: 24px;
+  line-height: 1;
 }
 
 </style>
