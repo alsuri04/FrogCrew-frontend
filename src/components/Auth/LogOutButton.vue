@@ -28,16 +28,13 @@ const router = useRouter();
 const showLogoutConfirm = ref(false);
 
 const handleLogout = () => {
-  store.dispatch('logout');
   store.commit('setAuthentication', false);
-  store.commit('setUserRole', null);
+  store.commit('setIsAdmin', false);
+
   localStorage.removeItem('authToken');
   localStorage.removeItem('UserId');
-  localStorage.removeItem('isAdmin');
-  localStorage.removeItem('userRole');
-  store.commit('resetState');
+
   router.push('/');
-  window.location.reload();
   showLogoutConfirm.value = false;
 };
 </script>
