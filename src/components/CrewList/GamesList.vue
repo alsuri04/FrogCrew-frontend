@@ -150,7 +150,7 @@ export default {
     getGames() {
       setTimeout(() => {
         console.log('Schedule ID:', this.scheduleId)
-        axios.get(`http://localhost:5228/gameSchedule/${this.scheduleId}/games`)
+        this.$axios.get(`/gameSchedule/${this.scheduleId}/games`)
           .then(response => {
             this.FoundGames = response.data.data
             console.log('Games:', response.data.data)
