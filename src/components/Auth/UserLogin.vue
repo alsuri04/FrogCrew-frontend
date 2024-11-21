@@ -39,8 +39,8 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: 'm.martin@tcu.edu',
-      password: 'password'
+      username: '',
+      password: ''
     };
   },
   methods: {
