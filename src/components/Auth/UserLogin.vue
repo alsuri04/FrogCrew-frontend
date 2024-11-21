@@ -26,7 +26,7 @@
           <a href="#" class="forgot-password">Forgot Password</a>
           <button type="submit" class="sign-in-btn">Sign In</button>
           <p class="account-request">Don't have an account?</p>
-          <p class="contact-info">Email us at<a href="mailto:xxxx@tcu.edu">xxxx@tcu.edu</a></p>
+          <p class="contact-info">Contact<a href="mailto:m.martin@tcu.edu">Admin</a></p>
         </form>
       </div>
     </div>
