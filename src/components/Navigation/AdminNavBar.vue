@@ -21,7 +21,8 @@
         <span class="nav-icon">◫</span>
         <span class="nav-text">Crew Members</span>
         <span class="dropdown-arrow" :class="{ 'rotated': isCrewOpen }">▼</span>
-      </div>
+      </RouterLink>
+      <!-- Close the div here for the "Crew Members" -->
       <div class="submenu" v-show="isCrewOpen">
         <RouterLink to="/crew-members/manage" 
                    class="nav-link submenu-link"
@@ -34,12 +35,6 @@
                    :class="{ 'active': $route.path === '/availability' }">
           <span class="nav-icon">◫</span>
           <span class="nav-text">Availability</span>
-        </RouterLink>
-        <RouterLink to="/create-profile" 
-                   class="nav-link submenu-link"
-                   :class="{ 'active': $route.path === '/create-profile' }">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Create Profile</span>
         </RouterLink>
       </div>
     </div>
