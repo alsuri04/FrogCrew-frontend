@@ -37,8 +37,8 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: 'kate.bednarz@tcu.edu',
-      password: 'swiftie4lyfe'
+      username: 'm.martin@tcu.edu',
+      password: 'password'
     };
   },
   methods: {

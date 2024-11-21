@@ -16,12 +16,13 @@ import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
 import CreateProfile from '@/components/CrewMember/CreateProfile.vue'
 import AdminHomeView from '@/views/AdminHomeView.vue'
 import AvailabilityView from '@/views/AvailabilityView.vue'
+import UserLogin from '@/components/Auth/UserLogin.vue'
 
 const routes = [
   {
     path: '/login',
     name: 'loginView',
-    component: LoginView,
+    component: UserLogin,
     meta: {
       hideNavbar: true
     }
