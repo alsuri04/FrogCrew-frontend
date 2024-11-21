@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import AdminNavBar from './components/Navigation/AdminNavBar.vue';
+import LogOutButton from './components/Auth/LogOutButton.vue';
 import LoginView from './views/LoginView.vue';
 
 const store = useStore();
@@ -20,9 +21,13 @@ const isSidebarCollapsed = ref(false);
       </button>
       <h1 class="logo">FROGCREW</h1>
       <div class="header-icons">
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">🔔</button>
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">👤</button>
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">➜</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">
+          <span class="material-symbols-outlined">person</span>
+        </button>
+        <LogOutButton />
       </div>
     </header>
     <div class="main-container">
