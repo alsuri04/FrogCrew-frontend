@@ -30,9 +30,14 @@ const showLogoutConfirm = ref(false);
 const handleLogout = () => {
   store.dispatch('logout');
   store.commit('setAuthentication', false);
+  store.commit('setUserRole', null);
   localStorage.removeItem('authToken');
   localStorage.removeItem('UserId');
+  localStorage.removeItem('isAdmin');
+  localStorage.removeItem('userRole');
+  store.commit('resetState');
   router.push('/');
+  window.location.reload();
   showLogoutConfirm.value = false;
 };
 </script>
@@ -42,8 +47,19 @@ const handleLogout = () => {
   background: none;
   border: none;
   color: white;
-  font-size: 1rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  line-height: 0;
+}
+
+.material-symbols-outlined {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-overlay {

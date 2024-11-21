@@ -2,7 +2,7 @@
     <nav class="sidebar" :class="{ collapsed: isSidebarCollapsed }">
       <div class="nav-item">
         <RouterLink to="/home" class="nav-link" :class="{ 'active': $route.path === '/home' }">
-          <span class="nav-icon">◫</span>
+          <span class="material-symbols-outlined nav-icon">home</span>
           <span class="nav-text">Homepage</span>
         </RouterLink>
       </div>
@@ -10,7 +10,7 @@
         <RouterLink to="/schedule/crewList" 
                    class="nav-link"
                    :class="{ 'active': $route.path === '/schedule/crewList' }">
-          <span class="nav-icon">◫</span>
+          <span class="material-symbols-outlined nav-icon">calendar_month</span>
           <span class="nav-text">Schedule</span>
         </RouterLink>
       </div>
@@ -18,15 +18,15 @@
         <div class="nav-link" 
              @click="isCrewOpen = !isCrewOpen"
              :class="{ 'active': $route.path.includes('/crew-members') || $route.path === '/availability' || $route.path === '/create-profile' }">
-          <span class="nav-icon">◫</span>
+          <span class="material-symbols-outlined nav-icon">groups</span>
           <span class="nav-text">Crew Members</span>
           <span class="dropdown-arrow" :class="{ 'rotated': isCrewOpen }">▼</span>
         </div>
         <div class="submenu" v-show="isCrewOpen">
-          <RouterLink to="/availability" 
+          <RouterLink to="/Availability" 
                      class="nav-link submenu-link"
-                     :class="{ 'active': $route.path === '/availability' }">
-            <span class="nav-icon">◫</span>
+                     :class="{ 'active': $route.path === '/Availability' }">
+            <span class="material-symbols-outlined nav-icon">event_available</span>
             <span class="nav-text">Availability</span>
           </RouterLink>
         </div>
@@ -73,7 +73,7 @@
     align-items: center;
     padding: 12px 15px;
     text-decoration: none;
-    color: #666 !important;
+    color: #000 !important;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -83,27 +83,31 @@
   .nav-link:visited,
   .nav-link:active {
     background-color: #e8e8e8;
-    color: #666 !important;
+    color: #000 !important;
   }
   
   .nav-link.active {
     background-color: #e8e8e8;
-    color: #666 !important;
+    color: #000 !important;
   }
   
   .nav-link.active .nav-icon,
   .nav-link.active .dropdown-arrow {
-    color: #666;
+    color: #000 !important;
   }
   
   .nav-icon {
     margin-right: 12px;
     width: 16px;
-    color: #666;
+    color: #000;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
   }
   
   .nav-text {
     flex: 1;
+    font-size: 0.9rem;
   }
   
   .dropdown-arrow {

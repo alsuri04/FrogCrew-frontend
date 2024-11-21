@@ -12,11 +12,11 @@ const isSidebarCollapsed = ref(false);
 </script>
 
 <template>
-    <h1>User</h1>
+  <h1>Admin</h1>
   <div v-if="store.state.isAuthenticated" class="app-container">
     <header class="header">
       <button class="menu-toggle" @click="isSidebarCollapsed = !isSidebarCollapsed">
-        <span class="menu-icon" v-if="!$route.meta.hideNavbar">☰</span>
+        <span class="material-symbols-outlined">menu</span>
       </button>
       <h1 class="logo">FROGCREW</h1>
       <div class="header-icons">
@@ -35,6 +35,9 @@ const isSidebarCollapsed = ref(false);
         <RouterView />
       </main>
     </div>
+  </div>
+  <div v-else class="login">
+    
   </div>
 </template>
 
@@ -84,7 +87,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-
+/* Keep any other global styles you have */
 </style>
 
 <style scoped>
@@ -100,22 +103,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header {
-  background-color: #563d7c;
-  color: white;
-  padding: 0 15px;
   display: flex;
   align-items: center;
   height: 50px;
+  background-color: #4B2E83;
+  color: white;
 }
 
 .menu-toggle {
   background: none;
   border: none;
   color: white;
-  font-size: 1.2rem;
   cursor: pointer;
-  padding: 0;
-  margin-right: 10px;
+  height: 40px;
+  width: 40px;
 }
 
 .logo {
@@ -229,87 +230,44 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.85rem;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal {
-  background-color: white;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-  background-color: #563d7c; /* TCU Purple */
-  color: white;
-  padding: 1rem;
-  text-align: left;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.modal-content {
-  padding: 2rem;
-  text-align: center;
-}
-
-.modal-content h3 {
-  margin-bottom: 2rem;
-  font-size: 1.25rem;
-  color: #333;
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
   font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
 }
 
-.modal-buttons {
+.header-icons {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
+  align-items: center;
+  gap: 12px;
 }
 
-.btn-logout {
-  padding: 0.75rem 2rem;
-  background-color: #563d7c; /* TCU Purple */
-  color: white;
+.icon-button {
+  background: none;
   border: none;
-  border-radius: 4px;
+  color: white;
   cursor: pointer;
-  font-size: 1rem;
-  min-width: 120px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
-.btn-cancel {
-  padding: 0.75rem 2rem;
-  background-color: white;
-  color: #333;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  min-width: 120px;
-}
-
-.btn-logout:hover {
-  background-color: #472f6b; /* Darker TCU Purple */
-}
-
-.btn-cancel:hover {
-  background-color: #f5f5f5;
+.material-symbols-outlined {
+  font-size: 24px;
+  line-height: 1;
 }
 
 </style>
+
