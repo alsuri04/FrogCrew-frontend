@@ -1,4 +1,7 @@
 <template>
+  <div class="top-bar">
+      <span class="frogcrew-text">FROGCREW</span>
+  </div>
   <div class="create-profile-container">
     <h1>Create Crew Member Profile</h1>
     <form @submit.prevent="submitProfile">
@@ -101,6 +104,21 @@ export default {
 </script>
 
 <style scoped>
+.top-bar {
+  background-color: #4B2E83;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.frogcrew-text {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
 .create-profile-container {
   padding: 20px;
   max-width: 600px;

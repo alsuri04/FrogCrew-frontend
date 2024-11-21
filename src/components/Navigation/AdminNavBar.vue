@@ -20,15 +20,23 @@
                  :class="{ 'active': $route.path === '/crew-members/manage' }">
         <span class="material-symbols-outlined nav-icon">groups</span>
         <span class="nav-text">Crew Members</span>
+        <span class="dropdown-arrow" :class="{ 'rotated': isCrewOpen }">▼</span>
       </RouterLink>
-    </div>
-    <div class="nav-item">
-      <RouterLink to="/create-profile" 
-                 class="nav-link"
-                 :class="{ 'active': $route.path === '/create-profile' }">
-        <span class="nav-icon">◫</span>
-        <span class="nav-text">Create Profile</span>
-      </RouterLink>
+      <!-- Close the div here for the "Crew Members" -->
+      <div class="submenu" v-show="isCrewOpen">
+        <RouterLink to="/crew-members/manage" 
+                   class="nav-link submenu-link"
+                   :class="{ 'active': $route.path === '/crew-members/manage' }">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Manage / Invite Members</span>
+        </RouterLink>
+        <RouterLink to="/availability" 
+                   class="nav-link submenu-link"
+                   :class="{ 'active': $route.path === '/availability' }">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Availability</span>
+        </RouterLink>
+      </div>
     </div>
     <div class="nav-item">
       <RouterLink to="/reports" 

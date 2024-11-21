@@ -7,8 +7,11 @@
       <UserApp />
     </div>
   </div>
+  <div v-else-if="path==='/register'">
+    <CreateProfileView />
+  </div>
   <div v-else>
-    <LoginView />
+      <LoginView />
   </div>
 
   <!-- Logout Confirmation Modal -->
@@ -26,10 +29,16 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import {useRoute} from 'vue-router'
 import AdminApp from './AdminApp.vue';
 import UserApp from './UserApp.vue';
 import LoginView from './views/LoginView.vue';
+import CreateProfileView from './views/CreateProfileView.vue';
+import router from './router';
 
 const store = useStore();
 const isAdmin = computed(() => store.state.isAdmin);
+const route=useRoute();
+const path = computed(() =>route.path)
+
 </script>
