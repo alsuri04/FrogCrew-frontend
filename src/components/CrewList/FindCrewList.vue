@@ -3,7 +3,7 @@
     <div class="header-container">
       <div class="header-top">
         <h1>Game Schedules</h1>
-        <button @click="showAddCrewListModal = true" class="add-btn">Add Sport</button>
+        <button v-if="isAdmin" @click="showAddCrewListModal = true" class="add-btn">Add Sport</button>
       </div>
       <div class="search-container">
         <input 
@@ -53,9 +53,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import AddGameSchedule from '../GameSchedule/AddGameSchedule.vue'
+
+const store = useStore()
+const isAdmin = computed(() => store.state.isAdmin)
 
 const router = useRouter()
 const searchQuery = ref('')

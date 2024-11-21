@@ -2,8 +2,8 @@
   <div class="find-crew-list">
     <div class="header-container">
       <div class="header-top">
-        <h1>Games List</h1>
-        <button @click="router.push('/sports')" class="back-btn">Back to Sports</button>
+        <h1>Games List Availability</h1>
+        <button @click="goBackToGamesList" class="back-btn">Back</button>
       </div>
       <div class="availability-button-container">
         <!-- Removed the toggle button as it's no longer needed -->
@@ -56,9 +56,10 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 const searchQuery = ref('');
 const games = ref([
   { id: 1, name: 'Texas Tech', date: '2024-10-26', location: 'Carter' },
@@ -88,6 +89,12 @@ const confirmDeleteGame = (game) => {
 const submitAvailability = () => {
   // Logic to handle the submission of availability
   alert('Availability submitted!');
+};
+
+const scheduleId = route.params.scheduleId || 'defaultScheduleId';
+
+const goBackToGamesList = () => {
+  router.push(`/schedule/crewList/games/${scheduleId}`);
 };
 </script>
 
