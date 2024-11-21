@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import UserNavBar from './components/Navigation/UserNavBar.vue';
-import LoginView from './views/LoginView.vue';
+import LogOutButton from './components/Auth/LogOutButton.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -20,9 +20,13 @@ const isSidebarCollapsed = ref(false);
       </button>
       <h1 class="logo">FROGCREW</h1>
       <div class="header-icons">
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">🔔</button>
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">👤</button>
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">➜</button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button class="icon-button" v-if="!$route.meta.hideNavbar">
+          <span class="material-symbols-outlined">person</span>
+        </button>
+        <LogOutButton />
       </div>
     </header>
     <div class="main-container">
@@ -31,9 +35,6 @@ const isSidebarCollapsed = ref(false);
         <RouterView />
       </main>
     </div>
-  </div>
-  <div v-else class="login">
-    <LoginView />
   </div>
 </template>
 
@@ -226,6 +227,89 @@ h1, h2, h3, h4, h5, h6 {
 .submenu-link {
   padding-left: 2rem;
   font-size: 0.85rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  background-color: #563d7c; /* TCU Purple */
+  color: white;
+  padding: 1rem;
+  text-align: left;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.modal-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin-bottom: 2rem;
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: normal;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-logout {
+  padding: 0.75rem 2rem;
+  background-color: #563d7c; /* TCU Purple */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  min-width: 120px;
+}
+
+.btn-cancel {
+  padding: 0.75rem 2rem;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  min-width: 120px;
+}
+
+.btn-logout:hover {
+  background-color: #472f6b; /* Darker TCU Purple */
+}
+
+.btn-cancel:hover {
+  background-color: #f5f5f5;
 }
 
 </style>
