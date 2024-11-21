@@ -9,18 +9,22 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="sportName">Sport Name:</label>
-          <select id="sportName" v-model="GameScheduleDTO.Sport" class="form-input">
+          <select id="sportName" v-model="GameScheduleDTO.Sport" class="form-input" :disabled="addNewSport">
             <option v-for="sport in sportsList" :key="sport" :value="sport">{{ sport }}</option>
-            <option value="addNew">Add New Sport</option>
           </select>
         </div>
 
-        <div v-if="GameScheduleDTO.Sport === 'addNew'" class="form-group">
+        <div class="form-group">
+          <input type="checkbox" id="addNewSport" v-model="addNewSport" />
+          <label for="addNewSport">Add New Sport</label>
+        </div>
+
+        <div v-if="addNewSport" class="form-group">
           <label for="newSportName">New Sport Name:</label>
           <input 
             type="text" 
             id="newSportName" 
-            v-model="GameScheduleDTO.Sport" 
+            v-model="newSportName" 
             class="form-input"
             placeholder="Enter new sport name"
           />
@@ -49,15 +53,21 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      sportsList: ['Basketball', 'Soccer', 'Baseball'],
+      sportsList: ['Football', 'Womens Basketball', 'Mens Basketball', 'Soccer', 'Baseball', 'Volleyball'],
       GameScheduleDTO: {
         Sport: '',
         Season: '',
-      }
+      },
+      addNewSport: false,
+      newSportName: ''
     }
   },
   methods: {
     handleSubmit() {
+      if (this.addNewSport && this.newSportName) {
+        this.GameScheduleDTO.Sport = this.newSportName;
+      }
+      
       axios.post('http://localhost:5228/gameSchedule', this.GameScheduleDTO)
         .then(response => { 
           console.log('Sport added:', response.data)
@@ -66,7 +76,6 @@ export default {
           console.error('Error adding sport:', error)
         })
       this.closeModal()
-      // window.location.reload()
     },
     closeModal() {
       this.$emit('close')
