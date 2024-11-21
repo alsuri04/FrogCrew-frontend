@@ -14,7 +14,7 @@
           <span class="nav-text">Schedule</span>
         </RouterLink>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" v-if="isAdmin">
         <div class="nav-link" 
              @click="isCrewOpen = !isCrewOpen"
              :class="{ 'active': $route.path.includes('/crew-members') || $route.path === '/availability' || $route.path === '/create-profile' }">
@@ -37,6 +37,10 @@
   <script setup>
   import { ref, computed } from 'vue';
   import { useRoute } from 'vue-router';
+  import { useStore } from 'vuex';
+  
+  const store = useStore();
+  const isAdmin = computed(() => store.state.isAdmin);
   
   const route = useRoute();
   const isSidebarCollapsed = ref(false);

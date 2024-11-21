@@ -15,33 +15,20 @@
       </RouterLink>
     </div>
     <div class="nav-item">
-      <div class="nav-link" 
-           @click="isCrewOpen = !isCrewOpen"
-           :class="{ 'active': $route.path.includes('/crew-members') || $route.path === '/availability' || $route.path === '/create-profile' }">
+      <RouterLink to="/crew-members/manage" 
+                 class="nav-link"
+                 :class="{ 'active': $route.path === '/crew-members/manage' }">
         <span class="nav-icon">◫</span>
         <span class="nav-text">Crew Members</span>
-        <span class="dropdown-arrow" :class="{ 'rotated': isCrewOpen }">▼</span>
-      </div>
-      <div class="submenu" v-show="isCrewOpen">
-        <RouterLink to="/crew-members/manage" 
-                   class="nav-link submenu-link"
-                   :class="{ 'active': $route.path === '/crew-members/manage' }">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Manage / Invite Members</span>
-        </RouterLink>
-        <RouterLink to="/availability" 
-                   class="nav-link submenu-link"
-                   :class="{ 'active': $route.path === '/availability' }">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Availability</span>
-        </RouterLink>
-        <RouterLink to="/create-profile" 
-                   class="nav-link submenu-link"
-                   :class="{ 'active': $route.path === '/create-profile' }">
-          <span class="nav-icon">◫</span>
-          <span class="nav-text">Create Profile</span>
-        </RouterLink>
-      </div>
+      </RouterLink>
+    </div>
+    <div class="nav-item">
+      <RouterLink to="/create-profile" 
+                 class="nav-link"
+                 :class="{ 'active': $route.path === '/create-profile' }">
+        <span class="nav-icon">◫</span>
+        <span class="nav-text">Create Profile</span>
+      </RouterLink>
     </div>
     <div class="nav-item">
       <RouterLink to="/reports" 

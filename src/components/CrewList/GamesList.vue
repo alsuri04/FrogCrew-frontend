@@ -5,7 +5,7 @@
         <h1>Games List</h1>
         <div class="button-column">
           <button @click="router.push('/schedule/crewList')" class="back-btn">Back to Sports</button>
-          <button @click="router.push(`/availability/${scheduleId}`)" class="availability-btn">Availability</button>
+          <button v-if="!isAdmin" @click="router.push(`/availability/${scheduleId}`)" class="availability-btn">Availability</button>
         </div>
       </div>
       <div class="search-container">
@@ -36,8 +36,8 @@
             <td>
               <div class="button-group">
                 <RouterLink :to="`/schedule/crewList/game/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
-                <RouterLink :to="`/schedule/crew/update/${game.gameId}`" class="view-btn">Edit Crew</RouterLink>
-                <button @click="confirmDeleteGame(game)" class="delete-btn" hidden>Delete Game</button>
+                <RouterLink v-if="isAdmin" :to="`/schedule/crew/update/${game.gameId}`" class="view-btn">Edit Crew</RouterLink>
+                <button v-if="isAdmin" @click="confirmDeleteGame(game)" class="delete-btn" hidden>Delete Game</button>
               </div>
             </td>
           </tr>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="bottom-button-container">
-      <button @click="showAddGameModal = true" class="add-btn">Add New Game</button>
+      <button v-if="isAdmin" @click="showAddGameModal = true" class="add-btn">Add New Game</button>
     </div>
 
     <AddGamesToSchedule
@@ -61,7 +61,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import AddGamesToSchedule from '../GameSchedule/AddGamesToSchedule.vue'
+
+const store = useStore()
+const isAdmin = computed(() => store.state.isAdmin)
 
 const router = useRouter()
 const route = useRoute()
