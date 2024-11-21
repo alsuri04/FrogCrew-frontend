@@ -18,7 +18,7 @@
       <RouterLink to="/crew-members/manage" 
                  class="nav-link"
                  :class="{ 'active': $route.path === '/crew-members/manage' }">
-        <span class="nav-icon">◫</span>
+        <span class="material-symbols-outlined nav-icon">groups</span>
         <span class="nav-text">Crew Members</span>
       </RouterLink>
     </div>
