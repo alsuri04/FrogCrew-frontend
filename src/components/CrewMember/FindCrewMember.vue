@@ -65,8 +65,8 @@
               <td class="name-column">
                 <a href="#" class="member-link">{{ user.fullName }}</a>
               </td>
-              <td>phone</td>
-              <td>email</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.phoneNumber }}</td>
             </tr>
           </tbody>
         </table>
