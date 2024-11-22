@@ -76,8 +76,13 @@
 
 <script>
 import axios from "axios";
+import { useRouter } from 'vue-router';
 export default {
   props: ["gameId"],
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
   data() {
     return {
       crewedMembers: [],

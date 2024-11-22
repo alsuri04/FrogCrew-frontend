@@ -49,7 +49,7 @@
           <label :for="pos">{{ pos }}</label>
         </div>
       </div>
-      <button type="submit">Create Profile</button>
+      <button type="submit" @click="handleButtonClick">Create Profile</button>
     </form>
   </div>
 </template>
@@ -94,10 +94,18 @@ export default {
       axios.post('http://localhost:5228/crewMember', this.userDTO)
       .then(response => {
         console.log('Profile Created:', response.data)
+        alert('Profile successfully created!')
+          this.navigateToLogin()
       })
       .catch(error => {
         console.error('Error creating profile:', error)
       })
+    },
+    handleButtonClick() {
+      // This method is intentionally left empty to prevent default behavior
+    },
+    navigateToLogin() {
+      this.$router.push('/')
     }
   }
 }
@@ -166,6 +174,11 @@ button:hover {
 .error-message {
   color: red;
   margin-bottom: 15px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
 }
 </style>
 
