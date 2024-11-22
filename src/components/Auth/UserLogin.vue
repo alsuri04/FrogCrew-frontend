@@ -39,8 +39,8 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: 'm.martin@tcu.edu',
-      password: 'password'
+      username: '',
+      password: ''
     };
   },
   methods: {
@@ -51,22 +51,27 @@ export default {
         headers: { 'Authorization': authHeader }
       })
         .then(response => {
-          // console.log(response.data.data);
-          // console.log('Token', response.data.data.token);
-          // console.log('UserId', response.data.data.userId);
-          // console.log('Role', response.data.data.role);
 
+          // Store Auth Token
           const token = response.data.data.token; // Assuming the token is returned in response data
           localStorage.setItem('authToken', token); // Storing token in local storage
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Setting default header
+
+          // Store User Id
           localStorage.setItem('UserId', response.data.data.userId);
 
+          // Store isAdmin
           if(response.data.data.role === 'ADMIN') {
             this.$store.commit('setIsAdmin', true);
+            localStorage.setItem('IsAdmin', true);
           }
-        
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Setting default header
+          
+          // Set Authentication to true
           this.$store.commit('setAuthentication', true);
-          this.$router.push('/admin'); // Redirecting to the home route
+          localStorage.setItem('IsAuthenticated', true);
+
+          // Route to dashboard
+          this.$router.push('/dashboard'); // Redirecting to the home route
         })
         .catch(error => {
           console.error('There was an error!', error);

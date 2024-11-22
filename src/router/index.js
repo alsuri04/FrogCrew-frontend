@@ -33,8 +33,8 @@ const routes = [
     component: AdminHomeView
   },
   {
-    path: '/admin',
-    name: 'adminHome',
+    path: '/dashboard',
+    name: 'dashboard',
     component: AdminHomeView
   },
   {
