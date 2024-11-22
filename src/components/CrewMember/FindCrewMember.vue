@@ -56,18 +56,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="member in crewMembers" :key="member.email">
+            <tr v-for="user in users" :key="user.id">
               <td class="checkbox-column">
                 <input 
                   type="checkbox" 
-                  v-model="member.selected"
                 >
               </td>
               <td class="name-column">
-                <a href="#" class="member-link">{{ member.name }}</a>
+                <a href="#" class="member-link">{{ user.fullName }}</a>
               </td>
-              <td>{{ member.phone }}</td>
-              <td>{{ member.email }}</td>
+              <td>phone</td>
+              <td>email</td>
             </tr>
           </tbody>
         </table>
@@ -116,8 +115,12 @@ export default {
       url: 'http://localhost:5228/invite',
       emailDTO: {
         emails: []
-      }
+      },
+      users: []
     }
+  },
+  created(){
+    this.getUsers()
   },
   methods: {
     sendInvites() {
@@ -136,6 +139,17 @@ export default {
         .catch(error => {
           console.error('Error sending invites:', error)
           alert("Failed to send invite link")
+        })
+    },
+    getUsers() {
+      
+      axios.get('http://localhost:5228/users')
+        .then(response => {
+          console.log(response)
+          this.users = response.data.data
+        })
+        .catch(error => {
+          console.error('Error fetching users:', error)
         })
     }
   }

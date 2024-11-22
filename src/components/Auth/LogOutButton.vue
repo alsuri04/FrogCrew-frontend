@@ -35,7 +35,6 @@ const handleLogout = () => {
   localStorage.removeItem('UserId');
   localStorage.removeItem('IsAdmin')
   localStorage.removeItem('IsAuthenticated')
-  localStorage.getItem('Role')
 
   router.push('/');
   showLogoutConfirm.value = false;
