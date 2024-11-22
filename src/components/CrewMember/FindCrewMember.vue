@@ -131,9 +131,11 @@ export default {
       axios.post(this.url, this.emailDTO )
         .then(response => {
           console.log(response)
+          alert("Invite link sent")
         })
         .catch(error => {
           console.error('Error sending invites:', error)
+          alert("Failed to send invite link")
         })
     }
   }
