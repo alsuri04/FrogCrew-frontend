@@ -20,9 +20,7 @@
                  :class="{ 'active': $route.path === '/crew-members/manage' }">
         <span class="material-symbols-outlined nav-icon">groups</span>
         <span class="nav-text">Crew Members</span>
-        <span class="dropdown-arrow" :class="{ 'rotated': isCrewOpen }">▼</span>
       </RouterLink>
-      <!-- Close the div here for the "Crew Members" -->
       <div class="submenu" v-show="isCrewOpen">
         <RouterLink to="/crew-members/manage" 
                    class="nav-link submenu-link"
