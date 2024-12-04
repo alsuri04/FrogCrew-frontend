@@ -9,6 +9,9 @@ const store = useStore();
 const route = useRoute();
 const isLoginPage = computed(() => route.name === 'login');
 const isSidebarCollapsed = ref(false);
+
+// Add this line to get the userId from localStorage
+const userId = computed(() => localStorage.getItem('UserId'));
 </script>
 
 <template>
@@ -23,9 +26,9 @@ const isSidebarCollapsed = ref(false);
         <button class="icon-button" v-if="!$route.meta.hideNavbar">
           <span class="material-symbols-outlined">notifications</span>
         </button>
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">
+        <RouterLink :to="`/profile/${userId}`" class="icon-button" v-if="!$route.meta.hideNavbar">
           <span class="material-symbols-outlined">person</span>
-        </button>
+        </RouterLink>
         <LogOutButton />
       </div>
     </header>
