@@ -47,8 +47,8 @@ export default {
     login() {
       const basicAuth = 'Basic ' + btoa(this.username + ":" + this.password);
       const authHeader = `Basic ${btoa(`${this.username}:${this.password}`)}`;
-      axios.post('http://localhost:5228/auth/login', {}, { 
-        headers: { 'Authorization': authHeader }
+      axios.post(`http://localhost:5228/auth/login?Email=${this.username}&Password=${this.password}`, {}, { 
+        //headers: { 'Authorization': authHeader }
       })
         .then(response => {
 
