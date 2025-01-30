@@ -3,7 +3,7 @@
     <div class="nav-item">
       <RouterLink to="/home" class="nav-link" :class="{ 'active': $route.path === '/home' }">
         <span class="material-symbols-outlined nav-icon">home</span>
-        <span class="nav-text">Homepage</span>
+        <span class="nav-text" v-show="!isSidebarCollapsed">Homepage</span>
       </RouterLink>
     </div>
     <div class="nav-item">
@@ -11,7 +11,7 @@
                  class="nav-link"
                  :class="{ 'active': $route.path === '/schedule/crewList' }">
         <span class="material-symbols-outlined nav-icon">calendar_month</span>
-        <span class="nav-text">Schedule</span>
+        <span class="nav-text" v-show="!isSidebarCollapsed">Schedule</span>
       </RouterLink>
     </div>
     <div class="nav-item">
@@ -19,9 +19,9 @@
                  class="nav-link"
                  :class="{ 'active': $route.path === '/crew-members/manage' }">
         <span class="material-symbols-outlined nav-icon">groups</span>
-        <span class="nav-text">Crew Members</span>
+        <span class="nav-text" v-show="!isSidebarCollapsed">Crew Members</span>
       </RouterLink>
-      <div class="submenu" v-show="isCrewOpen">
+      <div class="submenu" v-show="isCrewOpen && !isSidebarCollapsed">
         <RouterLink to="/crew-members/manage" 
                    class="nav-link submenu-link"
                    :class="{ 'active': $route.path === '/crew-members/manage' }">
@@ -41,7 +41,7 @@
                  class="nav-link"
                  :class="{ 'active': $route.path === '/reports' }">
         <span class="material-symbols-outlined nav-icon">docs</span>
-        <span class="nav-text">Reports</span>
+        <span class="nav-text" v-show="!isSidebarCollapsed">Reports</span>
       </RouterLink>
     </div>
   </nav>
@@ -52,8 +52,15 @@ import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const isSidebarCollapsed = ref(false);
 const isCrewOpen = ref(false);
+
+
+defineProps({
+  isSidebarCollapsed: {
+    type: Boolean,
+    required: true
+  }
+});
 
 const isLoginPage = computed(() => {
   return route.path === '/login';
@@ -90,6 +97,12 @@ const isLoginPage = computed(() => {
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 12px 0;
 }
 
 .nav-link:hover,
@@ -116,6 +129,10 @@ const isLoginPage = computed(() => {
   font-size: 0.9rem;
   display: flex;
   align-items: center;
+}
+
+.sidebar.collapsed .nav-icon {
+  margin-right: 0;
 }
 
 .nav-text {
