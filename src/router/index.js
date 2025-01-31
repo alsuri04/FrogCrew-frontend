@@ -17,6 +17,7 @@ import CreateProfile from '@/components/CrewMember/CreateProfile.vue'
 import AdminHomeView from '@/views/AdminHomeView.vue'
 import AvailabilityView from '@/views/AvailabilityView.vue'
 import UserLogin from '@/components/Auth/UserLogin.vue'
+import Profile from '@/views/Profile.vue'
 
 const routes = [
   {
@@ -118,6 +119,12 @@ const routes = [
     path: '/games-list',
     name: 'GamesList',
     component: GamesList
+  },
+  {
+    path: '/profile/:id',
+    name: 'profile',
+    component: Profile,
+    meta: { requiresAuth: true }
   }
 ]
 

@@ -9,6 +9,8 @@ const store = useStore();
 const route = useRoute();
 const isLoginPage = computed(() => route.name === 'login');
 const isSidebarCollapsed = ref(false);
+
+const userId = computed(() => localStorage.getItem('UserId'));
 </script>
 
 <template>
@@ -23,15 +25,18 @@ const isSidebarCollapsed = ref(false);
         <button class="icon-button" v-if="!$route.meta.hideNavbar">
           <span class="material-symbols-outlined">notifications</span>
         </button>
-        <button class="icon-button" v-if="!$route.meta.hideNavbar">
+        <RouterLink :to="`/profile/${userId}`" class="icon-button" v-if="!$route.meta.hideNavbar">
           <span class="material-symbols-outlined">person</span>
-        </button>
+        </RouterLink>
         <LogOutButton />
       </div>
     </header>
     <div class="main-container">
-      <AdminNavBar v-if="!$route.meta.hideNavbar" />
-      <main class="main-content">
+      <AdminNavBar 
+        v-if="!$route.meta.hideNavbar" 
+        :isSidebarCollapsed="isSidebarCollapsed" 
+      />
+      <main class="main-content" :class="{ 'collapsed': isSidebarCollapsed }">
         <RouterView />
       </main>
     </div>
@@ -212,7 +217,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: left 0.3s;
 }
 
-.sidebar.collapsed + .main-content {
+.main-content.collapsed {
   left: 50px;
 }
 

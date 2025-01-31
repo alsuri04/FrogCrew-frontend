@@ -32,7 +32,15 @@
       <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       <div class="form-group">
         <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" v-model="userDTO.PhoneNumber" required />
+        <input 
+          type="tel" 
+          id="phone" 
+          v-model="displayPhone"
+          @input="validatePhoneNumber"
+          maxlength="13"
+          placeholder="(XXX)XXX-XXXX"
+          required 
+        />
       </div>
       <div class="form-group">
         <label for="role">Role:</label>
@@ -77,13 +85,37 @@ export default {
         PhoneNumber: '',
         Role: '',
         Position: []
-      }
+      },
+      displayPhone: '', // For formatted display
     }
   },
   methods: {
+    validatePhoneNumber(event) {
+      // Remove any non-numeric characters
+      let numbersOnly = event.target.value.replace(/\D/g, '').substring(0, 10);
+      this.userDTO.PhoneNumber = numbersOnly;
+
+      // Format the display
+      if (numbersOnly.length > 0) {
+        this.displayPhone = '(' + numbersOnly.substring(0, 3);
+        if (numbersOnly.length > 3) {
+          this.displayPhone += ')' + numbersOnly.substring(3, 6);
+          if (numbersOnly.length > 6) {
+            this.displayPhone += '-' + numbersOnly.substring(6, 10);
+          }
+        }
+      } else {
+        this.displayPhone = '';
+      }
+    },
     submitProfile() {
       if (this.password !== this.verifyPassword) {
         this.errorMessage = 'Passwords do not match!'
+        return
+      }
+
+      if (this.userDTO.PhoneNumber.length !== 10) {
+        this.errorMessage = 'Please enter a valid 10-digit phone number'
         return
       }
 
@@ -179,6 +211,10 @@ button:hover {
 input[type="checkbox"] {
   width: 20px;
   height: 20px;
+}
+
+input[type="tel"] {
+  font-family: monospace; /* Makes the placeholder spacing more consistent */
 }
 </style>
 
