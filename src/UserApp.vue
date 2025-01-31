@@ -33,8 +33,11 @@ const userId = computed(() => localStorage.getItem('UserId'));
       </div>
     </header>
     <div class="main-container">
-      <UserNavBar v-if="!$route.meta.hideNavbar" />
-      <main class="main-content">
+      <UserNavBar 
+        v-if="!$route.meta.hideNavbar" 
+        :isSidebarCollapsed="isSidebarCollapsed"
+      />
+      <main class="main-content" :class="{ 'collapsed': isSidebarCollapsed }">
         <RouterView />
       </main>
     </div>
@@ -215,7 +218,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: left 0.3s;
 }
 
-.sidebar.collapsed + .main-content {
+.main-content.collapsed {
   left: 50px;
 }
 
