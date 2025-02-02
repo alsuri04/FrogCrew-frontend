@@ -163,6 +163,7 @@ export default {
   padding: 20px;
   max-width: 600px;
   margin: 0 auto;
+  color: black !important;
 }
 
 .form-group {

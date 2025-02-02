@@ -277,6 +277,7 @@ h2 {
 .crew-table {
   width: 100%;
   border-collapse: collapse;
+  color: black !important;
 }
 
 .crew-table th,
