@@ -33,14 +33,15 @@
       <div class="form-group">
         <label for="phone">Phone Number:</label>
         <input 
-          type="tel" 
+          type="text" 
           id="phone" 
-          v-model="displayPhone"
+          v-model="userDTO.PhoneNumber"
           @input="validatePhoneNumber"
-          maxlength="13"
-          placeholder="(XXX)XXX-XXXX"
+          maxlength="10"
+          placeholder="10 digit phone number"
           required 
         />
+        <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
       </div>
       <div class="form-group">
         <label for="role">Role:</label>
@@ -64,13 +65,20 @@
 
 <script>
 import axios from 'axios';
+import { useRoute } from 'vue-router';
+
 export default {
+  setup() {
+    const route = useRoute();
+    return { route };
+  },
   data() {
     return {
       password: '',
       verifyPassword: '',
       showPassword: false,
       showVerifyPassword: false,
+      phoneError: '',
       positions: [
         'PRODUCER', 'ASST PROD', 'DIRECTOR', 'ASST DIRECTOR',
         'TECHNICAL DIR', 'GRAPHICS', 'BUG OP', 'REPLAY EVS',
@@ -86,26 +94,21 @@ export default {
         Role: '',
         Position: []
       },
-      displayPhone: '', // For formatted display
+      errorMessage: ''
     }
   },
   methods: {
     validatePhoneNumber(event) {
       // Remove any non-numeric characters
-      let numbersOnly = event.target.value.replace(/\D/g, '').substring(0, 10);
-      this.userDTO.PhoneNumber = numbersOnly;
-
-      // Format the display
-      if (numbersOnly.length > 0) {
-        this.displayPhone = '(' + numbersOnly.substring(0, 3);
-        if (numbersOnly.length > 3) {
-          this.displayPhone += ')' + numbersOnly.substring(3, 6);
-          if (numbersOnly.length > 6) {
-            this.displayPhone += '-' + numbersOnly.substring(6, 10);
-          }
-        }
+      this.userDTO.PhoneNumber = event.target.value.replace(/\D/g, '');
+      
+      // Show error if non-numeric characters were entered
+      if (event.target.value !== this.userDTO.PhoneNumber) {
+        this.phoneError = 'Only numbers are allowed';
+      } else if (this.userDTO.PhoneNumber.length !== 10 && this.userDTO.PhoneNumber.length > 0) {
+        this.phoneError = 'Phone number must be 10 digits';
       } else {
-        this.displayPhone = '';
+        this.phoneError = '';
       }
     },
     submitProfile() {
@@ -121,17 +124,22 @@ export default {
 
       this.errorMessage = ''
 
-      console.log('Creating profile:', this.userDTO)
+      const token = this.route.query.token; // Get token from URL query parameter
+      const profileData = {
+        ...this.userDTO,
+        Password: this.password
+      };
 
-      axios.post('http://localhost:5228/crewMember', this.userDTO)
-      .then(response => {
-        console.log('Profile Created:', response.data)
-        alert('Profile successfully created!')
+      axios.post(`http://localhost:5228/crewMember?token=${token}`, profileData)
+        .then(response => {
+          console.log('Profile Created:', response.data)
+          alert('Profile successfully created!')
           this.navigateToLogin()
-      })
-      .catch(error => {
-        console.error('Error creating profile:', error)
-      })
+        })
+        .catch(error => {
+          console.error('Error creating profile:', error)
+          this.errorMessage = 'Error creating profile. Please try again.'
+        })
     },
     handleButtonClick() {
       // This method is intentionally left empty to prevent default behavior
@@ -205,16 +213,13 @@ button:hover {
 
 .error-message {
   color: red;
-  margin-bottom: 15px;
+  font-size: 0.8em;
+  margin-top: 5px;
 }
 
 input[type="checkbox"] {
   width: 20px;
   height: 20px;
-}
-
-input[type="tel"] {
-  font-family: monospace; /* Makes the placeholder spacing more consistent */
 }
 </style>
 
