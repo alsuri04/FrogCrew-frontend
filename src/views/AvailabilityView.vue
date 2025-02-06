@@ -21,7 +21,7 @@
             <th>Game</th>
             <th>Date</th>
             <th>Location</th>
-            <th>Action</th>
+            <th>Available</th>
           </tr>
         </thead>
         <tbody>
@@ -31,7 +31,6 @@
             <td>{{ game.venue }}</td>
             <td>
               <div class="button-group">
-                <router-link :to="`/schedule/crewList/game/${game.id}`" class="view-btn">View Crew List</router-link>
                 <div class="availability-controls">
                   <input type="checkbox" :id=game.id v-model="availabilityList[index].available" class="availability-checkbox" />
                   <input type="text" v-model="availabilityList[index].comments" placeholder="Comment for availability" class="comment-input" />
@@ -218,7 +217,7 @@ export default {
   align-items: center;
 }
 
-.view-btn,
+
 .back-btn {
   padding: 8px 16px;
   background-color: #4caf50;
@@ -228,7 +227,7 @@ export default {
   cursor: pointer;
 }
 
-.view-btn:hover,
+
 .back-btn:hover {
   background-color: #45a049;
 }
