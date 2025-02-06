@@ -32,3 +32,7 @@ if(IsAdmin){
 
 localStorage.getItem('IsAdmin')
 localStorage.getItem('IsAuthenticated')
+
+app.config.globalProperties.isMobile = function(){
+  return (window.matchMedia("(any-hover:none)").matches) 
+};

@@ -164,6 +164,13 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1;
 }
 
+@media (any-hover: none) {
+  .sidebar {
+    width: 100%;
+    z-index: 2;
+  }
+}
+
 .sidebar.collapsed {
   width: 50px;
 }
