@@ -21,7 +21,9 @@
             <th>Game</th>
             <th>Date</th>
             <th>Location</th>
-            <th>Available</th>
+            <th v-if="isMobile()">Y/N</th>
+            <th v-if="isMobile()">Additional Comments</th>
+            <th v-if="!isMobile()">Are You Available?</th>
           </tr>
         </thead>
         <tbody>
@@ -29,8 +31,14 @@
             <td>{{ game.opponent }}</td>
             <td>{{ game.gameDate }}</td>
             <td>{{ game.venue }}</td>
-            <td>
-              <div class="button-group">
+            <td v-if="isMobile()">
+              <input type="checkbox" :id=game.id v-model="availabilityList[index].available" class="availability-checkbox" />
+            </td>
+            <td v-if="isMobile()">
+              <input type="text" v-model="availabilityList[index].comments" placeholder="Comment for availability" class="comment-input" />
+            </td>
+            <td v-if="!isMobile()">
+              <div class="button-group" >
                 <div class="availability-controls">
                   <input type="checkbox" :id=game.id v-model="availabilityList[index].available" class="availability-checkbox" />
                   <input type="text" v-model="availabilityList[index].comments" placeholder="Comment for availability" class="comment-input" />
@@ -233,8 +241,8 @@ export default {
 }
 
 .availability-checkbox {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
 }
 
@@ -269,5 +277,16 @@ export default {
 
 .submit-btn:hover {
   background-color: #45a049;
+}
+
+@media (any-hover: none) {
+  .find-crew-list {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 0px;
+  }
+
+
 }
 </style>

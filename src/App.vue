@@ -41,8 +41,5 @@ const isAdmin = computed(() => store.state.isAdmin);
 const route=useRoute();
 const path = computed(() =>route.path)
 
-window.isMobile = function(){
-  return (window.matchMedia("(any-hover:none)").matches) 
-};
 
 </script>

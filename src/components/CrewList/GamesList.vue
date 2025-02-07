@@ -24,7 +24,7 @@
           <tr>
             <th>Game</th>
             <th>Date</th>
-            <th>Location</th>
+            <th v-if="!isMobile()">Location</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -32,7 +32,7 @@
           <tr v-for="game in FoundGames" :key="game.id">
             <td>{{ game.opponent }}</td>
             <td>{{ game.gameDate }}</td>
-            <td>{{ game.venue }}</td>
+            <td v-if="!isMobile()">{{ game.venue }}</td>
             <td>
               <div class="button-group">
                 <RouterLink :to="`/schedule/crewList/game/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
@@ -236,6 +236,7 @@ export default {
 
 .view-btn, .back-btn, .availability-btn {
   padding: 8px 16px;
+  margin-right: 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -279,5 +280,18 @@ export default {
 
 .delete-btn:hover {
   background-color: #c82333;
+}
+
+@media (any-hover: none) {
+  .view-btn {
+    padding: 2px 4px;
+    margin-right: 0px;
+  }
+  .find-crew-list {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 10px;
+  }
 }
 </style> 
