@@ -36,7 +36,7 @@
             <td>
               <div class="button-group">
                 <RouterLink :to="`/schedule/crewList/game/${game.gameId}`" class="view-btn">View Crew List</RouterLink>
-                <RouterLink v-if="isAdmin" :to="`/schedule/crew/update/${game.gameId}`" class="view-btn">Edit Crew</RouterLink>
+                <RouterLink v-if="isAdmin" :to="`/schedule/crew/update/${game.gameId}`" class="edit-btn">Edit Crew</RouterLink>
                 <button v-if="isAdmin" @click="confirmDeleteGame(game)" class="delete-btn" hidden>Delete Game</button>
               </div>
             </td>
@@ -234,7 +234,7 @@ export default {
   align-items: center;
 }
 
-.view-btn, .back-btn, .availability-btn {
+.view-btn, .edit-btn, .back-btn, .availability-btn {
   padding: 8px 16px;
   margin-right: 20px;
   background-color: #4CAF50;
@@ -284,14 +284,27 @@ export default {
 
 @media (any-hover: none) {
   .view-btn {
-    padding: 2px 4px;
+    padding: 8px 16px;
     margin-right: 0px;
+
   }
   .find-crew-list {
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
-    padding-right: 10px;
+    padding-right: 5px;
   }
+
+  .edit-btn {
+    padding: 20px;
+    margin-right: 0px;
+  }
+
+  .button-group {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
 }
 </style> 
