@@ -94,7 +94,7 @@ const goBackToGamesList = () => {
 
 <script>
 import axios from "axios";
-import AddAvailability from "@/components/CrewMember/AddAvailability.vue";
+import AddAvailability from "@/components/Schedule/AddAvailability.vue";
 export default {
   props: ["scheduleId"],
   data() {

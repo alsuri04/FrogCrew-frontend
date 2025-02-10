@@ -1,3 +1,4 @@
+<!-- Login page for both admin and crew member-->
 <template>
   <div>
     <header class="header">

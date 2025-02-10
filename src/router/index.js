@@ -4,20 +4,21 @@ import GameScheduleView from '../views/GameScheduleView.vue'
 import FindCrewSchedule from '../components/CrewSchedule/FindCrewSchedule.vue'
 import AddCrewSchedule from '../components/CrewSchedule/AddCrewSchedule.vue'
 import UpdateCrewSchedule from '../components/CrewSchedule/UpdateCrewSchedule.vue'
-import FindCrewList from '../components/CrewList/FindCrewList.vue'
-import GamesList from '@/components/CrewList/GamesList.vue'
-import CrewList from '@/components/CrewList/CrewList.vue'
-import AddCrewMember from '@/components/CrewMember/AddCrewMember.vue'
-import FindCrewMember from '../components/CrewMember/FindCrewMember.vue'
-import ManageCrewMembers from '@/components/CrewMember/ManageCrewMembers.vue'
+import FindCrewList from '../components/Schedule/ScheduleMain.vue'
+import GamesList from '@/components/Schedule/ViewGamesList.vue'
+import CrewList from '@/components/Schedule/ViewCrewList.vue'
+import CrewMembers from '@/components/CrewMembers/CrewMembersView.vue'
+import InviteCrewMember from '@/components/CrewMembers/InviteCrewMember.vue'
+import ManageCrewMember from '../components/CrewMembers/ManageCrewMember.vue'
 import LoginView from '../views/LoginView.vue'
 import AdminNavBar from '@/components/Navigation/AdminNavBar.vue'
-import AddAvailability from '@/components/CrewMember/AddAvailability.vue'
-import CreateProfile from '@/components/CrewMember/CreateProfile.vue'
+import AddAvailability from '@/components/Schedule/AddAvailability.vue'
+import CreateProfile from '@/components/Misc/CreateProfile.vue'
 import AdminHomeView from '@/views/AdminHomeView.vue'
 import AvailabilityView from '@/views/AvailabilityView.vue'
 import UserLogin from '@/components/Auth/UserLogin.vue'
 import Profile from '@/views/Profile.vue'
+import CrewMembersView from '@/components/CrewMembers/CrewMembersView.vue'
 
 const routes = [
   {
@@ -90,17 +91,17 @@ const routes = [
   },
   {
     path: '/crew-members',
-    component: FindCrewMember,
+    component: CrewMembersView,
     children: [
       {
         path: 'manage',
-        name: 'manageCrewMembers',
-        component: ManageCrewMembers
+        name: 'manageCrewMember',
+        component: ManageCrewMember
       },
       {
         path: 'invite',
         name: 'addCrewMember',
-        component: AddCrewMember
+        component: InviteCrewMember
       }
     ]
   },

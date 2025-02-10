@@ -1,3 +1,6 @@
+<!-- Manage crew member page, shows list of current crew members accounts
+ Only for admin
+ -->
 <template>
   <div class="crew-member-container">
     <div class="header-box">
@@ -51,8 +54,8 @@
             <tr>
               <th class="checkbox-column"></th>
               <th>Name</th>
-              <th>Phone Number</th>
               <th>Email</th>
+              <th>Phone Number</th>
             </tr>
           </thead>
           <tbody>

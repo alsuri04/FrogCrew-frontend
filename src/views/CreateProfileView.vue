@@ -1,5 +1,5 @@
 <script setup>
-import CreateProfile from '../components/CrewMember/CreateProfile.vue';
+import CreateProfile from '../components/Misc/CreateProfile.vue';
 </script>
 
 <template>

@@ -1,3 +1,8 @@
+<!-- 
+ This is the main page when Schedules tab is clicked, heading is Game Schedule
+ Both admin and crew member
+ -->
+ 
 <template>
   <div class="find-crew-list">
     <div class="header-container">

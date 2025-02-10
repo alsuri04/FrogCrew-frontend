@@ -24,7 +24,7 @@
         </thead>
         <tbody>
           <!-- Show message if no crew members -->
-          <tr v-if="!crewedMembers || crewedMembers.length === 0">
+          <!--<tr v-if="!crewedMembers || crewedMembers.length === 0">
             <td colspan="5">Loading crew members... {{ position }}</td>
           </tr>
 

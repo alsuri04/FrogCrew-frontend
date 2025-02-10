@@ -1,3 +1,6 @@
+<!-- Shows list of games 
+ Both admin and crew member
+ -->
 <template>
   <div class="find-crew-list">
     <div class="header-container">

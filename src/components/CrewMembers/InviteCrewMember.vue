@@ -1,3 +1,6 @@
+<!-- Invite crew member page
+ Only for admin
+ -->
 <template>
   <div class="crew-member-container">
     <div class="header-box">

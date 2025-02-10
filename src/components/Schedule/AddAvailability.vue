@@ -1,3 +1,6 @@
+<!-- List of games in season with option to add availability
+ Only for crew member
+ -->
 <template>
   <div class="games-list">
     <button @click="emitToggleAvailability" class="availability-btn">Availability</button>

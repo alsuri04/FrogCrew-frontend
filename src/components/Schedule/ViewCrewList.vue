@@ -1,3 +1,7 @@
+<!-- 
+ This is the page that shows published crew list 
+ Both admin and crew member
+ -->
 <template>
   <div class="find-crew-list">
     <div class="header-container">
