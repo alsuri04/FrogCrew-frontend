@@ -90,18 +90,31 @@ export default {
   },
   methods: {
     getGameSchedules() {
-      setTimeout(() => {
-        const season = this.getSchoolYear()
-        console.log('Season:', season)
-        axios.get(`http://localhost:5228/gameSchedule/season/${season}`)
-          .then(response => {
-            this.gameSchedules = response.data.data
-            console.log('Game Schedules:', response.data.data)
-          })
-          .catch(error => {
-            console.error('There was an error!', error)
-          })
-      }, 100)
+      const season = this.getSchoolYear()
+      axios.get(`http://localhost:5228/gameSchedule/season/${season}`)
+        .then(response => {
+          // Filter out duplicates based on sport name
+          this.gameSchedules = this.filterUniqueSports(response.data.data)
+          console.log('Game Schedules:', this.gameSchedules)
+        })
+        .catch(error => {
+          console.error('There was an error!', error)
+        })
+    },
+    filterUniqueSports(schedules) {
+      // Create a Map to store unique sports using the sport name as the key
+      const uniqueSports = new Map()
+      
+      schedules.forEach(schedule => {
+        // Only keep the most recent schedule for each sport
+        if (!uniqueSports.has(schedule.sport) || 
+            uniqueSports.get(schedule.sport).createdAt < schedule.createdAt) {
+          uniqueSports.set(schedule.sport, schedule)
+        }
+      })
+      
+      // Convert Map values back to array
+      return Array.from(uniqueSports.values())
     },
     getSchoolYear() {
       const today = new Date(); // Get the current date

@@ -1,3 +1,8 @@
+<!-- Update crew schedule page
+ Allows admin to assign crew members to positions for a specific game
+ Only for admin
+ -->
+
 <template>
   <div class="find-crew-list">
     <div class="header-container">
@@ -6,10 +11,11 @@
         <button @click="router.back()" class="back-btn">Back to Games</button>
       </div>
       <div class="action-buttons">
-        <button @click="finalizeList" class="finalize-btn">Finalize</button>
+        <button @click="publishList" class="Publish-btn">Publish</button>
         <button @click="saveChanges()" class="submit-btn">Save Changes</button>
       </div>
     </div>
+
 
     <div class="table-container">
       <table class="crew-table">
@@ -19,7 +25,6 @@
             <th>NAME</th>
             <th>REPORT TIME</th>
             <th>REPORT LOCATION</th>
-            <th>ACTION</th>
           </tr>
         </thead>
         <tbody>
@@ -41,7 +46,7 @@
                 @change="storeChange(pos)"
                 class="crew-select"
               >
-                <option value="">Select Crew Member</option>
+                <option value="">N/A</option>
                 <option
                   v-for="member in QualifiedUserLists[pos]"
                   :key="member.id"
@@ -60,16 +65,13 @@
                 <option value="STADIUM">STADIUM</option>
               </select>
             </td>
-            <td>
-              <button class="delete-btn"hidden>Delete</button>
-            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="bottom-button-container">
-      <button @click="addNewPosition" class="add-btn"hidden>Add New Position</button>
+      <button @click="addNewPosition" class="add-btn">Add New Position</button>
     </div>
   </div>
 </template>
@@ -259,7 +261,7 @@ export default {
   gap: 10px;
 }
 
-.finalize-btn {
+.Publish-btn {
   padding: 8px 16px;
   background-color: #1976d2; /* Blue color for finalize */
   color: white;
@@ -268,7 +270,7 @@ export default {
   cursor: pointer;
 }
 
-.finalize-btn:hover {
+.Publish-btn:hover {
   background-color: #1565c0;
 }
 
@@ -392,19 +394,6 @@ export default {
   box-shadow: 0 0 3px rgba(77, 25, 121, 0.3);
 }
 
-.delete-btn {
-  padding: 8px 16px;
-  background-color: #d32f2f; /* Red color for delete */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.delete-btn:hover {
-  background-color: #c62828;
-}
-
 .bottom-button-container {
   display: flex;
   justify-content: flex-end;
@@ -441,5 +430,37 @@ export default {
   margin-left: 5px;
   color: #666;
   font-size: 0.9em;
+}
+
+/* Add this new CSS class for greyed out rows */
+.greyed-out {
+  opacity: 0.5;
+  background-color: #f5f5f5;
+}
+
+.greyed-out select,
+.greyed-out input {
+  background-color: #f5f5f5;
+}
+
+/* Add these new CSS rules to control column widths */
+.crew-table th:nth-child(1), /* POSITION column */
+.crew-table td:nth-child(1) {
+  width: 25%;
+}
+
+.crew-table th:nth-child(2), /* NAME column */
+.crew-table td:nth-child(2) {
+  width: 30%;
+}
+
+.crew-table th:nth-child(3), /* REPORT TIME column */
+.crew-table td:nth-child(3) {
+  width: 15%;
+}
+
+.crew-table th:nth-child(4), /* REPORT LOCATION column */
+.crew-table td:nth-child(4) {
+  width: 30%;
 }
 </style>

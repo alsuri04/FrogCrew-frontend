@@ -1,13 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CrewScheduleView from '../views/CrewScheduleView.vue'
 import GameScheduleView from '../views/GameScheduleView.vue'
-import FindCrewSchedule from '../components/CrewSchedule/FindCrewSchedule.vue'
-import AddCrewSchedule from '../components/CrewSchedule/AddCrewSchedule.vue'
-import UpdateCrewSchedule from '../components/CrewSchedule/UpdateCrewSchedule.vue'
+import UpdateCrewSchedule from '../components/Schedule/UpdateCrewSchedule.vue'
 import FindCrewList from '../components/Schedule/ScheduleMain.vue'
 import GamesList from '@/components/Schedule/ViewGamesList.vue'
 import CrewList from '@/components/Schedule/ViewCrewList.vue'
-import CrewMembers from '@/components/CrewMembers/CrewMembersView.vue'
+import Misc from '@/components/CrewMembers/CrewMembersView.vue'
 import InviteCrewMember from '@/components/CrewMembers/InviteCrewMember.vue'
 import ManageCrewMember from '../components/CrewMembers/ManageCrewMember.vue'
 import LoginView from '../views/LoginView.vue'
@@ -43,21 +40,13 @@ const routes = [
     path: '/schedule',
     children: [
       {
-        path: 'crew',
-        name: 'crewSchedule',
-        component: FindCrewSchedule
-      },
-      {
-        path: 'crew/add/:sportId',
-        name: 'addCrewSchedule',
-        component: AddCrewSchedule,
-        props: true
-      },
-      {
         path: 'crew/update/:gameId',
         name: 'updateCrewSchedule',
         component: UpdateCrewSchedule,
-        props: true
+        props: route => ({
+          gameId: route.params.gameId,
+          isNew: route.query.isNew === 'true'
+        })
       },
       {
         path: 'games',
