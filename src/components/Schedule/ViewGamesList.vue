@@ -52,7 +52,7 @@
       <button v-if="isAdmin" @click="showAddGameModal = true" class="add-btn">Add New Game</button>
     </div>
 
-    <AddGamesToSchedule
+    <AddGame
       :showModal="showAddGameModal"
       :scheduleId="scheduleId"
       @close="showAddGameModal = false, getGames()"
@@ -65,7 +65,7 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import AddGamesToSchedule from '../GameSchedule/AddGamesToSchedule.vue'
+import AddGame from '../Modals/AddGame.vue'
 
 const store = useStore()
 const isAdmin = computed(() => store.state.isAdmin)

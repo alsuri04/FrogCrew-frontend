@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <AddGameSchedule 
+    <AddSport 
       v-if="showAddCrewListModal"
       @close="showAddCrewListModal = false, getGameSchedules()"
       @submit="handleAddSport"
@@ -61,7 +61,7 @@
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import AddGameSchedule from '../GameSchedule/AddGameSchedule.vue'
+import AddSport from '../Modals/AddSport.vue'
 
 const store = useStore()
 const isAdmin = computed(() => store.state.isAdmin)
