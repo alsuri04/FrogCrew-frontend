@@ -1,3 +1,9 @@
+<!-- 
+  Add new game page
+  Allows admin to add a new game to the schedule
+  Only for admin
+ -->
+
 <template>
   <div class="modal" v-if="showModal">
     <div class="modal-content">

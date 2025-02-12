@@ -1,3 +1,9 @@
+<!-- 
+  Add new sport page
+  Allows admin to add a new sport to the schedule
+  Only for admin
+ -->
+
 <template>
   <div class="modal">
     <div class="modal-content">

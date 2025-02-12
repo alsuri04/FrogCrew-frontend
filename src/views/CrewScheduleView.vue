@@ -42,7 +42,7 @@
 import { ref } from 'vue'
 import AddCrewSchedule from '../components/CrewSchedule/AddCrewSchedule.vue'
 import FindCrewSchedule from '../components/CrewSchedule/FindCrewSchedule.vue'
-import UpdateCrewSchedule from '../components/CrewSchedule/UpdateCrewSchedule.vue'
+import UpdateCrewSchedule from '../components/Schedule/UpdateCrewSchedule.vue'
 
 const actions = [
   { id: 'add', label: 'Add Schedule' },
