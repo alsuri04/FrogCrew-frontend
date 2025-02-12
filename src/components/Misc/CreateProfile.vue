@@ -1,3 +1,9 @@
+<!-- 
+  Create profile page
+  Allows new user to create a new profile
+  Only for new user
+ -->
+
 <template>
   <div class="top-bar">
       <span class="frogcrew-text">FROGCREW</span>
