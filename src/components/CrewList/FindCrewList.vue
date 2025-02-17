@@ -176,6 +176,7 @@ export default {
 .games-table th {
   background-color: #f5f5f5;
   font-weight: bold;
+  color: black !important;
 }
 
 .sport-table tr:hover,
