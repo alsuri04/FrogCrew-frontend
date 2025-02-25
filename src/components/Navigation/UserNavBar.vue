@@ -14,6 +14,14 @@
           <span class="nav-text" v-show="!isSidebarCollapsed">Schedule</span>
         </RouterLink>
       </div>
+      <div class="nav-item">
+        <RouterLink to="/tradeboard" 
+                   class="nav-link"
+                   :class="{ 'active': $route.path === '/tradeboard' }">
+          <span class="material-symbols-outlined nav-icon">swap_horiz</span>
+          <span class="nav-text" v-show="!isSidebarCollapsed">Trade Board</span>
+        </RouterLink>
+      </div>
       <div class="nav-item" v-if="isAdmin">
         <div class="nav-link" 
              @click="isCrewOpen = !isCrewOpen"
