@@ -56,8 +56,13 @@
     data() {
       return {
         trades: [],
-        currentUserId: null // This should be set from your auth system
+        currentUserId: null
       }
+    },
+    created() {
+      // Get current user ID from store when component is created
+      this.currentUserId = this.$store.state.userId
+      this.fetchTrades()
     },
     methods: {
       getStatusClass(status) {
@@ -70,7 +75,7 @@
       },
       async fetchTrades() {
         try {
-          const response = await fetch('/api/scheduledGames/tradeboard')
+          const response = await fetch('/api/TradeBoard/tradeboard')
           const result = await response.json()
           if (result.flag) {
             this.trades = result.data
@@ -81,7 +86,7 @@
       },
       async pickupShift(tradeId) {
         try {
-          const response = await fetch(`/api/scheduledGames/pickup/${tradeId}/${this.currentUserId}`, {
+          const response = await fetch(`/api/TradeBoard/pickup/${tradeId}/${this.currentUserId}`, {
             method: 'PUT'
           })
           const result = await response.json()
@@ -96,7 +101,7 @@
       },
       async approveShift(tradeId) {
         try {
-          const response = await fetch(`/api/scheduledGames/approve/${tradeId}`, {
+          const response = await fetch(`/api/TradeBoard/approve/${tradeId}`, {
             method: 'PUT'
           })
           const result = await response.json()
@@ -112,9 +117,6 @@
       canApprove(trade) {
         return trade.status === 'awaiting approval' && trade.dropperId === this.currentUserId
       }
-    },
-    created() {
-      this.fetchTrades()
     }
   }
   </script>
@@ -123,6 +125,7 @@
   .tradeboard-container {
     padding: 20px;
     background-color: #fff;
+    color: #000;
   }
   
   .tradeboard-table {
@@ -136,6 +139,7 @@
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    color: #000;
   }
   
   .tradeboard-table th {

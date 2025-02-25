@@ -16,6 +16,7 @@ import AvailabilityView from '@/views/AvailabilityView.vue'
 import UserLogin from '@/components/Auth/UserLogin.vue'
 import Profile from '@/views/Profile.vue'
 import CrewMembersView from '@/components/CrewMembers/CrewMembersView.vue'
+import TradeBoard from '@/components/TradeBoard/TradeBoard.vue'
 
 const routes = [
   {
@@ -115,6 +116,11 @@ const routes = [
     name: 'profile',
     component: Profile,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/tradeboard',
+    name: 'tradeboard',
+    component: TradeBoard
   }
 ]
 
