@@ -289,7 +289,7 @@ export default {
 
   }
   .find-crew-list {
-    padding-left: 20px;
+    padding-left: 5px;
     padding-top: 20px;
     padding-bottom: 20px;
     padding-right: 5px;
@@ -305,6 +305,10 @@ export default {
   gap: 5px;
   align-items: center;
 }
+.sport-table {
+  width: 50%;
+}
+
 
 }
 </style> 
